@@ -193,8 +193,8 @@ function YoutubeComponent({ value }: { value: YoutubeValue }) {
   }
 
   return (
-    <figure className="my-10 overflow-hidden rounded-none border border-zinc-200 dark:border-white/10 bg-black shadow-lg">
-      <div className="relative aspect-video w-full">
+    <figure className="my-10 overflow-hidden rounded-none w-full bg-transparent border-none shadow-none">
+      <div className="relative aspect-video w-full overflow-hidden">
         <iframe
           src={embedUrl}
           title={value.title || "Vídeo incorporado"}
@@ -205,7 +205,7 @@ function YoutubeComponent({ value }: { value: YoutubeValue }) {
         />
       </div>
       {value.caption && (
-        <figcaption className="bg-[#161616] text-white px-4 py-3 text-center text-xs text-zinc-400 font-mono border-t border-white/10">
+        <figcaption className="px-0 py-2.5 text-center text-xs text-zinc-500 dark:text-zinc-400 font-mono bg-transparent border-none">
           {value.caption}
         </figcaption>
       )}
@@ -249,7 +249,7 @@ function GalleryComponent({ value }: { value: GalleryValue }) {
           return (
             <figure
               key={idx}
-              className="group overflow-hidden rounded-none bg-muted border border-zinc-200 dark:border-white/10"
+              className="group overflow-hidden rounded-none bg-transparent border-none"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <Image
@@ -262,7 +262,7 @@ function GalleryComponent({ value }: { value: GalleryValue }) {
                 />
               </div>
               {img.caption && (
-                <figcaption className="p-2.5 text-center text-xs text-muted-foreground font-mono bg-card border-t border-zinc-200 dark:border-white/10">
+                <figcaption className="px-0 py-2 text-center text-xs text-zinc-500 dark:text-zinc-400 font-mono bg-transparent border-none">
                   {img.caption}
                 </figcaption>
               )}

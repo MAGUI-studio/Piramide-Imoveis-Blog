@@ -8,8 +8,8 @@ export interface SectionHeaderAction {
 }
 
 export interface SectionHeaderProps {
-  eyebrow?: string | React.ReactNode;
-  eyebrowIcon?: string;
+  eyebrow: string | React.ReactNode;
+  eyebrowIcon: string;
   title: string;
   meta?: string | React.ReactNode;
   action?: SectionHeaderAction;
@@ -28,15 +28,13 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   return (
     <div
-      className={`flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-200 dark:border-white/10 pb-4 ${className}`}
+      className={`flex flex-col sm:flex-row sm:items-end justify-between gap-4 ${className}`}
     >
       <div className="space-y-1">
-        {eyebrow && (
-          <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-1.5 block">
-            {eyebrowIcon && <Icon icon={eyebrowIcon} className="size-3.5" />}
-            <span>{eyebrow}</span>
-          </span>
-        )}
+        <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-1.5 block">
+          <Icon icon={eyebrowIcon} className="size-3.5" />
+          <span>{eyebrow}</span>
+        </span>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground font-heading uppercase">
           {title}
         </h2>
