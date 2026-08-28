@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { SITEMAP_DATA_QUERY } from "@/sanity/lib/queries";
+import { slugifyText } from "@/src/lib/blog-utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
@@ -16,12 +17,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     categories?: Array<{ slug: string }>;
     cities?: Array<{ slug: string }>;
     authors?: Array<{ slug: string }>;
+    tags?: string[];
   } | null;
 
   const posts = sitemapData?.posts || [];
   const categories = sitemapData?.categories || [];
   const cities = sitemapData?.cities || [];
   const authors = sitemapData?.authors || [];
+  const tags = sitemapData?.tags || [];
 
   const postUrls: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${baseUrl}/posts/${post.slug}`,
@@ -49,6 +52,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date().toISOString(),
     changeFrequency: "monthly",
     priority: 0.5,
+  }));
+
+  const tagUrls: MetadataRoute.Sitemap = tags.filter(Boolean).map((tag) => ({
+    url: `${baseUrl}/tag/${slugifyText(tag)}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: "weekly",
+    priority: 0.6,
   }));
 
   return [
@@ -79,6 +89,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...categoryUrls,
     ...cityUrls,
     ...authorUrls,
+    ...tagUrls,
     ...postUrls,
   ];
 }
