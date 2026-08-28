@@ -1,6 +1,7 @@
 {
   "name": "blog-piramide-imoveis",
   "private": true,
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "dev:studio": "pnpm --filter studio dev",
