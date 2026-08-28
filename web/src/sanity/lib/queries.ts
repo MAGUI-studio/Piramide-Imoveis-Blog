@@ -206,49 +206,6 @@ export const CITIES_QUERY = defineQuery(`
   }
 `);
 
-
-export const POSTS_BY_CATEGORY_QUERY = defineQuery(`
-  *[_type == "post" && defined(slug.current) && $categorySlug in categories[]->slug.current] | order(publishedAt desc) {
-    _id,
-    title,
-    slug,
-    featured,
-    highlight1Title,
-    highlight1Description,
-    highlight2Title,
-    highlight2Description,
-    highlight3Title,
-    highlight3Description,
-    publishedAt,
-    updatedAt,
-    excerpt,
-    tags,
-    mainImage,
-    body,
-    author->{
-      _id,
-      name,
-      slug,
-      role,
-      creci,
-      image
-    },
-    city->{
-      _id,
-      name,
-      slug,
-      state
-    },
-    categories[]->{
-      _id,
-      title,
-      slug,
-      image
-    }
-  }
-`);
-
-
 export const AUTHOR_BY_SLUG_QUERY = defineQuery(`
   *[_type == "author" && slug.current == $slug][0] {
     _id,
@@ -308,7 +265,43 @@ export const CATEGORY_BY_SLUG_QUERY = defineQuery(`
     slug,
     description,
     image,
-    "postCount": count(*[_type == "post" && defined(slug.current) && (^.slug.current in categories[]->slug.current || references(^._id))])
+    "postCount": count(*[_type == "post" && defined(slug.current) && ($slug in categories[]->slug.current || references(^._id))])
+  }
+`);
+
+export const POSTS_BY_CATEGORY_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current) && ($slug in categories[]->slug.current || references(^._id))] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    featured,
+    publishedAt,
+    updatedAt,
+    excerpt,
+    tags,
+    mainImage,
+    body,
+    author->{
+      _id,
+      name,
+      slug,
+      role,
+      creci,
+      image
+    },
+    city->{
+      _id,
+      name,
+      slug,
+      state,
+      image
+    },
+    categories[]->{
+      _id,
+      title,
+      slug,
+      image
+    }
   }
 `);
 

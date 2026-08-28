@@ -8,11 +8,10 @@ import {
   CITY_BY_SLUG_QUERY,
   POSTS_BY_CITY_QUERY,
   CITY_SLUGS_QUERY,
-  CATEGORIES_QUERY,
 } from "@/sanity/lib/queries";
 import { urlForImage } from "@/sanity/lib/image";
 import { calculateReadingTime } from "@/src/lib/blog-utils";
-import type { PostItem, CategoryRef, CityRef } from "@/src/types/sanity";
+import type { PostItem, CityRef } from "@/src/types/sanity";
 
 interface CityDetail extends CityRef {
   description?: string;
@@ -87,7 +86,7 @@ export default async function CityPage({
 }) {
   const { slug } = await params;
 
-  const [{ data: city }, { data: cityPosts = [] }, { data: allCategories = [] }] =
+  const [{ data: city }, { data: cityPosts = [] }] =
     await Promise.all([
       sanityFetch({
         query: CITY_BY_SLUG_QUERY,
@@ -96,9 +95,6 @@ export default async function CityPage({
       sanityFetch({
         query: POSTS_BY_CITY_QUERY,
         params: { slug },
-      }),
-      sanityFetch({
-        query: CATEGORIES_QUERY,
       }),
     ]);
 
@@ -109,7 +105,6 @@ export default async function CityPage({
   }
 
   const posts = (cityPosts as PostItem[]) || [];
-  const categories = (allCategories as CategoryRef[]) || [];
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
   const cityUrl = `${baseUrl}/cidade/${slug}`;
@@ -215,29 +210,7 @@ export default async function CityPage({
       </section>
 
       
-      {categories.length > 0 && (
-        <section className="space-y-3 pt-4 border-t border-zinc-200 dark:border-white/10">
-          <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-zinc-500 block">
-            Filtrar por Categoria:
-          </span>
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-            {categories.map((cat) => (
-              cat.slug?.current && (
-                <Link
-                  key={cat._id}
-                  href={`/categoria/${cat.slug.current}`}
-                  className="shrink-0 px-3.5 py-1.5 bg-zinc-100 dark:bg-white/5 hover:bg-primary hover:text-white dark:hover:bg-primary text-zinc-700 dark:text-zinc-300 font-mono text-xs font-medium uppercase tracking-wider transition-colors border border-zinc-200 dark:border-white/10 rounded-none"
-                >
-                  {cat.title}
-                </Link>
-              )
-            ))}
-          </div>
-        </section>
-      )}
-
-      
-      <section className="space-y-8 pt-6">
+      <section className="space-y-8 pt-4">
         {posts.length === 0 ? (
           <div className="p-12 text-center rounded-none border border-zinc-200 dark:border-white/10">
             <h3 className="text-xl font-bold font-heading uppercase text-foreground">
