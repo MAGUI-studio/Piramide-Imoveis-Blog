@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
@@ -31,29 +31,48 @@ const AUTOPLAY_DURATION = 8;
 
 export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying] = useState(true);
   const [timeLeft, setTimeLeft] = useState(AUTOPLAY_DURATION);
-  const [keyTimer, setKeyTimer] = useState(0);
 
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const total = posts.length;
+
+  const handleSelectPost = useCallback((idx: number) => {
+    setCurrentIndex(idx);
+    setTimeLeft(AUTOPLAY_DURATION);
+  }, []);
 
   
   useEffect(() => {
-    if (total <= 1 || !isPlaying) return;
+    if (total <= 1) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          setCurrentIndex((prevIdx) => (prevIdx + 1) % total);
-          setKeyTimer((k) => k + 1);
-          return AUTOPLAY_DURATION;
-        }
-        return prevTime - 1;
-      });
+    let seconds = AUTOPLAY_DURATION;
+
+    const interval = setInterval(() => {
+      seconds -= 1;
+      if (seconds <= 0) {
+        clearInterval(interval);
+        setCurrentIndex((prev) => (prev + 1) % total);
+      } else {
+        setTimeLeft(seconds);
+      }
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [total, isPlaying]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [currentIndex, total]);
+
+  
+  useEffect(() => {
+    const activeCard = cardRefs.current[currentIndex];
+    if (activeCard) {
+      activeCard.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
+      });
+    }
+  }, [currentIndex]);
 
   if (total === 0) return null;
 
@@ -94,21 +113,11 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
     ? `/autor/${currentPost.author.slug.current}`
     : "#";
 
-  const handleSelectPost = (idx: number) => {
-    setCurrentIndex(idx);
-    setTimeLeft(AUTOPLAY_DURATION);
-    setKeyTimer((prev) => prev + 1);
-  };
-
   const hasSideMenu = total > 1;
-  const isScrollable = total > 3;
 
   return (
     <section className="relative w-full overflow-hidden bg-black text-white select-none flex flex-col justify-between p-0 m-0">
-      
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 min-h-[560px] sm:min-h-[620px] lg:min-h-[680px] items-stretch p-0 m-0">
-        
-        
         
         <div
           className={`${
@@ -141,7 +150,6 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
                   <div className="size-full bg-zinc-950" />
                 )}
 
-                
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/20 to-transparent" />
               </motion.div>
@@ -252,120 +260,10 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
         </div>
 
         
-        
-        
         {hasSideMenu && (
           <div className="lg:col-span-4 xl:col-span-4 2xl:col-span-3 flex flex-col justify-between bg-[#161616] p-0 m-0 overflow-hidden">
-            {isScrollable ? (
-              
-              <ScrollArea className="h-full max-h-[580px] lg:max-h-[680px]">
-                <div className="flex flex-col divide-y divide-white/10">
-                  {posts.map((post, idx) => {
-                    const isActive = idx === currentIndex;
-                    const postImageUrl = post.mainImage
-                      ? urlForImage(post.mainImage)?.width(700).height(400).fit("crop").url()
-                      : null;
-
-                    return (
-                      <button
-                        key={post._id}
-                        type="button"
-                        onClick={() => handleSelectPost(idx)}
-                        className={`group relative w-full text-left p-4 sm:p-5 transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[170px] ${
-                          isActive
-                            ? "bg-[#161616] text-white"
-                            : "bg-[#161616] text-zinc-400 hover:text-zinc-200"
-                        }`}
-                      >
-                        
-                        {postImageUrl && (
-                          <div className="absolute inset-0 size-full pointer-events-none z-0 overflow-hidden">
-                            <Image
-                              src={postImageUrl}
-                              alt={post.title}
-                              fill
-                              className={`object-cover grayscale transition-all duration-500 group-hover:scale-105 ${
-                                isActive
-                                  ? "opacity-40 brightness-110"
-                                  : "opacity-20 group-hover:opacity-30"
-                              }`}
-                            />
-                            
-                            <div
-                              className={`absolute inset-0 transition-colors ${
-                                isActive
-                                  ? "bg-[#161616]/70 bg-gradient-to-r from-[#161616]/90 to-[#161616]/50"
-                                  : "bg-[#161616]/85 group-hover:bg-[#161616]/75"
-                              }`}
-                            />
-                          </div>
-                        )}
-
-                        
-                        <div className="relative z-10 flex items-center justify-between gap-1.5 mb-2">
-                          <span
-                            className={`text-[11px] font-mono uppercase tracking-wider flex items-center gap-1.5 truncate ${
-                              isActive ? "text-white font-bold" : "text-zinc-400 group-hover:text-zinc-300 font-medium"
-                            }`}
-                          >
-                            <span
-                              className={`size-1.5 rounded-full shrink-0 ${
-                                isActive ? "bg-white animate-pulse" : "bg-zinc-600"
-                              }`}
-                            />
-                            0{idx + 1} • {post.categories?.[0]?.title || "Destaque"}
-                          </span>
-
-                          {isActive && (
-                            <span className="text-[10px] font-mono text-white/90 font-bold uppercase tracking-wider shrink-0">
-                              {isPlaying ? `${timeLeft}s` : "Pausado"}
-                            </span>
-                          )}
-                        </div>
-
-                        
-                        <h3
-                          className={`relative z-10 text-xs sm:text-[13px] font-bold uppercase font-heading line-clamp-2 leading-snug transition-colors ${
-                            isActive
-                              ? "text-white"
-                              : "text-zinc-300 group-hover:text-white font-medium"
-                          }`}
-                        >
-                          {post.title}
-                        </h3>
-
-                        
-                        <div className="relative z-10 flex items-center justify-end text-[10px] font-mono text-zinc-400 group-hover:text-zinc-300 mt-2">
-                          <span>{formatDate(post.publishedAt)}</span>
-                        </div>
-
-                        
-                        <div className="relative z-10 w-full h-1 bg-white/15 overflow-hidden rounded-none mt-3">
-                          {isActive && isPlaying ? (
-                            <motion.div
-                              key={keyTimer}
-                              initial={{ width: "0%" }}
-                              animate={{ width: "100%" }}
-                              transition={{
-                                duration: AUTOPLAY_DURATION,
-                                ease: "linear",
-                              }}
-                              className="h-full bg-white rounded-none shadow-xs"
-                            />
-                          ) : isActive ? (
-                            <div className="h-full bg-white rounded-none w-full" />
-                          ) : (
-                            <div className="h-full bg-transparent" />
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </ScrollArea>
-            ) : (
-              
-              <div className="flex flex-col justify-between divide-y divide-white/10 h-full">
+            <ScrollArea className="h-full max-h-[580px] lg:max-h-[680px] w-full">
+              <div className="flex flex-col divide-y divide-white/10">
                 {posts.map((post, idx) => {
                   const isActive = idx === currentIndex;
                   const postImageUrl = post.mainImage
@@ -375,9 +273,12 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
                   return (
                     <button
                       key={post._id}
+                      ref={(el) => {
+                        cardRefs.current[idx] = el;
+                      }}
                       type="button"
                       onClick={() => handleSelectPost(idx)}
-                      className={`group relative w-full text-left p-4 sm:p-5 transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between flex-1 ${
+                      className={`group relative w-full text-left p-4 sm:p-5 transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between min-h-[170px] ${
                         isActive
                           ? "bg-[#161616] text-white"
                           : "bg-[#161616] text-zinc-400 hover:text-zinc-200"
@@ -396,7 +297,6 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
                                 : "opacity-20 group-hover:opacity-30"
                             }`}
                           />
-                          
                           <div
                             className={`absolute inset-0 transition-colors ${
                               isActive
@@ -419,12 +319,12 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
                               isActive ? "bg-white animate-pulse" : "bg-zinc-600"
                             }`}
                           />
-                          0{idx + 1} • {post.categories?.[0]?.title || "Destaque"}
+                          {String(idx + 1).padStart(2, "0")} • {post.categories?.[0]?.title || "Destaque"}
                         </span>
 
                         {isActive && (
                           <span className="text-[10px] font-mono text-white/90 font-bold uppercase tracking-wider shrink-0">
-                            {isPlaying ? `${timeLeft}s` : "Pausado"}
+                            {timeLeft}s
                           </span>
                         )}
                       </div>
@@ -447,9 +347,9 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
 
                       
                       <div className="relative z-10 w-full h-1 bg-white/15 overflow-hidden rounded-none mt-3">
-                        {isActive && isPlaying ? (
+                        {isActive ? (
                           <motion.div
-                            key={keyTimer}
+                            key={currentIndex}
                             initial={{ width: "0%" }}
                             animate={{ width: "100%" }}
                             transition={{
@@ -458,8 +358,6 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
                             }}
                             className="h-full bg-white rounded-none shadow-xs"
                           />
-                        ) : isActive ? (
-                          <div className="h-full bg-white rounded-none w-full" />
                         ) : (
                           <div className="h-full bg-transparent" />
                         )}
@@ -468,7 +366,7 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
                   );
                 })}
               </div>
-            )}
+            </ScrollArea>
           </div>
         )}
       </div>
