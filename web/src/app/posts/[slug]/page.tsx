@@ -511,6 +511,43 @@ export default async function PostPage({
                   )}
                 </div>
               )}
+
+              {postData.city && (
+                <div className="border border-zinc-200 dark:border-white/10 bg-card p-6 sm:p-8 space-y-4 rounded-none">
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 bg-primary text-white font-mono text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5">
+                      <Icon icon="ph:buildings-fill" className="size-3 text-white" />
+                      <span>Oportunidades na Região</span>
+                    </span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold font-heading uppercase text-foreground">
+                    Procurando imóveis em {postData.city.name}?
+                  </h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
+                    A Pirâmide Imóveis possui a seleção mais exclusiva de apartamentos, casas em condomínio e lançamentos em {postData.city.name}. Fale com nossos consultores especialistas.
+                  </p>
+                  <div className="flex items-center gap-3 pt-2 flex-wrap">
+                    <a
+                      href="https://www.piramideimoveissjc.com.br/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-3 bg-foreground text-background dark:bg-zinc-100 dark:text-zinc-900 font-mono text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Ver Imóveis Disponíveis</span>
+                      <Icon icon="ph:arrow-up-right-bold" className="size-3.5" />
+                    </a>
+                    <a
+                      href={`https://wa.me/5512991599801?text=${encodeURIComponent(`Olá! Li o artigo "${postData.title}" e gostaria de informações sobre imóveis em ${postData.city.name}.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-3 border border-zinc-300 dark:border-zinc-700 bg-transparent text-foreground hover:border-emerald-500 hover:text-emerald-500 font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <Icon icon="ph:whatsapp-logo-bold" className="size-4 text-emerald-500" />
+                      <span>Falar no WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+              )}
             </main>
 
             
