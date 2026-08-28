@@ -1,0 +1,29 @@
+{
+  "name": "studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "start": "sanity start",
+    "seed": "npx tsx scripts/seed.ts",
+    "typegen": "sanity schema extract --force && sanity typegen generate"
+  },
+  "dependencies": {
+    "@sanity/icons": "^3.7.0",
+    "@sanity/vision": "^3.80.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-is": "^19.0.0",
+    "sanity": "^3.80.0",
+    "styled-components": "^6.1.15"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.7.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}
