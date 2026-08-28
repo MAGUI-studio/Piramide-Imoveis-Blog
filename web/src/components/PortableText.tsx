@@ -20,38 +20,38 @@ function CalloutComponent({ value }: { value: CalloutValue }) {
 
   const config = {
     tip: {
-      border: "border-l-4 border-l-amber-500 border-zinc-200 dark:border-zinc-800 bg-amber-500/5 text-amber-950 dark:text-amber-200",
+      border: "border-l-2 border-primary bg-primary/[0.03] text-foreground",
       icon: "ph:lightbulb-filament-fill",
-      iconColor: "text-amber-500",
+      iconColor: "text-primary",
       defaultTitle: "Dica de Especialista",
     },
     info: {
-      border: "border-l-4 border-l-sky-500 border-zinc-200 dark:border-zinc-800 bg-sky-500/5 text-sky-950 dark:text-sky-200",
+      border: "border-l-2 border-sky-500 bg-sky-500/[0.03] text-foreground",
       icon: "ph:info-fill",
       iconColor: "text-sky-500",
       defaultTitle: "Informação Importante",
     },
     warning: {
-      border: "border-l-4 border-l-rose-500 border-zinc-200 dark:border-zinc-800 bg-rose-500/5 text-rose-950 dark:text-rose-200",
+      border: "border-l-2 border-amber-500 bg-amber-500/[0.03] text-foreground",
       icon: "ph:warning-circle-fill",
-      iconColor: "text-rose-500",
+      iconColor: "text-amber-500",
       defaultTitle: "Atenção & Cuidados",
     },
     quote: {
-      border: "border-l-4 border-l-purple-500 border-zinc-200 dark:border-zinc-800 bg-purple-500/5 text-purple-950 dark:text-purple-200",
+      border: "border-l-2 border-zinc-500 bg-zinc-500/[0.03] text-foreground",
       icon: "ph:quotes-fill",
-      iconColor: "text-purple-500",
+      iconColor: "text-zinc-400",
       defaultTitle: "Citação",
     },
   }[type as "tip" | "info" | "warning" | "quote"] || {
-    border: "border-l-4 border-l-amber-500 border-zinc-200 dark:border-zinc-800 bg-amber-500/5 text-amber-950 dark:text-amber-200",
+    border: "border-l-2 border-primary bg-primary/[0.03] text-foreground",
     icon: "ph:lightbulb-filament-fill",
-    iconColor: "text-amber-500",
+    iconColor: "text-primary",
     defaultTitle: "Dica",
   };
 
   return (
-    <div className={`my-8 border p-5 sm:p-6 rounded-none ${config.border}`}>
+    <div className={`my-8 p-5 sm:p-6 rounded-none ${config.border}`}>
       <div className="flex items-start gap-3.5">
         <Icon icon={config.icon} className={`size-5 shrink-0 mt-0.5 ${config.iconColor}`} />
         <div className="space-y-1.5 flex-1">
@@ -62,54 +62,6 @@ function CalloutComponent({ value }: { value: CalloutValue }) {
             {value.content}
           </p>
         </div>
-      </div>
-    </div>
-  );
-}
-
-interface CtaValue {
-  isWhatsApp?: boolean;
-  buttonUrl?: string;
-  buttonText?: string;
-  title?: string;
-  description?: string;
-}
-
-function CtaComponent({ value }: { value: CtaValue }) {
-  const isWhatsApp = value?.isWhatsApp !== false;
-  const defaultWhatsAppMsg = encodeURIComponent("Olá! Vi um artigo no Blog da Pirâmide Imóveis e gostaria de mais informações.");
-  const href = isWhatsApp
-    ? (value.buttonUrl?.startsWith("http") ? value.buttonUrl : `https://wa.me/5512991599801?text=${defaultWhatsAppMsg}`)
-    : (value.buttonUrl || "https://www.piramideimoveissjc.com.br/");
-
-  return (
-    <div className="my-12 border border-zinc-800 bg-[#161616] text-white p-6 sm:p-10 rounded-none shadow-xl relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-none blur-3xl pointer-events-none" />
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
-        <div className="space-y-2 max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-widest text-primary">
-            <Icon icon="ph:sparkle-fill" className="size-3.5" />
-            Oportunidade Exclusiva
-          </span>
-          <h4 className="text-2xl sm:text-3xl font-bold font-heading tracking-tight uppercase text-white">
-            {value.title}
-          </h4>
-          {value.description && (
-            <p className="text-sm sm:text-base text-zinc-400 font-light leading-relaxed">
-              {value.description}
-            </p>
-          )}
-        </div>
-
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-primary hover:bg-primary/90 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all hover:scale-[1.02] active:scale-[0.98] rounded-none shrink-0 w-full sm:w-auto cursor-pointer"
-        >
-          {isWhatsApp && <Icon icon="ph:whatsapp-logo-bold" className="size-4" />}
-          <span>{value.buttonText || "Falar com Consultor"}</span>
-        </a>
       </div>
     </div>
   );
@@ -132,9 +84,9 @@ function TableComponent({ value }: { value: TableValue }) {
   if (headers.length === 0) return null;
 
   return (
-    <div className="my-8 overflow-hidden rounded-none border border-zinc-200 dark:border-zinc-800 bg-card">
+    <div className="my-8 overflow-hidden rounded-none border border-zinc-200 dark:border-white/10 bg-card">
       {value.title && (
-        <div className="bg-zinc-100 dark:bg-zinc-900 px-5 py-3 border-b border-zinc-200 dark:border-zinc-800 font-mono font-bold text-xs uppercase tracking-wider text-foreground">
+        <div className="bg-zinc-100 dark:bg-zinc-900 px-5 py-3 border-b border-zinc-200 dark:border-white/10 font-mono font-bold text-xs uppercase tracking-wider text-foreground">
           {value.title}
         </div>
       )}
@@ -143,13 +95,13 @@ function TableComponent({ value }: { value: TableValue }) {
           <thead className="bg-zinc-50 dark:bg-zinc-900/60 text-xs uppercase tracking-wider text-muted-foreground font-mono">
             <tr>
               {headers.map((h: string, idx: number) => (
-                <th key={idx} className="px-5 py-3.5 border-b border-zinc-200 dark:border-zinc-800 font-bold">
+                <th key={idx} className="px-5 py-3.5 border-b border-zinc-200 dark:border-white/10 font-bold">
                   {h}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+          <tbody className="divide-y divide-zinc-200 dark:divide-white/10">
             {rows.map((row: TableRow, rIdx: number) => (
               <tr key={rIdx} className="hover:bg-zinc-500/5 transition-colors">
                 {(row.cells || []).map((cell: string, cIdx: number) => (
@@ -196,7 +148,7 @@ function FaqComponent({ value }: { value: FaqValue }) {
           return (
             <div
               key={idx}
-              className="rounded-none border border-zinc-200 dark:border-zinc-800 bg-card transition-all"
+              className="rounded-none border border-zinc-200 dark:border-white/10 bg-card transition-all"
             >
               <button
                 type="button"
@@ -210,7 +162,7 @@ function FaqComponent({ value }: { value: FaqValue }) {
                 />
               </button>
               {isOpen && (
-                <div className="px-5 pb-5 text-sm sm:text-base leading-relaxed text-muted-foreground border-t border-zinc-100 dark:border-zinc-800/80 pt-4 font-light">
+                <div className="px-5 pb-5 text-sm sm:text-base leading-relaxed text-muted-foreground border-t border-zinc-100 dark:border-white/5 pt-4 font-light">
                   {item.answer}
                 </div>
               )}
@@ -241,7 +193,7 @@ function YoutubeComponent({ value }: { value: YoutubeValue }) {
   }
 
   return (
-    <figure className="my-10 overflow-hidden rounded-none border border-zinc-200 dark:border-zinc-800 bg-black shadow-lg">
+    <figure className="my-10 overflow-hidden rounded-none border border-zinc-200 dark:border-white/10 bg-black shadow-lg">
       <div className="relative aspect-video w-full">
         <iframe
           src={embedUrl}
@@ -253,7 +205,7 @@ function YoutubeComponent({ value }: { value: YoutubeValue }) {
         />
       </div>
       {value.caption && (
-        <figcaption className="bg-card px-4 py-3 text-center text-xs text-muted-foreground font-mono border-t border-zinc-200 dark:border-zinc-800">
+        <figcaption className="bg-[#161616] text-white px-4 py-3 text-center text-xs text-zinc-400 font-mono border-t border-white/10">
           {value.caption}
         </figcaption>
       )}
@@ -297,7 +249,7 @@ function GalleryComponent({ value }: { value: GalleryValue }) {
           return (
             <figure
               key={idx}
-              className="group overflow-hidden rounded-none bg-muted border border-zinc-200 dark:border-zinc-800"
+              className="group overflow-hidden rounded-none bg-muted border border-zinc-200 dark:border-white/10"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <Image
@@ -310,7 +262,7 @@ function GalleryComponent({ value }: { value: GalleryValue }) {
                 />
               </div>
               {img.caption && (
-                <figcaption className="p-2.5 text-center text-xs text-muted-foreground font-mono bg-card border-t border-zinc-200 dark:border-zinc-800">
+                <figcaption className="p-2.5 text-center text-xs text-muted-foreground font-mono bg-card border-t border-zinc-200 dark:border-white/10">
                   {img.caption}
                 </figcaption>
               )}
@@ -330,8 +282,8 @@ const components: PortableTextComponents = {
       if (!imageUrl) return null;
 
       return (
-        <figure className="my-10 overflow-hidden rounded-none bg-muted border border-zinc-200 dark:border-zinc-800 w-full">
-          <div className="relative aspect-video w-full">
+        <figure className="my-10 overflow-hidden rounded-none w-full bg-transparent border-none">
+          <div className="relative aspect-video w-full overflow-hidden">
             <Image
               src={imageUrl}
               alt={value.alt || "Imagem do artigo"}
@@ -341,7 +293,7 @@ const components: PortableTextComponents = {
             />
           </div>
           {value.caption && (
-            <figcaption className="px-4 py-3 text-center text-xs text-muted-foreground font-mono bg-card border-t border-zinc-200 dark:border-zinc-800">
+            <figcaption className="px-0 py-2 text-center text-xs text-zinc-500 dark:text-zinc-400 font-mono bg-transparent border-none">
               {value.caption}
             </figcaption>
           )}
@@ -354,8 +306,8 @@ const components: PortableTextComponents = {
       if (!imageUrl) return null;
 
       return (
-        <figure className="my-10 overflow-hidden rounded-none bg-muted border border-zinc-200 dark:border-zinc-800 w-full">
-          <div className="relative aspect-video w-full">
+        <figure className="my-10 overflow-hidden rounded-none w-full bg-transparent border-none">
+          <div className="relative aspect-video w-full overflow-hidden">
             <Image
               src={imageUrl}
               alt={value.alt || "Imagem do artigo"}
@@ -365,18 +317,24 @@ const components: PortableTextComponents = {
             />
           </div>
           {value.caption && (
-            <figcaption className="px-4 py-3 text-center text-xs text-muted-foreground font-mono bg-card border-t border-zinc-200 dark:border-zinc-800">
+            <figcaption className="px-0 py-2 text-center text-xs text-zinc-500 dark:text-zinc-400 font-mono bg-transparent border-none">
               {value.caption}
             </figcaption>
           )}
         </figure>
       );
     },
+    gallery: ({ value }) => <GalleryComponent value={value as GalleryValue} />,
     galleryBlock: ({ value }) => <GalleryComponent value={value as GalleryValue} />,
+    youtube: ({ value }) => <YoutubeComponent value={value as YoutubeValue} />,
     youtubeBlock: ({ value }) => <YoutubeComponent value={value as YoutubeValue} />,
+    callout: ({ value }) => <CalloutComponent value={value as CalloutValue} />,
     calloutBlock: ({ value }) => <CalloutComponent value={value as CalloutValue} />,
-    ctaBlock: ({ value }) => <CtaComponent value={value as CtaValue} />,
+    cta: () => null,
+    ctaBlock: () => null,
+    table: ({ value }) => <TableComponent value={value as TableValue} />,
     tableBlock: ({ value }) => <TableComponent value={value as TableValue} />,
+    faq: ({ value }) => <FaqComponent value={value as FaqValue} />,
     faqBlock: ({ value }) => <FaqComponent value={value as FaqValue} />,
   },
   block: {
@@ -434,7 +392,7 @@ const components: PortableTextComponents = {
       </p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-10 border-l-4 border-primary bg-zinc-100/60 dark:bg-zinc-900/60 py-5 pl-6 pr-6 italic text-foreground rounded-none text-lg sm:text-xl font-light leading-relaxed">
+      <blockquote className="my-10 border-l-2 border-primary py-2 pl-6 italic text-foreground rounded-none text-lg sm:text-xl font-light leading-relaxed">
         {children}
       </blockquote>
     ),
@@ -463,7 +421,7 @@ const components: PortableTextComponents = {
     underline: ({ children }) => <span className="underline underline-offset-4">{children}</span>,
     "strike-through": ({ children }) => <span className="line-through opacity-70">{children}</span>,
     code: ({ children }) => (
-      <code className="rounded-none bg-muted px-2 py-0.5 font-mono text-xs text-primary border border-zinc-200 dark:border-zinc-800">
+      <code className="rounded-none bg-muted px-2 py-0.5 font-mono text-xs text-primary border border-zinc-200 dark:border-white/10">
         {children}
       </code>
     ),
@@ -482,7 +440,7 @@ const components: PortableTextComponents = {
           href={value?.href || "#"}
           target={target}
           rel={rel}
-          className="font-medium text-primary underline decoration-primary/40 decoration-2 underline-offset-4 hover:decoration-primary transition-colors"
+          className="font-semibold text-primary underline decoration-primary/50 decoration-1 underline-offset-4 hover:decoration-primary transition-colors cursor-pointer"
         >
           {children}
         </a>
@@ -495,7 +453,7 @@ const components: PortableTextComponents = {
       return (
         <Link
           href={`/posts/${slug}`}
-          className="font-semibold text-primary underline decoration-primary/50 decoration-2 underline-offset-4 hover:decoration-primary transition-colors"
+          className="font-semibold text-primary underline decoration-primary/50 decoration-1 underline-offset-4 hover:decoration-primary transition-colors cursor-pointer"
         >
           {children}
         </Link>

@@ -63,14 +63,29 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
   }, [currentIndex, total]);
 
   
+  
   useEffect(() => {
     const activeCard = cardRefs.current[currentIndex];
-    if (activeCard) {
-      activeCard.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "nearest",
-      });
+    if (!activeCard) return;
+
+    const viewport = activeCard.closest(
+      "[data-radix-scroll-area-viewport]"
+    ) as HTMLElement | null;
+
+    if (viewport) {
+      const cardTop = activeCard.offsetTop;
+      const cardHeight = activeCard.offsetHeight;
+      const viewportHeight = viewport.clientHeight;
+      const currentScrollTop = viewport.scrollTop;
+
+      if (cardTop < currentScrollTop) {
+        viewport.scrollTo({ top: cardTop, behavior: "smooth" });
+      } else if (cardTop + cardHeight > currentScrollTop + viewportHeight) {
+        viewport.scrollTo({
+          top: cardTop + cardHeight - viewportHeight,
+          behavior: "smooth",
+        });
+      }
     }
   }, [currentIndex]);
 
