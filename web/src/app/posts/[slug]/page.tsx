@@ -10,6 +10,9 @@ import { PortableText } from "@/components/PortableText";
 import { TableOfContents } from "@/src/components/blog/TableOfContents";
 import { ReadingProgressBar } from "@/src/components/blog/ReadingProgressBar";
 import { ShareButtons } from "@/src/components/blog/ShareButtons";
+import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
+import { PostCard } from "@/src/components/blog/PostCard";
+import { WhatsAppConsultationCard } from "@/src/components/blog/WhatsAppConsultationCard";
 import { calculateReadingTime, extractHeadings } from "@/src/lib/blog-utils";
 import type { PostItem, AuthorRef, CityRef, CategoryRef, SanityBody } from "@/src/types/sanity";
 
@@ -147,10 +150,6 @@ export default async function PostPage({
   const relatedList = (relatedPosts as PostItem[]) || [];
   const primaryCategory = postData.categories?.[0];
 
-  const defaultWhatsAppMsg = encodeURIComponent(
-    `Olá! Estava lendo o artigo "${postData.title}" no Blog da Pirâmide e gostaria de conversar sobre oportunidades na região.`
-  );
-
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
   const postUrl = `${baseUrl}/posts/${slug}`;
   const ogImageUrl = postData.mainImage
@@ -238,6 +237,20 @@ export default async function PostPage({
     ],
   };
 
+  const breadcrumbItems = [
+    ...(primaryCategory?.slug?.current
+      ? [
+          {
+            label: primaryCategory.title || "Categoria",
+            href: `/categoria/${primaryCategory.slug.current}`,
+          },
+        ]
+      : []),
+    {
+      label: postData.title,
+    },
+  ];
+
   return (
     <>
       <script
@@ -250,37 +263,7 @@ export default async function PostPage({
 
       <article className="w-full p-5 space-y-10">
         
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-200 dark:border-white/10 pb-4">
-          <nav aria-label="Breadcrumbs" className="flex items-center gap-2 font-mono text-xs text-zinc-500 uppercase tracking-wider overflow-x-auto">
-            <Link href="/" className="hover:text-primary transition-colors flex items-center gap-1 shrink-0">
-              <Icon icon="ph:house-fill" className="size-3.5 text-primary" />
-              <span>Início</span>
-            </Link>
-            <span>/</span>
-            {primaryCategory?.slug?.current ? (
-              <Link
-                href={`/categoria/${primaryCategory.slug.current}`}
-                className="hover:text-primary transition-colors shrink-0"
-              >
-                {primaryCategory.title}
-              </Link>
-            ) : (
-              <span className="shrink-0">Artigos</span>
-            )}
-            <span>/</span>
-            <span className="truncate max-w-[200px] sm:max-w-md text-foreground font-semibold">
-              {postData.title}
-            </span>
-          </nav>
-
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider text-primary hover:opacity-80 transition-opacity shrink-0"
-          >
-            <Icon icon="ph:arrow-left-bold" className="size-3.5" />
-            <span>Voltar ao Blog</span>
-          </Link>
-        </div>
+        <Breadcrumbs items={breadcrumbItems} />
 
         
         <div id="post-article-container" className="space-y-10 w-full relative">
@@ -288,7 +271,6 @@ export default async function PostPage({
           <header className="space-y-6 w-full">
             
             <div className="flex flex-wrap items-center gap-3">
-              
               {postData.categories && postData.categories.length > 0 && (
                 postData.categories.map((cat) => (
                   cat.slug?.current ? (
@@ -539,29 +521,7 @@ export default async function PostPage({
                 )}
 
                 
-                <div className="p-6 bg-zinc-100/90 dark:bg-[#161616] text-zinc-900 dark:text-white border border-zinc-200/80 dark:border-white/10 rounded-none space-y-4 shadow-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
-                      Consultoria Online
-                    </span>
-                  </div>
-                  <h4 className="text-base sm:text-lg font-bold font-heading uppercase text-zinc-900 dark:text-white leading-snug">
-                    Interessado em Imóveis nesta Região?
-                  </h4>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
-                    Fale diretamente com nossa equipe de especialistas e receba opções exclusivas no seu WhatsApp.
-                  </p>
-                  <a
-                    href={`https://wa.me/5512991599801?text=${defaultWhatsAppMsg}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs uppercase tracking-widest rounded-none transition-colors shadow-xs"
-                  >
-                    <Icon icon="ph:whatsapp-logo-bold" className="size-4" />
-                    <span>Conversar no WhatsApp</span>
-                  </a>
-                </div>
+                <WhatsAppConsultationCard postTitle={postData.title} />
               </div>
             </aside>
           </div>
@@ -590,97 +550,9 @@ export default async function PostPage({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
-              {relatedList.map((relPost) => {
-                if (!relPost.slug?.current) return null;
-                const relCategory = relPost.categories?.[0];
-
-                return (
-                  <Link
-                    key={relPost._id}
-                    href={`/posts/${relPost.slug.current}`}
-                    scroll={true}
-                    className="group flex flex-col bg-transparent space-y-4 transition-all duration-300 overflow-hidden h-full"
-                  >
-                    
-                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
-                      {relPost.mainImage ? (
-                        <Image
-                          src={
-                            urlForImage(relPost.mainImage)?.width(800).height(500).url() || ""
-                          }
-                          alt={(typeof relPost.mainImage === "object" && relPost.mainImage?.alt) || relPost.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                      ) : (
-                        <div className="flex size-full items-center justify-center bg-muted">
-                          <Icon
-                            icon="ph:article"
-                            className="size-10 opacity-30 text-muted-foreground"
-                          />
-                        </div>
-                      )}
-
-                      
-                      <div className="absolute top-3 left-3 flex items-center gap-2 flex-wrap">
-                        {relCategory && (
-                          <span className="px-2.5 py-1 bg-black/75 text-white backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest border border-white/10 shadow-xs">
-                            {relCategory.title}
-                          </span>
-                        )}
-                        {relPost.city && (
-                          <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5 bg-black/75 backdrop-blur-md px-2.5 py-1 border border-white/10 shadow-xs">
-                            <Icon icon="ph:map-pin-fill" className="size-3 text-white" />
-                            {relPost.city.name}
-                          </span>
-                        )}
-                      </div>
-
-                      {relPost.featured && (
-                        <span className="absolute top-3 right-3 px-2.5 py-1 bg-primary text-white font-mono text-[10px] font-bold uppercase tracking-widest shadow-xs">
-                          Destaque
-                        </span>
-                      )}
-                    </div>
-
-                    
-                    <div className="flex-1 flex flex-col justify-between space-y-4">
-                      <div className="space-y-2.5">
-                        <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
-                          <span>{formatDate(relPost.publishedAt)}</span>
-                          <span>•</span>
-                          <span className="inline-flex items-center gap-1">
-                            <Icon icon="ph:clock-bold" className="size-3 text-zinc-400" />
-                            <span>{calculateReadingTime(relPost.body)} min</span>
-                          </span>
-                        </div>
-
-                        <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-heading uppercase group-hover:text-primary transition-colors line-clamp-2 leading-tight">
-                          {relPost.title}
-                        </h3>
-
-                        {relPost.excerpt && (
-                          <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 font-light line-clamp-2">
-                            {relPost.excerpt}
-                          </p>
-                        )}
-                      </div>
-
-                      
-                      <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between">
-                        <span className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 truncate max-w-[150px]">
-                          {relPost.author?.name || "Redação Pirâmide"}
-                        </span>
-                        <span className="font-mono text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          <span>Ler Artigo</span>
-                          <Icon icon="ph:arrow-right-bold" className="size-3.5" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
+              {relatedList.map((relPost) => (
+                <PostCard key={relPost._id} post={relPost} scroll={true} />
+              ))}
             </div>
           </section>
         )}
