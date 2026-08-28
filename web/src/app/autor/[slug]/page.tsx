@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -11,8 +10,8 @@ import {
 import { urlForImage } from "@/sanity/lib/image";
 import { PortableText } from "@/components/PortableText";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
+import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
 import { PostCard } from "@/src/components/blog/PostCard";
-import { SectionHeader } from "@/src/components/blog/SectionHeader";
 import type { AuthorRef, PostItem } from "@/src/types/sanity";
 
 export const revalidate = 60;
@@ -139,7 +138,7 @@ export default async function AuthorPage({
             "@type": "ListItem",
             position: 2,
             name: "Autores",
-            item: `${baseUrl}/#autores`,
+            item: `${baseUrl}/autores`,
           },
           {
             "@type": "ListItem",
@@ -153,7 +152,7 @@ export default async function AuthorPage({
   };
 
   const breadcrumbsItems = [
-    { label: "Autores", href: "/#autores" },
+    { label: "Autores", href: "/autores" },
     { label: authorData.name },
   ];
 
@@ -165,46 +164,34 @@ export default async function AuthorPage({
           __html: JSON.stringify(authorJsonLd),
         }}
       />
-      <div className="w-full p-5 space-y-12 sm:space-y-16">
+      <div className="w-full px-6 pt-6 pb-12 sm:pb-16 space-y-10 sm:space-y-12">
         
         <Breadcrumbs items={breadcrumbsItems} />
 
         
-        <header className="border border-zinc-200 dark:border-white/10 bg-card p-6 sm:p-10 md:p-12 rounded-none space-y-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
-            <div className="size-24 sm:size-28 md:size-32 rounded-full overflow-hidden relative bg-zinc-100 dark:bg-zinc-800 border-2 border-primary/20 shrink-0">
-              {authorData.image ? (
-                <Image
-                  src={urlForImage(authorData.image)?.width(256).height(256).url() || ""}
-                  alt={authorData.name}
-                  fill
-                  priority
-                  className="object-cover rounded-full"
-                />
-              ) : (
-                <div className="flex size-full items-center justify-center font-bold text-2xl font-mono text-foreground">
-                  {authorData.name.charAt(0)}
-                </div>
-              )}
-            </div>
+        <PageHeroHeader
+          badge="Especialista / Autor"
+          badgeIcon="ph:user-circle-fill"
+          title={authorData.name}
+          description={
+            authorData.role
+              ? `${authorData.role}${authorData.creci ? ` • CRECI: ${authorData.creci}` : ""}`
+              : "Especialista em análises imobiliárias e inteligência de mercado."
+          }
+          meta={`${postList.length} ${postList.length === 1 ? "artigo encontrado" : "artigos encontrados"} deste autor`}
+        />
 
-            <div className="space-y-3 flex-1">
-              <div className="space-y-1">
-                <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary">
-                  Especialista / Autor
-                </span>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground font-heading uppercase">
-                  {authorData.name}
-                </h1>
-                {authorData.role && (
-                  <p className="text-sm font-mono text-muted-foreground">
-                    {authorData.role} {authorData.creci ? `• CRECI: ${authorData.creci}` : ""}
-                  </p>
-                )}
+        
+        {(authorData.bio || authorData.linkedinUrl || authorData.instagramUrl || authorData.email) && (
+          <div className="space-y-4 max-w-4xl -mt-4">
+            {authorData.bio && (
+              <div className="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-zinc-400 font-light">
+                <PortableText value={authorData.bio} />
               </div>
+            )}
 
-              
-              <div className="flex items-center gap-3 pt-2">
+            {(authorData.linkedinUrl || authorData.instagramUrl || authorData.email) && (
+              <div className="flex items-center gap-2 pt-1">
                 {authorData.linkedinUrl && (
                   <a
                     href={authorData.linkedinUrl}
@@ -237,27 +224,14 @@ export default async function AuthorPage({
                   </a>
                 )}
               </div>
-            </div>
+            )}
           </div>
-
-          {authorData.bio && (
-            <div className="pt-6 border-t border-zinc-200 dark:border-white/10 text-sm sm:text-base leading-relaxed text-muted-foreground font-light max-w-3xl">
-              <PortableText value={authorData.bio} />
-            </div>
-          )}
-        </header>
+        )}
 
         
-        
-        <section className="space-y-8">
-          <SectionHeader
-            eyebrow="Acervo do Autor"
-            title={`Artigos Publicados por ${authorData.name}`}
-            meta={`${postList.length} ${postList.length === 1 ? "artigo encontrado" : "artigos encontrados"}`}
-          />
-
+        <section className="space-y-8 pt-4">
           {postList.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {postList.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}

@@ -14,6 +14,7 @@ import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PostCard } from "@/src/components/blog/PostCard";
 import { SectionHeader } from "@/src/components/blog/SectionHeader";
 import { WhatsAppConsultationCard } from "@/src/components/blog/WhatsAppConsultationCard";
+import { ScrollToTop } from "@/src/components/common/ScrollToTop";
 import { calculateReadingTime, extractHeadings } from "@/src/lib/blog-utils";
 import type { PostItem, AuthorRef, CityRef, CategoryRef, SanityBody } from "@/src/types/sanity";
 
@@ -254,6 +255,7 @@ export default async function PostPage({
 
   return (
     <>
+      <ScrollToTop />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -262,7 +264,7 @@ export default async function PostPage({
       />
       <ReadingProgressBar targetId="post-article-container" />
 
-      <article className="w-full p-5 space-y-10">
+      <article className="w-full px-6 pt-6 pb-12 sm:pb-16 space-y-12 sm:space-y-16">
         
         <Breadcrumbs items={breadcrumbItems} />
 
@@ -530,9 +532,10 @@ export default async function PostPage({
 
         
         {relatedList.length > 0 && (
-          <section className="pt-16 sm:pt-20 pb-20 sm:pb-28 space-y-8">
+          <section className="pt-12 sm:pt-16 pb-4 space-y-8">
             <SectionHeader
               eyebrow="Continue Lendo"
+              eyebrowIcon="ph:newspaper-fill"
               title="Artigos Relacionados"
               action={{
                 label: "Ver Todos os Artigos",
@@ -540,7 +543,7 @@ export default async function PostPage({
               }}
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedList.map((relPost) => (
                 <PostCard key={relPost._id} post={relPost} scroll={true} />
               ))}

@@ -10,6 +10,7 @@ import {
 } from "@/sanity/lib/queries";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PostCard } from "@/src/components/blog/PostCard";
+import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
 import type { PostItem, CategoryRef } from "@/src/types/sanity";
 
 type CategoryDetail = CategoryRef;
@@ -148,35 +149,17 @@ export default async function CategoryPage({
           __html: JSON.stringify(categoryJsonLd),
         }}
       />
-      <div className="w-full p-5 space-y-12">
+      <div className="w-full px-6 pt-6 pb-12 sm:pb-16 space-y-10 sm:space-y-12">
         
         <Breadcrumbs items={breadcrumbsItems} />
 
-        
-        <section className="space-y-6 max-w-4xl">
-          <div className="flex items-center gap-2">
-            <span className="px-4 py-1.5 rounded-tr-3xl rounded-bl-3xl bg-primary text-white font-mono text-xs font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-xs">
-              <Icon icon="ph:tag-fill" className="size-3.5 text-white" />
-              <span>Categoria em Foco</span>
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase font-heading text-foreground tracking-tight leading-none">
-            {catData.title}
-          </h1>
-
-          {catData.description && (
-            <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
-              {catData.description}
-            </p>
-          )}
-
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 pt-2 border-t border-zinc-200 dark:border-white/10">
-            <span>
-              {posts.length} {posts.length === 1 ? "artigo encontrado" : "artigos encontrados"} nesta categoria
-            </span>
-          </div>
-        </section>
+        <PageHeroHeader
+          badge="Categoria em Foco"
+          badgeIcon="ph:tag-fill"
+          title={catData.title}
+          description={catData.description}
+          meta={`${posts.length} ${posts.length === 1 ? "artigo encontrado" : "artigos encontrados"} nesta categoria`}
+        />
 
         
         <section className="space-y-8 pt-4">
@@ -197,7 +180,7 @@ export default async function CategoryPage({
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post) => (
                 <PostCard key={post._id} post={post} />
               ))}
