@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Icon } from "@iconify/react";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   POSTS_QUERY,
@@ -22,14 +20,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams?: Promise<{ search?: string }>;
-}) {
-  const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const searchFilter = resolvedSearchParams?.search?.toLowerCase().trim() || "";
-
+export default async function HomePage() {
   const [
     { data: posts = [] },
     { data: categories = [] },
@@ -43,18 +34,6 @@ export default async function HomePage({
   const allPosts = (posts as PostItem[]) || [];
   const rawCategories = (categories as CategoryRef[]) || [];
   const featuredList = (featured as PostItem[]) || [];
-
-  const postList = searchFilter
-    ? allPosts.filter(
-        (p) =>
-          p.title?.toLowerCase().includes(searchFilter) ||
-          p.excerpt?.toLowerCase().includes(searchFilter) ||
-          p.tags?.some((t) => t.toLowerCase().includes(searchFilter)) ||
-          p.categories?.some((c) =>
-            c.title?.toLowerCase().includes(searchFilter),
-          ),
-      )
-    : allPosts;
 
   const heroPosts =
     featuredList.length > 0 ? featuredList : allPosts.slice(0, 3);
@@ -77,37 +56,16 @@ export default async function HomePage({
 
   return (
     <div className="w-full">
-      {!searchFilter && heroPosts.length > 0 && (
-        <HeroCarousel posts={heroPosts} />
-      )}
+      {heroPosts.length > 0 && <HeroCarousel posts={heroPosts} />}
 
       <div className="w-full">
-        {searchFilter && (
-          <div className="m-5 p-6 border border-zinc-200 dark:border-zinc-800 bg-card flex items-center justify-between gap-4 font-mono text-xs shadow-xs">
-            <div className="flex items-center gap-2">
-              <Icon
-                icon="ph:magnifying-glass-bold"
-                className="size-4 text-primary"
-              />
-              <span>
-                Resultados da busca por:{" "}
-                <strong>&ldquo;{searchFilter}&rdquo;</strong> ({postList.length}{" "}
-                artigos encontrados)
-              </span>
-            </div>
-            <Link href="/" className="text-primary font-bold hover:underline">
-              Limpar busca
-            </Link>
-          </div>
-        )}
-
-        {categoryList.length > 0 && !searchFilter && (
-          <div className="py-5 pl-5">
+        {categoryList.length > 0 && (
+          <div className="pt-10 sm:pt-14 pb-4 sm:pb-6 pl-6">
             <CategoryShowcase categories={categoryList} />
           </div>
         )}
 
-        <PostsList posts={postList} />
+        <PostsList posts={allPosts} />
 
         <ContactSection />
       </div>

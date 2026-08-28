@@ -94,8 +94,10 @@ export function Header({ categories = [] }: HeaderProps) {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
-    router.push(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+    const query = searchQuery.trim();
+    if (!query) return;
+    setSearchQuery("");
+    router.push(`/busca?q=${encodeURIComponent(query)}`);
     setIsMobileOpen(false);
     setIsCategoriesOpen(false);
   };

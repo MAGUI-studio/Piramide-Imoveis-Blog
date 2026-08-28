@@ -10,12 +10,14 @@ import type { PostItem } from "@/src/types/sanity";
 
 interface PostsListProps {
   posts: PostItem[];
+  hideHeader?: boolean;
+  className?: string;
 }
 
 const INITIAL_VISIBLE_COUNT = 12;
 const STEP = 6;
 
-export function PostsList({ posts }: PostsListProps) {
+export function PostsList({ posts, hideHeader = false, className = "" }: PostsListProps) {
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
   const secondBatchRef = useRef<HTMLDivElement>(null);
 
@@ -70,16 +72,19 @@ export function PostsList({ posts }: PostsListProps) {
   };
 
   return (
-    <section className="space-y-12 px-6 py-8">
+    <section className={`space-y-12 sm:space-y-16 ${hideHeader ? "" : "px-6 pt-8 sm:pt-10 pb-4 sm:pb-6"} ${className}`}>
       
-      <SectionHeader
-        eyebrow="Explorar Acervo"
-        title="Todos os Artigos & Análises"
-        meta={`Exibindo ${Math.min(visibleCount, posts.length)} de ${posts.length} artigos`}
-      />
+      {!hideHeader && (
+        <SectionHeader
+          eyebrow="Explorar Acervo"
+          eyebrowIcon="ph:books-fill"
+          title="Todos os Artigos & Análises"
+          meta={`Exibindo ${Math.min(visibleCount, posts.length)} de ${posts.length} artigos`}
+        />
+      )}
 
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {firstBatch.map((post, idx) => renderPostCard(post, idx))}
       </div>
 
@@ -92,7 +97,7 @@ export function PostsList({ posts }: PostsListProps) {
       {secondBatch.length > 0 && (
         <div
           ref={secondBatchRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 scroll-mt-24"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 scroll-mt-24"
         >
           <AnimatePresence mode="popLayout">
             {secondBatch.map((post, idx) => renderPostCard(post, idx))}
