@@ -58,10 +58,10 @@ export const metadata: Metadata = {
       "Análises de mercado, dicas para compra e locação, lançamentos e tendências imobiliárias em São José dos Campos e Vale do Paraíba.",
     images: [
       {
-        url: `${baseUrl}/logos/piramide/logo_black.svg`,
+        url: `${baseUrl}/utils/SEO/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Pirâmide Imóveis Blog",
+        alt: "Blog Pirâmide Imóveis",
       },
     ],
   },
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     description:
       "Notícias, análises e tendências do mercado imobiliário em São José dos Campos.",
     creator: "@piramideimoveis",
-    images: [`${baseUrl}/logos/piramide/logo_black.svg`],
+    images: [`${baseUrl}/utils/SEO/og-image.jpg`],
   },
   robots: {
     index: true,

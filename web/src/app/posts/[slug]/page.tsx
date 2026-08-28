@@ -86,7 +86,7 @@ export async function generateMetadata({
   const ogImageSource = postData.seoImage || postData.mainImage;
   const ogImageUrl = ogImageSource
     ? urlForImage(ogImageSource)?.width(1200).height(630).fit("crop").url()
-    : `${baseUrl}/logos/piramide/logo_black.svg`;
+    : `${baseUrl}/utils/SEO/og-image.jpg`;
 
   return {
     title,
@@ -169,7 +169,7 @@ export default async function PostPage({
   const postUrl = `${baseUrl}/posts/${slug}`;
   const ogImageUrl = postData.mainImage
     ? urlForImage(postData.mainImage)?.width(1200).height(630).url()
-    : `${baseUrl}/logos/piramide/logo_black.svg`;
+    : `${baseUrl}/utils/SEO/og-image.jpg`;
 
   const articleJsonLd = {
     "@context": "https://schema.org",
