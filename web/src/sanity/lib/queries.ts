@@ -387,6 +387,29 @@ export const AUTHOR_SLUGS_QUERY = defineQuery(`
   *[_type == "author" && defined(slug.current)]{ "slug": slug.current }
 `);
 
+export const POST_PREV_NEXT_QUERY = defineQuery(`
+  {
+    "prev": *[_type == "post" && defined(slug.current) && publishedAt < $publishedAt] | order(publishedAt desc)[0] {
+      _id,
+      title,
+      slug,
+      publishedAt,
+      mainImage
+    },
+    "next": *[_type == "post" && defined(slug.current) && publishedAt > $publishedAt] | order(publishedAt asc)[0] {
+      _id,
+      title,
+      slug,
+      publishedAt,
+      mainImage
+    }
+  }
+`);
+
+export const ALL_TAGS_QUERY = defineQuery(`
+  array::unique(*[_type == "post" && defined(tags)].tags[])
+`);
+
 export const SITEMAP_DATA_QUERY = defineQuery(`
   {
     "posts": *[_type == "post" && defined(slug.current) && noIndex != true]{
@@ -402,6 +425,7 @@ export const SITEMAP_DATA_QUERY = defineQuery(`
     },
     "cities": *[_type == "city" && defined(slug.current)]{
       "slug": slug.current
-    }
+    },
+    "tags": array::unique(*[_type == "post" && defined(tags)].tags[])
   }
 `);

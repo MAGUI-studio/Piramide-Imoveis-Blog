@@ -113,7 +113,7 @@ export function PostCard({
             <span>•</span>
             <span className="inline-flex items-center gap-1">
               <Icon icon="ph:clock-bold" className="size-3 text-zinc-400" />
-              <span>{readingTime} min</span>
+              <span>{readingTime} min de leitura</span>
             </span>
           </div>
 
