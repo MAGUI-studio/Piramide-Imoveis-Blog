@@ -6,6 +6,8 @@
     "dev:studio": "pnpm --filter studio dev",
     "dev:web": "pnpm --filter web dev",
     "build": "pnpm -r build",
+    "lint": "pnpm --filter web lint",
+    "test": "pnpm --filter web test",
     "typegen": "pnpm --filter studio typegen"
   }
 }
