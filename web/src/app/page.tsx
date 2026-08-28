@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -11,6 +12,15 @@ import { CategoryShowcase } from "@/src/components/blog/CategoryShowcase";
 import { PostsList } from "@/src/components/blog/PostsList";
 import { ContactSection } from "@/src/components/blog/ContactSection";
 import type { PostItem, CategoryRef } from "@/src/types/sanity";
+
+export const metadata: Metadata = {
+  title: "Blog Pirâmide Imóveis | Mercado Imobiliário, Tendências e Dicas",
+  description:
+    "Explore análises exclusivas do mercado imobiliário, dicas para compra e locação, lançamentos e tendências em São José dos Campos e Vale do Paraíba.",
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br",
+  },
+};
 
 export default async function HomePage({
   searchParams,
