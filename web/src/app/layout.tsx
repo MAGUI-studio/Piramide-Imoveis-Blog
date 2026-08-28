@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "@/src/components/common/themeProvider";
 import { CookieConsentBanner } from "@/src/components/common/CookieConsentBanner";
 import { PrivacyModal } from "@/src/components/common/PrivacyModal";
+import { WhatsAppWidget } from "@/src/components/common/WhatsAppWidget";
 import { SanityLive, sanityFetch } from "@/sanity/lib/live";
 import { CATEGORIES_QUERY } from "@/sanity/lib/queries";
 import { fontVariables } from "@/src/config/fonts";
@@ -40,6 +41,7 @@ export default async function RootLayout({
           <Header categories={categoryList} />
           <main className="flex-1 w-full overflow-x-hidden">{children}</main>
           <Footer />
+          <WhatsAppWidget />
           <CookieConsentBanner />
           <PrivacyModal />
           <SanityLive />
