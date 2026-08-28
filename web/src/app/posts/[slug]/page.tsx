@@ -151,9 +151,101 @@ export default async function PostPage({
     `Olá! Estava lendo o artigo "${postData.title}" no Blog da Pirâmide e gostaria de conversar sobre oportunidades na região.`
   );
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const postUrl = `${baseUrl}/posts/${slug}`;
+  const ogImageUrl = postData.mainImage
+    ? urlForImage(postData.mainImage)?.width(1200).height(630).url()
+    : `${baseUrl}/logos/piramide/logo_black.svg`;
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${postUrl}/#article`,
+        isPartOf: {
+          "@type": "WebSite",
+          "@id": `${baseUrl}/#website`,
+          name: "Blog Pirâmide Imóveis",
+          url: baseUrl,
+        },
+        headline: postData.metaTitle || postData.title,
+        description: postData.metaDescription || postData.excerpt,
+        url: postUrl,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": postUrl,
+        },
+        inLanguage: "pt-BR",
+        datePublished: postData.publishedAt || new Date().toISOString(),
+        dateModified: postData.updatedAt || postData.publishedAt || new Date().toISOString(),
+        author: {
+          "@type": "Person",
+          name: postData.author?.name || "Redação Pirâmide Imóveis",
+          jobTitle: postData.author?.role || "Especialista Imobiliário",
+          url: postData.author?.slug?.current
+            ? `${baseUrl}/autor/${postData.author.slug.current}`
+            : baseUrl,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Pirâmide Imóveis",
+          url: "https://www.piramideimoveissjc.com.br",
+          logo: {
+            "@type": "ImageObject",
+            url: `${baseUrl}/logos/piramide/logo_black.svg`,
+          },
+        },
+        image: ogImageUrl ? [ogImageUrl] : [],
+        articleSection: primaryCategory?.title || "Mercado Imobiliário",
+        keywords: (postData.tags || []).join(", "),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${postUrl}/#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Início",
+            item: baseUrl,
+          },
+          ...(primaryCategory?.slug?.current
+            ? [
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: primaryCategory.title,
+                  item: `${baseUrl}/categoria/${primaryCategory.slug.current}`,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: postData.title,
+                  item: postUrl,
+                },
+              ]
+            : [
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: postData.title,
+                  item: postUrl,
+                },
+              ]),
+        ],
+      },
+    ],
+  };
+
   return (
     <>
-      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleJsonLd),
+        }}
+      />
       <ReadingProgressBar targetId="post-article-container" />
 
       <article className="w-full p-5 space-y-10">

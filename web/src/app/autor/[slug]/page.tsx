@@ -102,14 +102,77 @@ export default async function AuthorPage({
   ]);
 
   const authorData = author as AuthorDetail | null;
-  const postList = (posts as PostItem[]) || [];
 
   if (!authorData) {
     notFound();
   }
 
+  const postList = (posts as PostItem[]) || [];
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const authorUrl = `${baseUrl}/autor/${slug}`;
+  const authorImageUrl = authorData.image
+    ? urlForImage(authorData.image)?.width(400).height(400).url()
+    : null;
+
+  const authorJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": `${authorUrl}/#profile`,
+        name: `Perfil de ${authorData.name} - Blog Pirâmide Imóveis`,
+        url: authorUrl,
+        mainEntity: {
+          "@type": "Person",
+          "@id": `${authorUrl}/#person`,
+          name: authorData.name,
+          jobTitle: authorData.role || "Especialista Imobiliário",
+          description: typeof authorData.bio === "string" ? authorData.bio : undefined,
+          image: authorImageUrl || undefined,
+          sameAs: [authorData.linkedinUrl, authorData.instagramUrl].filter(Boolean),
+          worksFor: {
+            "@type": "Organization",
+            name: "Pirâmide Imóveis",
+            url: "https://www.piramideimoveissjc.com.br",
+          },
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${authorUrl}/#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Início",
+            item: baseUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Autores",
+            item: `${baseUrl}/#autores`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: authorData.name,
+            item: authorUrl,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
-    <div className="w-full px-6 sm:px-10 md:px-14 lg:px-20 py-8 sm:py-12 space-y-12 sm:space-y-16">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(authorJsonLd),
+        }}
+      />
+      <div className="w-full px-6 sm:px-10 md:px-14 lg:px-20 py-8 sm:py-12 space-y-12 sm:space-y-16">
       
       <nav aria-label="Breadcrumbs" className="flex items-center gap-2 font-mono text-xs text-muted-foreground uppercase tracking-wider">
         <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1">
@@ -313,5 +376,6 @@ export default async function AuthorPage({
         )}
       </section>
     </div>
+    </>
   );
 }

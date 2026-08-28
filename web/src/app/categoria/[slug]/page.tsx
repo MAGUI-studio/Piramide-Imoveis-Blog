@@ -134,8 +134,61 @@ export default async function CategoryPage({
     };
   });
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const catUrl = `${baseUrl}/categoria/${slug}`;
+
+  const categoryJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${catUrl}/#collection`,
+        name: `${catData.title} - Blog Pirâmide Imóveis`,
+        description: catData.description || `Artigos e análises sobre ${catData.title}.`,
+        url: catUrl,
+        isPartOf: {
+          "@type": "WebSite",
+          "@id": `${baseUrl}/#website`,
+          name: "Blog Pirâmide Imóveis",
+          url: baseUrl,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${catUrl}/#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Início",
+            item: baseUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Categorias",
+            item: `${baseUrl}/#categorias`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: catData.title,
+            item: catUrl,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
-    <div className="w-full px-6 sm:px-10 md:px-14 lg:px-20 py-8 sm:py-12 space-y-12 sm:space-y-16">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(categoryJsonLd),
+        }}
+      />
+      <div className="w-full px-6 sm:px-10 md:px-14 lg:px-20 py-8 sm:py-12 space-y-12 sm:space-y-16">
       
       <section className="border-b border-zinc-200 dark:border-zinc-800 pb-10 space-y-6">
         <nav aria-label="Breadcrumbs" className="flex items-center gap-2 font-mono text-xs text-muted-foreground uppercase tracking-wider">
@@ -284,5 +337,6 @@ export default async function CategoryPage({
         </div>
       )}
     </div>
+    </>
   );
 }

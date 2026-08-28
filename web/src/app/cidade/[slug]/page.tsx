@@ -111,8 +111,61 @@ export default async function CityPage({
   const posts = (cityPosts as PostItem[]) || [];
   const categories = (allCategories as CategoryRef[]) || [];
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const cityUrl = `${baseUrl}/cidade/${slug}`;
+
+  const cityJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${cityUrl}/#collection`,
+        name: `Artigos e Imóveis em ${cityData.name} - Blog Pirâmide Imóveis`,
+        description: cityData.description || `Artigos e análises sobre o mercado imobiliário em ${cityData.name}.`,
+        url: cityUrl,
+        isPartOf: {
+          "@type": "WebSite",
+          "@id": `${baseUrl}/#website`,
+          name: "Blog Pirâmide Imóveis",
+          url: baseUrl,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${cityUrl}/#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Início",
+            item: baseUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Cidades",
+            item: `${baseUrl}/#cidades`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: cityData.name,
+            item: cityUrl,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
-    <div className="w-full p-5 space-y-12">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(cityJsonLd),
+        }}
+      />
+      <div className="w-full p-5 space-y-12">
       
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-200 dark:border-white/10 pb-4">
         <nav aria-label="Breadcrumbs" className="flex items-center gap-2 font-mono text-xs text-zinc-500 uppercase tracking-wider overflow-x-auto">
@@ -296,5 +349,6 @@ export default async function CityPage({
         )}
       </section>
     </div>
+    </>
   );
 }
