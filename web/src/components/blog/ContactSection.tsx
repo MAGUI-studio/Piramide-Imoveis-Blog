@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { openPrivacyModal } from "@/src/components/common/PrivacyModal";
@@ -89,10 +90,20 @@ export function ContactSection() {
   return (
     <section
       id="contato"
-      className="relative w-full bg-[#161616] text-white pt-20 sm:pt-28 pb-16 sm:pb-24 border-t border-zinc-800 transition-colors overflow-hidden mt-16 sm:mt-24"
+      className="relative w-full bg-[#161616] text-white pt-24 sm:pt-32 pb-16 sm:pb-24 border-t border-zinc-800 transition-colors overflow-hidden mt-16 sm:mt-24"
     >
       
-      <div className="absolute inset-0 bg-[radial-gradient(#ffffff07_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Image
+          src="/utils/piramide-imoveis-fachada.webp"
+          alt="Sede Pirâmide Imóveis"
+          fill
+          sizes="100vw"
+          className="object-cover object-center opacity-15"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#161616]/95 via-[#161616]/85 to-[#161616]" />
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff07_1px,transparent_1px)] [background-size:32px_32px]" />
+      </div>
 
       <div className="relative z-10 w-full max-w-440 mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -189,9 +200,9 @@ export function ContactSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.4 }}
-                  className="space-y-8 p-6 sm:p-10 border border-zinc-800 bg-zinc-900/80"
+                  className="space-y-8"
                 >
-                  <div className="pb-6 border-b border-white/10 space-y-3">
+                  <div className="mb-8 pb-6 border-b border-white/10 space-y-3">
                     <div className="flex items-center gap-2.5 text-primary">
                       <Icon icon="ph:check-circle-fill" className="size-6" />
                       <span className="text-xs font-mono font-bold uppercase tracking-widest text-primary">
@@ -199,7 +210,7 @@ export function ContactSection() {
                       </span>
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl font-black uppercase text-white font-heading tracking-tight">
+                    <h3 className="text-2xl sm:text-4xl font-black uppercase text-white font-heading tracking-tight">
                       Obrigado, {submittedName}!
                     </h3>
                     <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed">
@@ -211,9 +222,9 @@ export function ContactSection() {
                     <button
                       type="button"
                       onClick={() => window.open(lastWhatsAppUrl, "_blank")}
-                      className="w-full px-8 py-4.5 rounded-none bg-primary hover:bg-primary/90 text-white text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl font-mono"
+                      className="w-full px-10 py-4.5 rounded-none bg-primary hover:bg-primary/90 text-white text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl font-mono"
                     >
-                      <Icon icon="ph:whatsapp-logo-bold" className="size-5" />
+                      <Icon icon="ph:whatsapp-logo-bold" className="size-5 text-white" />
                       <span>Reabrir WhatsApp</span>
                     </button>
 
@@ -233,7 +244,6 @@ export function ContactSection() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="p-6 sm:p-10 border border-zinc-800 bg-zinc-900/60"
                 >
                   <div className="mb-8 pb-6 border-b border-white/10">
                     <h3 className="text-xl sm:text-2xl font-black uppercase text-white font-heading tracking-tight">
@@ -244,23 +254,23 @@ export function ContactSection() {
                     </p>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                  <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       
                       <div className="space-y-1.5">
-                        <label className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-300">
+                        <label className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-200">
                           Nome Completo <span className="text-primary">*</span>
                         </label>
                         <div className="relative">
-                          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500">
-                            <Icon icon="ph:user-bold" className="size-4" />
+                          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400">
+                            <Icon icon="ph:user-bold" className="size-4.5" />
                           </span>
                           <input
                             type="text"
                             value={name}
                             onChange={handleNameChange}
                             placeholder="Digite seu nome completo"
-                            className="w-full bg-zinc-950/80 border border-zinc-800 focus:border-primary text-white text-sm py-3.5 pl-10 pr-4 outline-none transition-colors"
+                            className="w-full bg-zinc-900/90 border border-white/20 focus:border-primary text-white text-sm py-3.5 pl-10 pr-4 outline-none rounded-none transition-colors"
                           />
                         </div>
                         {errors.name && (
@@ -270,12 +280,12 @@ export function ContactSection() {
 
                       
                       <div className="space-y-1.5">
-                        <label className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-300">
+                        <label className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-200">
                           WhatsApp / Telefone <span className="text-primary">*</span>
                         </label>
                         <div className="relative">
-                          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500">
-                            <Icon icon="ph:phone-bold" className="size-4" />
+                          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400">
+                            <Icon icon="ph:phone-bold" className="size-4.5" />
                           </span>
                           <input
                             type="tel"
@@ -283,7 +293,7 @@ export function ContactSection() {
                             onChange={handlePhoneChange}
                             placeholder="(12) 99999-9999"
                             maxLength={16}
-                            className="w-full bg-zinc-950/80 border border-zinc-800 focus:border-primary text-white text-sm py-3.5 pl-10 pr-4 outline-none transition-colors font-mono"
+                            className="w-full bg-zinc-900/90 border border-white/20 focus:border-primary text-white text-sm py-3.5 pl-10 pr-4 outline-none rounded-none transition-colors font-mono"
                           />
                         </div>
                         {errors.phone && (
@@ -294,26 +304,26 @@ export function ContactSection() {
 
                     
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-300">
+                      <label className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-200">
                         E-mail <span className="text-zinc-500 font-normal">(Opcional)</span>
                       </label>
                       <div className="relative">
-                        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500">
-                          <Icon icon="ph:envelope-simple-bold" className="size-4" />
+                        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400">
+                          <Icon icon="ph:envelope-simple-bold" className="size-4.5" />
                         </span>
                         <input
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="seu.email@exemplo.com"
-                          className="w-full bg-zinc-950/80 border border-zinc-800 focus:border-primary text-white text-sm py-3.5 pl-10 pr-4 outline-none transition-colors"
+                          className="w-full bg-zinc-900/90 border border-white/20 focus:border-primary text-white text-sm py-3.5 pl-10 pr-4 outline-none rounded-none transition-colors"
                         />
                       </div>
                     </div>
 
                     
                     <div className="space-y-1.5">
-                      <label className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-300">
+                      <label className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-200">
                         Mensagem ou Dúvida <span className="text-zinc-500 font-normal">(Opcional)</span>
                       </label>
                       <textarea
@@ -321,7 +331,7 @@ export function ContactSection() {
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="Como podemos te ajudar hoje?"
                         rows={4}
-                        className="w-full bg-zinc-950/80 border border-zinc-800 focus:border-primary text-white text-sm p-4 outline-none transition-colors resize-none"
+                        className="w-full bg-zinc-900/90 border border-white/20 focus:border-primary text-white text-sm p-4 outline-none rounded-none transition-colors resize-none min-h-[100px]"
                       />
                     </div>
 
@@ -345,7 +355,7 @@ export function ContactSection() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full px-8 py-4 rounded-none bg-primary hover:bg-primary/90 disabled:opacity-75 text-white text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl font-mono mt-4"
+                      className="w-full px-10 py-4.5 rounded-none bg-primary hover:bg-primary/90 disabled:opacity-75 text-white text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl font-mono mt-4"
                     >
                       {isSubmitting ? (
                         <>

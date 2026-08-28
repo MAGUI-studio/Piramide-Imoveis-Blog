@@ -39,7 +39,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative w-full bg-[#161616] text-zinc-400 py-16 sm:py-20 px-6 md:px-12 border-t border-zinc-800 transition-colors overflow-hidden mt-20">
+    <footer className="relative w-full bg-[#161616] text-zinc-400 py-16 sm:py-20 px-6 md:px-12 border-t border-zinc-800 transition-colors overflow-hidden">
       
       <div className="absolute inset-0 bg-[radial-gradient(#ffffff07_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
 
