@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Icon } from "@iconify/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ShareButtonsProps {
   title: string;
@@ -51,8 +52,8 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
-      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground mr-1">
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-zinc-500 mr-1">
         Compartilhar:
       </span>
 
@@ -60,7 +61,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         type="button"
         onClick={shareWhatsApp}
-        className="inline-flex size-8 items-center justify-center rounded-none border border-zinc-200 dark:border-zinc-800 bg-card text-emerald-600 hover:bg-emerald-600 hover:text-white dark:text-emerald-400 dark:hover:bg-emerald-600 dark:hover:text-white transition-all cursor-pointer shadow-xs"
+        className="p-1 text-zinc-400 hover:text-emerald-500 transition-colors cursor-pointer bg-transparent border-none"
         title="Compartilhar no WhatsApp"
         aria-label="Compartilhar no WhatsApp"
       >
@@ -71,7 +72,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         type="button"
         onClick={shareLinkedIn}
-        className="inline-flex size-8 items-center justify-center rounded-none border border-zinc-200 dark:border-zinc-800 bg-card text-sky-600 hover:bg-sky-600 hover:text-white dark:text-sky-400 dark:hover:bg-sky-600 dark:hover:text-white transition-all cursor-pointer shadow-xs"
+        className="p-1 text-zinc-400 hover:text-sky-500 transition-colors cursor-pointer bg-transparent border-none"
         title="Compartilhar no LinkedIn"
         aria-label="Compartilhar no LinkedIn"
       >
@@ -82,7 +83,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         type="button"
         onClick={shareTwitter}
-        className="inline-flex size-8 items-center justify-center rounded-none border border-zinc-200 dark:border-zinc-800 bg-card text-zinc-700 hover:bg-zinc-900 hover:text-white dark:text-zinc-300 dark:hover:bg-zinc-700 dark:hover:text-white transition-all cursor-pointer shadow-xs"
+        className="p-1 text-zinc-400 hover:text-foreground transition-colors cursor-pointer bg-transparent border-none"
         title="Compartilhar no X"
         aria-label="Compartilhar no X"
       >
@@ -93,7 +94,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         type="button"
         onClick={shareFacebook}
-        className="inline-flex size-8 items-center justify-center rounded-none border border-zinc-200 dark:border-zinc-800 bg-card text-blue-600 hover:bg-blue-600 hover:text-white dark:text-blue-400 dark:hover:bg-blue-600 dark:hover:text-white transition-all cursor-pointer shadow-xs"
+        className="p-1 text-zinc-400 hover:text-blue-500 transition-colors cursor-pointer bg-transparent border-none"
         title="Compartilhar no Facebook"
         aria-label="Compartilhar no Facebook"
       >
@@ -104,18 +105,36 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
       <button
         type="button"
         onClick={handleCopyLink}
-        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none text-xs font-mono font-medium border transition-all cursor-pointer shadow-xs ${
-          copied
-            ? "border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-            : "border-zinc-200 dark:border-zinc-800 bg-card text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600"
-        }`}
+        className="inline-flex items-center gap-1.5 px-2 py-1 bg-transparent border-none text-xs font-mono font-bold uppercase tracking-wider text-zinc-400 hover:text-foreground transition-colors cursor-pointer"
         title="Copiar link do artigo"
       >
-        <Icon
-          icon={copied ? "ph:check-bold" : "ph:link-bold"}
-          className={`size-3.5 ${copied ? "text-emerald-600 dark:text-emerald-400" : ""}`}
-        />
-        <span>{copied ? "COPIADO" : "COPIAR LINK"}</span>
+        <AnimatePresence mode="wait" initial={false}>
+          {copied ? (
+            <motion.div
+              key="copied"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.15 }}
+              className="inline-flex items-center gap-1.5 text-emerald-500 font-bold"
+            >
+              <Icon icon="ph:check-bold" className="size-3.5 text-emerald-500" />
+              <span>Copiado!</span>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="copy"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.15 }}
+              className="inline-flex items-center gap-1.5"
+            >
+              <Icon icon="ph:link-bold" className="size-3.5" />
+              <span>Copiar Link</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </button>
     </div>
   );

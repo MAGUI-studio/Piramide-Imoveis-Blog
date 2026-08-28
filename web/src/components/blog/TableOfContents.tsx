@@ -1,48 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Icon } from "@iconify/react";
+import { motion, AnimatePresence } from "framer-motion";
 import type { TocHeading } from "@/src/lib/blog-utils";
 
 interface TableOfContentsProps {
   headings: TocHeading[];
+  variant?: "sidebar" | "inline";
 }
 
-export function TableOfContents({ headings }: TableOfContentsProps) {
-  const [activeId, setActiveId] = useState<string>("");
+export function TableOfContents({ headings, variant = "sidebar" }: TableOfContentsProps) {
+  const [activeId, setActiveId] = useState<string>(headings[0]?.id || "");
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  useEffect(() => {
+  const updateActiveHeading = useCallback(() => {
     if (headings.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: "0px 0px -60% 0px",
-        threshold: 0.1,
+    let currentActive = headings[0]?.id || "";
+
+    for (let i = 0; i < headings.length; i++) {
+      const el = document.getElementById(headings[i].id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 180) {
+          currentActive = headings[i].id;
+        }
       }
-    );
+    }
 
-    headings.forEach((h) => {
-      const el = document.getElementById(h.id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
+    setActiveId(currentActive);
   }, [headings]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", updateActiveHeading, { passive: true });
+    window.addEventListener("resize", updateActiveHeading);
+
+    const raf = requestAnimationFrame(updateActiveHeading);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", updateActiveHeading);
+      window.removeEventListener("resize", updateActiveHeading);
+    };
+  }, [updateActiveHeading]);
 
   if (headings.length < 2) return null;
 
   const scrollToHeading = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      const headerOffset = 100;
+      const headerOffset = 110;
       const elementPosition = el.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -54,61 +62,105 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     }
   };
 
-  return (
-    <nav className="my-8 rounded-none border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/80 p-6 backdrop-blur-xs transition-colors">
-      <div className="flex items-center justify-between">
+  
+  if (variant === "inline") {
+    return (
+      <nav className="w-full bg-transparent p-0 my-6 select-none border-none">
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-foreground font-mono cursor-pointer"
+          className="flex w-full items-center justify-between text-xs font-mono font-bold uppercase tracking-widest text-foreground cursor-pointer py-2 border-b border-zinc-200 dark:border-white/10"
         >
-          <Icon icon="ph:list-bullets-bold" className="size-4 text-primary" />
-          <span>Sumário do Artigo</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
-          aria-label={isOpen ? "Recolher sumário" : "Expandir sumário"}
-        >
+          <div className="flex items-center gap-2">
+            <span className="size-2 rounded-full bg-primary" />
+            <span>Índice do Artigo</span>
+          </div>
           <Icon
             icon={isOpen ? "ph:caret-up-bold" : "ph:caret-down-bold"}
-            className="size-4"
+            className="size-4 text-zinc-500"
           />
         </button>
+
+        <AnimatePresence>
+          {isOpen && (
+            <motion.ul
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-3 space-y-2 overflow-hidden"
+            >
+              {headings.map((h) => {
+                const isActive = activeId === h.id;
+                return (
+                  <li key={h.id} className={h.level === 3 ? "pl-3" : ""}>
+                    <button
+                      type="button"
+                      onClick={() => scrollToHeading(h.id)}
+                      className={`text-left text-xs font-mono transition-colors block w-full cursor-pointer leading-relaxed ${
+                        isActive
+                          ? "text-primary font-bold"
+                          : "text-zinc-500 hover:text-foreground"
+                      }`}
+                    >
+                      <span className="line-clamp-2">{h.text}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </nav>
+    );
+  }
+
+  
+  return (
+    <nav className="w-full bg-transparent p-0 select-none border-none">
+      <div className="flex items-center justify-between mb-4 pb-2 border-b border-zinc-200 dark:border-white/10">
+        <div className="flex items-center gap-2">
+          <span className="size-2 rounded-full bg-primary" />
+          <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-foreground">
+            Neste Artigo
+          </h4>
+        </div>
+        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+          {headings.length} seções
+        </span>
       </div>
 
-      {isOpen && (
-        <ul className="mt-4 space-y-2.5 border-t border-zinc-200 dark:border-zinc-800 pt-4 text-sm font-light">
-          {headings.map((h) => {
-            const isActive = activeId === h.id;
-            return (
-              <li
-                key={h.id}
-                className={h.level === 3 ? "ml-4 text-xs" : "font-medium"}
+      <ul className="space-y-1 relative">
+        {headings.map((h) => {
+          const isActive = activeId === h.id;
+          return (
+            <li key={h.id} className="relative">
+              <button
+                type="button"
+                onClick={() => scrollToHeading(h.id)}
+                className={`group relative text-left py-1.5 pl-3 pr-2 text-xs font-mono transition-colors block w-full cursor-pointer bg-transparent border-none ${
+                  isActive
+                    ? "text-primary font-bold"
+                    : "text-zinc-500 hover:text-foreground"
+                }`}
               >
-                <button
-                  type="button"
-                  onClick={() => scrollToHeading(h.id)}
-                  className={`text-left transition-colors flex items-center gap-2 hover:text-primary cursor-pointer w-full ${
-                    isActive
-                      ? "text-primary font-semibold"
-                      : "text-zinc-600 dark:text-zinc-400"
-                  }`}
-                >
-                  <span
-                    className={`size-1.5 rounded-none shrink-0 ${
-                      isActive ? "bg-primary" : "bg-zinc-300 dark:bg-zinc-700"
-                    }`}
+                
+                {isActive && (
+                  <motion.span
+                    layoutId="activeTocBar"
+                    className="absolute left-0 top-0 bottom-0 w-[2px] bg-primary"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
-                  <span className="line-clamp-1">{h.text}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+                )}
+
+                <span className={`line-clamp-2 leading-relaxed ${h.level === 3 ? "pl-2 opacity-85" : ""}`}>
+                  {h.text}
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </nav>
   );
 }
