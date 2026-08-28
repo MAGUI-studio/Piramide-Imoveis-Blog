@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { sanityFetch } from "@/sanity/lib/live";
-import { POST_QUERY, POST_SLUGS_QUERY, RELATED_POSTS_QUERY } from "@/sanity/lib/queries";
+import { POST_QUERY, POST_SLUGS_QUERY, RELATED_POSTS_QUERY, POST_PREV_NEXT_QUERY } from "@/sanity/lib/queries";
 import { urlForImage } from "@/sanity/lib/image";
 import { PortableText } from "@/components/PortableText";
 import { TableOfContents } from "@/src/components/blog/TableOfContents";
@@ -15,7 +15,7 @@ import { PostCard } from "@/src/components/blog/PostCard";
 import { SectionHeader } from "@/src/components/blog/SectionHeader";
 import { WhatsAppConsultationCard } from "@/src/components/blog/WhatsAppConsultationCard";
 import { ScrollToTop } from "@/src/components/common/ScrollToTop";
-import { calculateReadingTime, extractHeadings } from "@/src/lib/blog-utils";
+import { calculateReadingTime, extractHeadings, slugifyText } from "@/src/lib/blog-utils";
 import type { PostItem, AuthorRef, CityRef, CategoryRef, SanityBody } from "@/src/types/sanity";
 
 interface AuthorWithSocials extends AuthorRef {
@@ -141,15 +141,28 @@ export default async function PostPage({
     .map((c) => c.slug?.current)
     .filter(Boolean) as string[];
 
-  const { data: relatedPosts = [] } = await sanityFetch({
-    query: RELATED_POSTS_QUERY,
-    params: {
-      currentSlug: slug,
-      categorySlugs: categorySlugs.length > 0 ? categorySlugs : ["none"],
-    },
-  });
+  const [
+    { data: relatedPosts = [] },
+    { data: prevNextData = null },
+  ] = await Promise.all([
+    sanityFetch({
+      query: RELATED_POSTS_QUERY,
+      params: {
+        currentSlug: slug,
+        categorySlugs: categorySlugs.length > 0 ? categorySlugs : ["none"],
+      },
+    }),
+    postData.publishedAt
+      ? sanityFetch({
+          query: POST_PREV_NEXT_QUERY,
+          params: { publishedAt: postData.publishedAt },
+        })
+      : Promise.resolve({ data: null }),
+  ]);
 
   const relatedList = (relatedPosts as PostItem[]) || [];
+  const prevPost = prevNextData?.prev as { _id: string; title: string; slug: { current: string } } | null;
+  const nextPost = prevNextData?.next as { _id: string; title: string; slug: { current: string } } | null;
   const primaryCategory = postData.categories?.[0];
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
@@ -420,12 +433,13 @@ export default async function PostPage({
                   </span>
                   <div className="flex flex-wrap gap-2">
                     {postData.tags.map((tag, idx) => (
-                      <span
+                      <Link
                         key={idx}
-                        className="px-3 py-1.5 rounded-none bg-zinc-100 dark:bg-white/5 font-mono text-xs text-foreground font-medium border border-zinc-200 dark:border-white/10"
+                        href={`/tag/${slugifyText(tag)}`}
+                        className="px-3 py-1.5 rounded-none bg-zinc-100 dark:bg-white/5 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white font-mono text-xs text-foreground font-medium border border-zinc-200 dark:border-white/10 transition-all cursor-pointer"
                       >
                         #{tag}
-                      </span>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -546,6 +560,44 @@ export default async function PostPage({
                       <span>Falar no WhatsApp</span>
                     </a>
                   </div>
+                </div>
+              )}
+
+              {(prevPost || nextPost) && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-zinc-200 dark:border-white/10">
+                  {prevPost ? (
+                    <Link
+                      href={`/posts/${prevPost.slug.current}`}
+                      className="group p-5 border border-zinc-200 dark:border-white/10 hover:border-primary dark:hover:border-primary bg-card/60 hover:bg-card transition-all flex flex-col justify-between space-y-2.5 rounded-none"
+                    >
+                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+                        <Icon icon="ph:arrow-left-bold" className="size-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                        <span>Artigo Anterior</span>
+                      </div>
+                      <h4 className="text-sm sm:text-base font-bold font-heading uppercase text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
+                        {prevPost.title}
+                      </h4>
+                    </Link>
+                  ) : (
+                    <div className="hidden sm:block" />
+                  )}
+
+                  {nextPost ? (
+                    <Link
+                      href={`/posts/${nextPost.slug.current}`}
+                      className="group p-5 border border-zinc-200 dark:border-white/10 hover:border-primary dark:hover:border-primary bg-card/60 hover:bg-card transition-all flex flex-col justify-between space-y-2.5 text-left sm:text-right rounded-none"
+                    >
+                      <div className="flex items-center sm:justify-end gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+                        <span>Próximo Artigo</span>
+                        <Icon icon="ph:arrow-right-bold" className="size-3.5 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                      <h4 className="text-sm sm:text-base font-bold font-heading uppercase text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
+                        {nextPost.title}
+                      </h4>
+                    </Link>
+                  ) : (
+                    <div className="hidden sm:block" />
+                  )}
                 </div>
               )}
             </main>
