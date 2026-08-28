@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Icon } from "@iconify/react";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   CATEGORY_BY_SLUG_QUERY,
@@ -9,8 +7,8 @@ import {
   CATEGORY_SLUGS_QUERY,
 } from "@/sanity/lib/queries";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
-import { PostCard } from "@/src/components/blog/PostCard";
 import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
+import { PostsList } from "@/src/components/blog/PostsList";
 import type { PostItem, CategoryRef } from "@/src/types/sanity";
 
 type CategoryDetail = CategoryRef;
@@ -160,33 +158,7 @@ export default async function CategoryPage({
           description={catData.description}
           meta={`${posts.length} ${posts.length === 1 ? "artigo encontrado" : "artigos encontrados"} nesta categoria`}
         />
-
-        
-        <section className="space-y-8 pt-4">
-          {posts.length === 0 ? (
-            <div className="p-12 text-center rounded-none border border-zinc-200 dark:border-white/10">
-              <h3 className="text-xl font-bold font-heading uppercase text-foreground">
-                Nenhum artigo publicado ainda para {catData.title}
-              </h3>
-              <p className="mt-2 text-sm text-zinc-500 font-light">
-                Em breve traremos novos conteúdos e análises para esta categoria.
-              </p>
-              <Link
-                href="/"
-                className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-mono text-xs font-bold uppercase tracking-widest hover:bg-primary/90 transition-colors"
-              >
-                <Icon icon="ph:arrow-left-bold" className="size-3.5" />
-                <span>Ver Todos os Artigos</span>
-              </Link>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post) => (
-                <PostCard key={post._id} post={post} />
-              ))}
-            </div>
-          )}
-        </section>
+        <PostsList posts={posts} hideHeader />
       </div>
     </>
   );

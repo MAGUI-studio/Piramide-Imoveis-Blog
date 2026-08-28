@@ -11,7 +11,7 @@ import { urlForImage } from "@/sanity/lib/image";
 import { PortableText } from "@/components/PortableText";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
-import { PostCard } from "@/src/components/blog/PostCard";
+import { PostsList } from "@/src/components/blog/PostsList";
 import type { AuthorRef, PostItem } from "@/src/types/sanity";
 
 export const revalidate = 60;
@@ -227,26 +227,7 @@ export default async function AuthorPage({
             )}
           </div>
         )}
-
-        
-        <section className="space-y-8 pt-4">
-          {postList.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {postList.map((post) => (
-                <PostCard key={post._id} post={post} />
-              ))}
-            </div>
-          ) : (
-            <div className="border border-zinc-200 dark:border-white/10 bg-card p-12 text-center rounded-none">
-              <h3 className="text-xl font-bold font-heading uppercase text-foreground">
-                Nenhum artigo publicado ainda
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground font-light">
-                Este autor ainda não possui artigos públicos vinculados.
-              </p>
-            </div>
-          )}
-        </section>
+        <PostsList posts={postList} hideHeader />
       </div>
     </>
   );
