@@ -322,11 +322,61 @@ export const CATEGORY_SLUGS_QUERY = defineQuery(`
   *[_type == "category" && defined(slug.current)]{ "slug": slug.current }
 `);
 
+export const CITY_BY_SLUG_QUERY = defineQuery(`
+  *[_type == "city" && slug.current == $slug][0] {
+    _id,
+    name,
+    slug,
+    state,
+    description,
+    image,
+    "postCount": count(*[_type == "post" && defined(slug.current) && (city->slug.current == $slug || city._ref == ^._id)])
+  }
+`);
+
+export const POSTS_BY_CITY_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current) && (city->slug.current == $slug || city._ref == ^._id)] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    featured,
+    publishedAt,
+    updatedAt,
+    excerpt,
+    tags,
+    mainImage,
+    body,
+    author->{
+      _id,
+      name,
+      slug,
+      role,
+      creci,
+      image
+    },
+    city->{
+      _id,
+      name,
+      slug,
+      state,
+      image
+    },
+    categories[]->{
+      _id,
+      title,
+      slug,
+      image
+    }
+  }
+`);
+
+export const CITY_SLUGS_QUERY = defineQuery(`
+  *[_type == "city" && defined(slug.current)]{ "slug": slug.current }
+`);
 
 export const AUTHOR_SLUGS_QUERY = defineQuery(`
   *[_type == "author" && defined(slug.current)]{ "slug": slug.current }
 `);
-
 
 export const SITEMAP_DATA_QUERY = defineQuery(`
   {
@@ -339,6 +389,9 @@ export const SITEMAP_DATA_QUERY = defineQuery(`
       "slug": slug.current
     },
     "authors": *[_type == "author" && defined(slug.current)]{
+      "slug": slug.current
+    },
+    "cities": *[_type == "city" && defined(slug.current)]{
       "slug": slug.current
     }
   }
