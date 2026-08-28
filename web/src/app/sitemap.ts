@@ -14,23 +14,41 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapData = data as {
     posts?: Array<{ slug: string; publishedAt?: string; updatedAt?: string }>;
     categories?: Array<{ slug: string }>;
+    cities?: Array<{ slug: string }>;
+    authors?: Array<{ slug: string }>;
   } | null;
 
   const posts = sitemapData?.posts || [];
   const categories = sitemapData?.categories || [];
+  const cities = sitemapData?.cities || [];
+  const authors = sitemapData?.authors || [];
 
   const postUrls: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${baseUrl}/posts/${post.slug}`,
     lastModified: post.updatedAt || post.publishedAt || new Date().toISOString(),
     changeFrequency: "weekly",
-    priority: 0.8,
+    priority: 0.9,
   }));
 
   const categoryUrls: MetadataRoute.Sitemap = categories.map((cat) => ({
     url: `${baseUrl}/categoria/${cat.slug}`,
     lastModified: new Date().toISOString(),
     changeFrequency: "weekly",
-    priority: 0.6,
+    priority: 0.7,
+  }));
+
+  const cityUrls: MetadataRoute.Sitemap = cities.map((city) => ({
+    url: `${baseUrl}/cidade/${city.slug}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  const authorUrls: MetadataRoute.Sitemap = authors.map((author) => ({
+    url: `${baseUrl}/autor/${author.slug}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: "monthly",
+    priority: 0.5,
   }));
 
   return [
@@ -41,6 +59,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     ...categoryUrls,
+    ...cityUrls,
+    ...authorUrls,
     ...postUrls,
   ];
 }
