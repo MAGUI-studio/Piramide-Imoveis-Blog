@@ -34,9 +34,14 @@ export const metadata: Metadata = {
     "Pirâmide Imóveis",
     "mercado imobiliário SJC",
   ],
-  authors: [{ name: "Pirâmide Imóveis", url: "https://www.piramideimoveissjc.com.br" }],
-  creator: "Pirâmide Imóveis",
-  publisher: "Pirâmide Imóveis",
+  authors: [
+    {
+      name: "Guilherme Bustamante",
+      url: "https://magui.studio",
+    },
+  ],
+  creator: "Guilherme Bustamante - MAGUI.studio",
+  publisher: "MAGUI.studio",
   formatDetection: {
     email: false,
     address: false,
