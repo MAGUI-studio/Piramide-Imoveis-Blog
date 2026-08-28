@@ -87,7 +87,7 @@ export function Footer() {
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14">
           
-          <div className="md:col-span-12 lg:col-span-5 space-y-6">
+          <div className="md:col-span-12 lg:col-span-4 space-y-6">
             <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
               <a
                 href="https://www.piramideimoveissjc.com.br/"
@@ -121,9 +121,9 @@ export function Footer() {
           </div>
 
           
-          <div className="md:col-span-5 lg:col-span-3 space-y-4">
+          <div className="md:col-span-3 lg:col-span-2 space-y-4">
             <h4 className="font-bold text-white text-xs uppercase tracking-widest font-mono">
-              Blog & Navegação
+              Navegação
             </h4>
             <ul className="space-y-2.5 text-sm font-light">
               <li>
@@ -137,6 +137,48 @@ export function Footer() {
                   <span>Todos os Artigos</span>
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/categorias"
+                  className="hover:text-primary transition-colors flex items-center gap-1 group"
+                >
+                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    ›
+                  </span>
+                  <span>Categorias</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/cidades"
+                  className="hover:text-primary transition-colors flex items-center gap-1 group"
+                >
+                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    ›
+                  </span>
+                  <span>Cidades</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/autores"
+                  className="hover:text-primary transition-colors flex items-center gap-1 group"
+                >
+                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    ›
+                  </span>
+                  <span>Autores</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          
+          <div className="md:col-span-3 lg:col-span-2 space-y-4">
+            <h4 className="font-bold text-white text-xs uppercase tracking-widest font-mono">
+              Pirâmide Imóveis
+            </h4>
+            <ul className="space-y-2.5 text-sm font-light">
               <li>
                 <a
                   href="https://www.piramideimoveissjc.com.br/"
@@ -173,7 +215,7 @@ export function Footer() {
                   <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                     ›
                   </span>
-                  <span>Fale com um Consultor</span>
+                  <span>Fale Conosco</span>
                 </a>
               </li>
             </ul>
