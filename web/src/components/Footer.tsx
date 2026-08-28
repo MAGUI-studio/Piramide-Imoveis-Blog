@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { ScrollTopLink } from "@/src/components/common/ScrollTopLink";
+import { openPrivacyModal } from "@/src/components/common/PrivacyModal";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -239,7 +240,13 @@ export function Footer() {
             <p>© {currentYear} Pirâmide Imóveis. Todos os direitos reservados.</p>
 
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-zinc-400">Blog Oficial</span>
+              <button
+                type="button"
+                onClick={() => openPrivacyModal()}
+                className="text-zinc-400 hover:text-primary transition-colors cursor-pointer"
+              >
+                Privacidade & Termos (LGPD)
+              </button>
               <span className="text-white/24">|</span>
               <ScrollTopLink className="text-white transition-colors hover:text-primary cursor-pointer inline-flex items-center gap-1 font-medium">
                 <span>Voltar ao topo</span>
