@@ -23,8 +23,12 @@ export interface AuthorRef {
   bio?: SanityBody;
   image?: SanityImage;
   instagram?: string;
+  instagramUrl?: string;
   linkedin?: string;
+  linkedinUrl?: string;
   whatsapp?: string;
+  email?: string;
+  postCount?: number;
 }
 
 export interface CityRef {
@@ -34,6 +38,7 @@ export interface CityRef {
   state?: string;
   image?: SanityImage;
   description?: string;
+  postCount?: number;
 }
 
 export interface CategoryRef {

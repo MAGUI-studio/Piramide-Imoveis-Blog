@@ -206,6 +206,22 @@ export const CITIES_QUERY = defineQuery(`
   }
 `);
 
+export const AUTHORS_QUERY = defineQuery(`
+  *[_type == "author" && defined(slug.current)] | order(name asc) {
+    _id,
+    name,
+    slug,
+    role,
+    creci,
+    image,
+    bio,
+    linkedinUrl,
+    instagramUrl,
+    email,
+    "postCount": count(*[_type == "post" && defined(slug.current) && (author._ref == ^._id || references(^._id))])
+  }
+`);
+
 export const AUTHOR_BY_SLUG_QUERY = defineQuery(`
   *[_type == "author" && slug.current == $slug][0] {
     _id,
