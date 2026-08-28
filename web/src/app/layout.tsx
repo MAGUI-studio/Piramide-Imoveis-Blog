@@ -9,19 +9,19 @@ import { SanityLive, sanityFetch } from "@/sanity/lib/live";
 import { CATEGORIES_QUERY } from "@/sanity/lib/queries";
 import { BackToTop } from "@/src/components/common/BackToTop";
 import { fontVariables } from "@/src/config/fonts";
+import { getBaseUrl, siteConfig } from "@/src/config/site";
 import type { CategoryRef } from "@/src/types/sanity";
 import "./globals.css";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+const baseUrl = getBaseUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Blog Pirâmide Imóveis | Mercado Imobiliário, Tendências e Dicas",
+    default: siteConfig.title,
     template: "%s | Blog Pirâmide Imóveis",
   },
-  description:
-    "Análises de mercado, dicas para compra e locação, lançamentos e tendências imobiliárias em São José dos Campos e Vale do Paraíba com a Pirâmide Imóveis.",
+  description: siteConfig.description,
   keywords: [
     "imóveis",
     "São José dos Campos",
@@ -34,14 +34,9 @@ export const metadata: Metadata = {
     "Pirâmide Imóveis",
     "mercado imobiliário SJC",
   ],
-  authors: [
-    {
-      name: "Guilherme Bustamante",
-      url: "https://magui.studio",
-    },
-  ],
-  creator: "Guilherme Bustamante - MAGUI.studio",
-  publisher: "MAGUI.studio",
+  authors: siteConfig.authors,
+  creator: siteConfig.creator,
+  publisher: siteConfig.publisher,
   formatDetection: {
     email: false,
     address: false,
@@ -57,26 +52,25 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     url: baseUrl,
-    siteName: "Blog Pirâmide Imóveis",
-    title: "Blog Pirâmide Imóveis | Mercado Imobiliário, Tendências e Dicas",
-    description:
-      "Análises de mercado, dicas para compra e locação, lançamentos e tendências imobiliárias em São José dos Campos e Vale do Paraíba.",
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
     images: [
       {
-        url: `${baseUrl}/utils/SEO/og-image.jpg`,
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
         alt: "Blog Pirâmide Imóveis",
+        type: "image/jpeg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog Pirâmide Imóveis",
-    description:
-      "Notícias, análises e tendências do mercado imobiliário em São José dos Campos.",
+    title: siteConfig.title,
+    description: siteConfig.description,
     creator: "@piramideimoveis",
-    images: [`${baseUrl}/utils/SEO/og-image.jpg`],
+    images: [siteConfig.ogImage],
   },
   robots: {
     index: true,

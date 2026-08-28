@@ -1,6 +1,7 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import { POSTS_QUERY } from "@/sanity/lib/queries";
 import { urlForImage } from "@/sanity/lib/image";
+import { getBaseUrl } from "@/src/config/site";
 import type { PostItem } from "@/src/types/sanity";
 
 function escapeXml(unsafe: string): string {
@@ -23,7 +24,7 @@ function escapeXml(unsafe: string): string {
 }
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const baseUrl = getBaseUrl();
 
   const { data: posts = [] } = await sanityFetch({
     query: POSTS_QUERY,

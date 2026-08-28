@@ -48,18 +48,16 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
-
   return {
     title: `${cityData.name} (${cityData.state || "SP"}) | Blog Pirâmide Imóveis`,
     description: cityData.description || `Artigos, análises e lançamentos imobiliários em ${cityData.name}.`,
     alternates: {
-      canonical: `${baseUrl}/cidade/${slug}`,
+      canonical: `/cidade/${slug}`,
     },
     openGraph: {
       title: `${cityData.name} | Blog Pirâmide Imóveis`,
       description: cityData.description || `Artigos e análises sobre o mercado imobiliário em ${cityData.name}.`,
-      url: `${baseUrl}/cidade/${slug}`,
+      url: `/cidade/${slug}`,
     },
   };
 }

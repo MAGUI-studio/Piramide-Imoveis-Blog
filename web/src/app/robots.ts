@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { getBaseUrl } from "@/src/config/site";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const baseUrl = getBaseUrl();
 
   return {
     rules: [

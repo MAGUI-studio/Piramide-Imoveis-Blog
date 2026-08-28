@@ -2,9 +2,10 @@ import type { MetadataRoute } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { SITEMAP_DATA_QUERY } from "@/sanity/lib/queries";
 import { slugifyText } from "@/src/lib/blog-utils";
+import { getBaseUrl } from "@/src/config/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const baseUrl = getBaseUrl();
 
   const { data } = await sanityFetch({
     query: SITEMAP_DATA_QUERY,

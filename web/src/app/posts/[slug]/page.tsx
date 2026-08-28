@@ -16,6 +16,7 @@ import { SectionHeader } from "@/src/components/blog/SectionHeader";
 import { WhatsAppConsultationCard } from "@/src/components/blog/WhatsAppConsultationCard";
 import { ScrollToTop } from "@/src/components/common/ScrollToTop";
 import { calculateReadingTime, extractHeadings, slugifyText } from "@/src/lib/blog-utils";
+import { getBaseUrl } from "@/src/config/site";
 import type { PostItem, AuthorRef, CityRef, CategoryRef, SanityBody } from "@/src/types/sanity";
 
 interface AuthorWithSocials extends AuthorRef {
@@ -78,7 +79,7 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const baseUrl = getBaseUrl();
   const postUrl = `${baseUrl}/posts/${slug}`;
   const title = postData.metaTitle || postData.title;
   const description = postData.metaDescription || postData.excerpt || `Leia ${postData.title} no Blog Pirâmide Imóveis`;
@@ -165,7 +166,7 @@ export default async function PostPage({
   const nextPost = prevNextData?.next as { _id: string; title: string; slug: { current: string } } | null;
   const primaryCategory = postData.categories?.[0];
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
+  const baseUrl = getBaseUrl();
   const postUrl = `${baseUrl}/posts/${slug}`;
   const ogImageUrl = postData.mainImage
     ? urlForImage(postData.mainImage)?.width(1200).height(630).url()

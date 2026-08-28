@@ -45,18 +45,16 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
-
   return {
     title: `${catData.title} | Blog Pirâmide Imóveis`,
     description: catData.description || `Artigos e análises sobre ${catData.title} no Blog Pirâmide Imóveis.`,
     alternates: {
-      canonical: `${baseUrl}/categoria/${slug}`,
+      canonical: `/categoria/${slug}`,
     },
     openGraph: {
       title: `${catData.title} | Blog Pirâmide Imóveis`,
       description: catData.description || `Artigos e análises sobre ${catData.title}.`,
-      url: `${baseUrl}/categoria/${slug}`,
+      url: `/categoria/${slug}`,
     },
   };
 }
