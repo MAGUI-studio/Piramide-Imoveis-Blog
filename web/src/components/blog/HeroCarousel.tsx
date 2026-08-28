@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { urlForImage } from "@/sanity/lib/image";
 import { calculateReadingTime } from "@/src/lib/blog-utils";
 import { ScrollArea } from "@/src/components/ui/scrollArea/scrollArea";
+import { ArticleCtaButton } from "@/src/components/blog/ArticleCtaButton";
 import type { PostItem } from "@/src/types/sanity";
 
 interface HeroCarouselProps {
@@ -260,16 +261,10 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
                 </div>
               </Link>
 
-              <Link
+              <ArticleCtaButton
                 href={`/posts/${currentPost.slug.current}`}
-                className="group/cta inline-flex items-center justify-center gap-2 px-7 py-3 bg-primary hover:bg-white text-white hover:text-zinc-950 font-mono font-bold text-xs uppercase tracking-widest rounded-none border border-transparent hover:border-white transition-all duration-300 shrink-0 cursor-pointer shadow-lg"
-              >
-                <span>Ler Artigo Completo</span>
-                <Icon
-                  icon="ph:arrow-right-bold"
-                  className="size-3.5 group-hover/cta:translate-x-1.5 transition-transform duration-300"
-                />
-              </Link>
+                size="lg"
+              />
             </div>
           </div>
         </div>

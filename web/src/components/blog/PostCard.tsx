@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { urlForImage } from "@/sanity/lib/image";
 import { calculateReadingTime } from "@/src/lib/blog-utils";
+import { ArticleCtaButton } from "@/src/components/blog/ArticleCtaButton";
 import type { PostItem } from "@/src/types/sanity";
 
 interface PostCardProps {
@@ -70,14 +71,14 @@ export function PostCard({
             postCategory.slug?.current ? (
               <Link
                 href={`/categoria/${postCategory.slug.current}`}
-                className="px-2.5 py-1 bg-black/75 hover:bg-primary text-white backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest border border-white/10 shadow-xs inline-flex items-center gap-1.5 transition-colors"
+                className="px-2.5 py-1 bg-black/40 hover:bg-black/60 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-flex items-center gap-1.5 transition-all border-none"
                 title={`Ver categoria ${postCategory.title}`}
               >
                 <Icon icon="ph:tag-fill" className="size-3 text-white" />
                 <span>{postCategory.title}</span>
               </Link>
             ) : (
-              <span className="px-2.5 py-1 bg-black/75 text-white backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest border border-white/10 shadow-xs inline-flex items-center gap-1.5">
+              <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-flex items-center gap-1.5 border-none">
                 <Icon icon="ph:tag-fill" className="size-3 text-white" />
                 <span>{postCategory.title}</span>
               </span>
@@ -88,14 +89,14 @@ export function PostCard({
             post.city.slug?.current ? (
               <Link
                 href={`/cidade/${post.city.slug.current}`}
-                className="font-mono text-[10px] font-bold uppercase tracking-widest text-white hover:bg-primary flex items-center gap-1.5 bg-black/75 backdrop-blur-md px-2.5 py-1 border border-white/10 shadow-xs transition-colors"
+                className="font-mono text-[10px] font-bold uppercase tracking-widest text-white bg-black/40 hover:bg-black/60 backdrop-blur-md px-2.5 py-1 shadow-xs inline-flex items-center gap-1.5 transition-all border-none"
                 title={`Ver artigos em ${post.city.name}`}
               >
                 <Icon icon="ph:map-pin-fill" className="size-3 text-white" />
                 <span>{post.city.name}</span>
               </Link>
             ) : (
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5 bg-black/75 backdrop-blur-md px-2.5 py-1 border border-white/10 shadow-xs">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white bg-black/40 backdrop-blur-md px-2.5 py-1 shadow-xs inline-flex items-center gap-1.5 border-none">
                 <Icon icon="ph:map-pin-fill" className="size-3 text-white" />
                 <span>{post.city.name}</span>
               </span>
@@ -132,29 +133,50 @@ export function PostCard({
         </div>
 
         
-        <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between">
-          {post.author?.slug?.current ? (
+        
+        <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between gap-3">
+          {post.author ? (
             <Link
-              href={`/autor/${post.author.slug.current}`}
-              className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 hover:text-primary transition-colors truncate max-w-[150px]"
-              title={`Ver perfil de ${post.author.name}`}
+              href={post.author.slug?.current ? `/autor/${post.author.slug.current}` : "#"}
+              className="flex items-center gap-2 group/author min-w-0 max-w-[65%]"
+              title={post.author.name ? `Ver perfil de ${post.author.name}` : undefined}
             >
-              {post.author.name}
+              <div className="size-6 rounded-full overflow-hidden relative bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-white/10 shrink-0">
+                {post.author.image ? (
+                  <Image
+                    src={urlForImage(post.author.image)?.width(64).height(64).url() || ""}
+                    alt={post.author.name || "Autor"}
+                    fill
+                    className="object-cover rounded-full"
+                    sizes="24px"
+                  />
+                ) : (
+                  <div className="flex size-full items-center justify-center font-bold text-[10px] font-mono text-foreground">
+                    {post.author.name?.charAt(0) || "P"}
+                  </div>
+                )}
+              </div>
+              <span className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 group-hover/author:text-primary transition-colors truncate">
+                {post.author.name || "Redação Pirâmide"}
+              </span>
             </Link>
           ) : (
-            <span className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 truncate max-w-[150px]">
-              {post.author?.name || "Redação Pirâmide"}
-            </span>
+            <div className="flex items-center gap-2 min-w-0 max-w-[65%]">
+              <div className="size-6 rounded-full overflow-hidden relative bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-white/10 shrink-0 flex items-center justify-center font-bold text-[10px] font-mono text-foreground">
+                P
+              </div>
+              <span className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 truncate">
+                Redação Pirâmide
+              </span>
+            </div>
           )}
 
-          <Link
+          <ArticleCtaButton
             href={postHref}
+            label="Ler Artigo"
+            size="sm"
             scroll={scroll}
-            className="font-mono text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-          >
-            <span>Ler Artigo</span>
-            <Icon icon="ph:arrow-right-bold" className="size-3.5" />
-          </Link>
+          />
         </div>
       </div>
     </article>
