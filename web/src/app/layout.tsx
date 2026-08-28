@@ -7,6 +7,7 @@ import { PrivacyModal } from "@/src/components/common/PrivacyModal";
 import { WhatsAppWidget } from "@/src/components/common/WhatsAppWidget";
 import { SanityLive, sanityFetch } from "@/sanity/lib/live";
 import { CATEGORIES_QUERY } from "@/sanity/lib/queries";
+import { BackToTop } from "@/src/components/common/BackToTop";
 import { fontVariables } from "@/src/config/fonts";
 import type { CategoryRef } from "@/src/types/sanity";
 import "./globals.css";
@@ -163,6 +164,7 @@ export default async function RootLayout({
           <WhatsAppWidget />
           <CookieConsentBanner />
           <PrivacyModal />
+          <BackToTop />
           <SanityLive />
         </ThemeProvider>
       </body>
