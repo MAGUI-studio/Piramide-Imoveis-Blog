@@ -27,8 +27,36 @@ export function Header({ categories = [] }: HeaderProps) {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollY = useRef(0);
   const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 20);
+
+      if (currentScrollY < 60) {
+        setIsVisible(true);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+
+      if (currentScrollY > lastScrollY.current + 8) {
+        setIsVisible(false);
+        setIsCategoriesOpen(false);
+      } else if (currentScrollY < lastScrollY.current - 8) {
+        setIsVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const socialLinks = [
     {
@@ -86,7 +114,18 @@ export function Header({ categories = [] }: HeaderProps) {
   }, []);
 
   return (
-    <header className="relative z-50 w-full bg-[#F8F9FA] dark:bg-[#141414] border-b border-zinc-200/80 dark:border-white/10 transition-colors shadow-2xs">
+    <motion.header
+      initial={false}
+      animate={{
+        y: isVisible ? 0 : "-100%",
+      }}
+      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      className={`sticky top-0 z-50 w-full transition-shadow duration-300 ${
+        isScrolled
+          ? "bg-[#F8F9FA] dark:bg-[#141414] shadow-md border-b border-zinc-200/80 dark:border-white/10"
+          : "bg-[#F8F9FA] dark:bg-[#141414] border-b border-zinc-200/80 dark:border-white/10 shadow-2xs"
+      }`}
+    >
       
       <div className="w-full bg-white dark:bg-[#111111] border-b border-zinc-200/80 dark:border-white/10 px-6 sm:px-10 md:px-14 lg:px-20 py-2.5 text-[11px] font-mono flex items-center justify-between text-muted-foreground transition-colors">
         <div className="flex items-center gap-3">
@@ -475,6 +514,6 @@ export function Header({ categories = [] }: HeaderProps) {
           </div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }
