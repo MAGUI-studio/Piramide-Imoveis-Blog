@@ -36,10 +36,10 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`antialiased scroll-smooth scroll-pt-24 h-full ${fontVariables}`}
     >
-      <body className="mx-auto w-full max-w-440 bg-[#F1F1F1] dark:bg-[#161616] text-zinc-900 dark:text-zinc-100 transition-colors flex min-h-full flex-col font-sans overflow-x-hidden">
+      <body className="mx-auto w-full max-w-440 bg-[#F1F1F1] dark:bg-[#161616] text-zinc-900 dark:text-zinc-100 transition-colors flex min-h-full flex-col font-sans overflow-x-clip">
         <ThemeProvider>
           <Header categories={categoryList} />
-          <main className="flex-1 w-full overflow-x-hidden">{children}</main>
+          <main className="flex-1 w-full overflow-x-clip">{children}</main>
           <Footer />
           <WhatsAppWidget />
           <CookieConsentBanner />
