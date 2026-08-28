@@ -5,6 +5,7 @@ export default defineCliConfig({
     projectId: 'y2fjdwuo',
     dataset: 'production',
   },
+  studioHost: 'magui-piramide-blog',
   typegen: {
     enabled: true,
     path: '../web/src/**/*.{ts,tsx,js,jsx}',

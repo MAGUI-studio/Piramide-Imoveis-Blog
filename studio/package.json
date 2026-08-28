@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "sanity dev",
     "build": "sanity build",
+    "deploy": "sanity deploy",
+    "sanity": "sanity",
     "start": "sanity start",
     "seed": "npx tsx scripts/seed.ts",
     "typegen": "sanity schema extract --force && sanity typegen generate"
