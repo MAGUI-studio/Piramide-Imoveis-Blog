@@ -429,6 +429,27 @@ export function Header({ categories = [] }: HeaderProps) {
                         Início
                       </Link>
                       <Link
+                        href="/categorias"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
+                      >
+                        Categorias
+                      </Link>
+                      <Link
+                        href="/cidades"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
+                      >
+                        Cidades
+                      </Link>
+                      <Link
+                        href="/autores"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
+                      >
+                        Autores
+                      </Link>
+                      <Link
                         href="/#lancamentos"
                         onClick={() => setIsMobileOpen(false)}
                         className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
