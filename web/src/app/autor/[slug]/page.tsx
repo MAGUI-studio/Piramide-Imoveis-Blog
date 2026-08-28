@@ -12,6 +12,7 @@ import { urlForImage } from "@/sanity/lib/image";
 import { PortableText } from "@/components/PortableText";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PostCard } from "@/src/components/blog/PostCard";
+import { SectionHeader } from "@/src/components/blog/SectionHeader";
 import type { AuthorRef, PostItem } from "@/src/types/sanity";
 
 export const revalidate = 60;
@@ -247,21 +248,13 @@ export default async function AuthorPage({
         </header>
 
         
+        
         <section className="space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-200 dark:border-white/10 pb-4">
-            <div>
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary block mb-1">
-                Acervo do Autor
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground font-heading uppercase">
-                Artigos Publicados por {authorData.name}
-              </h2>
-            </div>
-
-            <span className="font-mono text-xs text-muted-foreground uppercase">
-              {postList.length} {postList.length === 1 ? "artigo encontrado" : "artigos encontrados"}
-            </span>
-          </div>
+          <SectionHeader
+            eyebrow="Acervo do Autor"
+            title={`Artigos Publicados por ${authorData.name}`}
+            meta={`${postList.length} ${postList.length === 1 ? "artigo encontrado" : "artigos encontrados"}`}
+          />
 
           {postList.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">

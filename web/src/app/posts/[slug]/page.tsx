@@ -12,6 +12,7 @@ import { ReadingProgressBar } from "@/src/components/blog/ReadingProgressBar";
 import { ShareButtons } from "@/src/components/blog/ShareButtons";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PostCard } from "@/src/components/blog/PostCard";
+import { SectionHeader } from "@/src/components/blog/SectionHeader";
 import { WhatsAppConsultationCard } from "@/src/components/blog/WhatsAppConsultationCard";
 import { calculateReadingTime, extractHeadings } from "@/src/lib/blog-utils";
 import type { PostItem, AuthorRef, CityRef, CategoryRef, SanityBody } from "@/src/types/sanity";
@@ -530,24 +531,14 @@ export default async function PostPage({
         
         {relatedList.length > 0 && (
           <section className="pt-16 sm:pt-20 pb-20 sm:pb-28 space-y-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <span className="text-xs font-mono font-bold uppercase tracking-widest text-primary block mb-1">
-                  Continue Lendo
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-black font-heading uppercase text-foreground">
-                  Artigos Relacionados
-                </h2>
-              </div>
-
-              <Link
-                href="/"
-                className="font-mono text-xs font-bold uppercase tracking-wider text-primary hover:underline flex items-center gap-1.5"
-              >
-                <span>Ver Todos os Artigos</span>
-                <Icon icon="ph:arrow-right-bold" className="size-3.5" />
-              </Link>
-            </div>
+            <SectionHeader
+              eyebrow="Continue Lendo"
+              title="Artigos Relacionados"
+              action={{
+                label: "Ver Todos os Artigos",
+                href: "/",
+              }}
+            />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
               {relatedList.map((relPost) => (

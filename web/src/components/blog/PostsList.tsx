@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { PostCard } from "@/src/components/blog/PostCard";
+import { SectionHeader } from "@/src/components/blog/SectionHeader";
 import { LaunchesCarousel } from "@/src/components/blog/LaunchesCarousel";
 import type { PostItem } from "@/src/types/sanity";
 
@@ -71,20 +72,11 @@ export function PostsList({ posts }: PostsListProps) {
   return (
     <section className="space-y-12 px-6 py-8">
       
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
-        <div>
-          <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary block mb-1">
-            Explorar Acervo
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-foreground font-heading uppercase">
-            Todos os Artigos & Análises
-          </h2>
-        </div>
-
-        <span className="font-mono text-xs text-muted-foreground uppercase">
-          Exibindo {Math.min(visibleCount, posts.length)} de {posts.length} artigos
-        </span>
-      </div>
+      <SectionHeader
+        eyebrow="Explorar Acervo"
+        title="Todos os Artigos & Análises"
+        meta={`Exibindo ${Math.min(visibleCount, posts.length)} de ${posts.length} artigos`}
+      />
 
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">

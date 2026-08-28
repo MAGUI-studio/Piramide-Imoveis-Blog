@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Icon } from "@iconify/react";
+import { SectionHeader } from "@/src/components/blog/SectionHeader";
 
 interface LaunchBanner {
   id: string;
@@ -69,20 +69,13 @@ export function LaunchesCarousel() {
       `}</style>
 
       
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-4">
-        <div>
-          <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-1.5 mb-1">
-            <Icon icon="ph:buildings-fill" className="size-3.5" />
-            Lançamentos Exclusivos
-          </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground font-heading uppercase">
-            Conheça Nossos Empreendimentos
-          </h2>
-        </div>
-        <span className="font-mono text-xs text-muted-foreground uppercase">
-          Passe o mouse para pausar
-        </span>
-      </div>
+      
+      <SectionHeader
+        eyebrow="Lançamentos Exclusivos"
+        eyebrowIcon="ph:buildings-fill"
+        title="Conheça Nossos Empreendimentos"
+        meta="Passe o mouse para pausar"
+      />
 
       
       <div className="w-full overflow-hidden group-marquee cursor-grab active:cursor-grabbing pt-2">
