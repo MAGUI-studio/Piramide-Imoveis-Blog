@@ -111,7 +111,7 @@ export function Footer() {
 
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-none bg-zinc-900 border border-zinc-800 text-xs">
               <span className="font-mono font-bold text-primary">
-                CRECI 9390-J
+                CRECI 3787-J
               </span>
               <span className="text-zinc-700">•</span>
               <span className="text-zinc-300 font-medium">

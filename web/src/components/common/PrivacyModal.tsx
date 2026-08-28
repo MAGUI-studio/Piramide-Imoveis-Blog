@@ -150,7 +150,7 @@ export function PrivacyModal() {
                   <span>1. Controlador dos Dados</span>
                 </h4>
                 <p className="pl-3.5 border-l border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400">
-                  A Pirâmide Imóveis (Queops Empreendimentos Imobiliários Ltda, CRECI 9390-J), com sede na Av. São João, 1301 - Jardim Esplanada, São José dos Campos - SP, atua como controladora e responsável pelos dados tratados neste portal.
+                  A Pirâmide Imóveis (Queops Empreendimentos Imobiliários Ltda, CRECI 3787-J), com sede na Av. São João, 1301 - Jardim Esplanada, São José dos Campos - SP, atua como controladora e responsável pelos dados tratados neste portal.
                 </p>
               </div>
 
