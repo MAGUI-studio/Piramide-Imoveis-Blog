@@ -250,10 +250,10 @@ export function Header({ categories = [] }: HeaderProps) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    {categories.slice(0, 8).map((cat, idx) => {
+                    {categories.slice(0, 4).map((cat, idx) => {
                       if (!cat.slug?.current) return null;
                       const imageUrl = cat.image
-                        ? urlForImage(cat.image)?.width(200).height(200).fit("crop").url()
+                        ? urlForImage(cat.image)?.width(400).height(240).fit("crop").url()
                         : null;
 
                       return (
@@ -263,42 +263,49 @@ export function Header({ categories = [] }: HeaderProps) {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{
                             duration: 0.25,
-                            delay: idx * 0.02,
+                            delay: idx * 0.03,
                             ease: "easeOut",
                           }}
                         >
                           <Link
                             href={`/categoria/${cat.slug.current}`}
                             onClick={() => setIsCategoriesOpen(false)}
-                            className="group relative flex items-stretch h-[76px] rounded-xs bg-zinc-50/90 dark:bg-zinc-900/60 hover:bg-primary dark:hover:bg-primary border border-zinc-200/60 dark:border-white/5 hover:border-primary transition-all duration-200 overflow-hidden"
+                            className="group relative flex flex-col justify-between h-[105px] rounded-xs overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-900 p-3 transition-all duration-300 select-none cursor-pointer"
                           >
-                            <div className="w-24 shrink-0 relative overflow-hidden bg-zinc-200 dark:bg-zinc-800">
-                              {imageUrl ? (
-                                <Image
-                                  src={imageUrl}
-                                  alt={cat.title}
-                                  fill
-                                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                              ) : (
-                                <div className="flex size-full items-center justify-center bg-primary/10 text-primary">
-                                  <Icon icon="ph:buildings-bold" className="size-5" />
-                                </div>
-                              )}
+                            
+                            {imageUrl ? (
+                              <Image
+                                src={imageUrl}
+                                alt={cat.title}
+                                fill
+                                className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out pointer-events-none"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-950" />
+                            )}
+
+                            
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent pointer-events-none" />
+
+                            
+                            <div className="relative z-10 flex items-center justify-between w-full">
+                              <span className="px-2 py-0.5 bg-black/50 backdrop-blur-md font-mono text-[9px] font-bold uppercase tracking-widest text-white border border-white/10">
+                                {cat.postCount || 0} {cat.postCount === 1 ? "Artigo" : "Artigos"}
+                              </span>
+
+                              <Icon
+                                icon="ph:arrow-up-right-bold"
+                                className="size-3.5 text-white/80 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 shrink-0"
+                              />
                             </div>
 
-                            <div className="flex-1 p-2.5 flex flex-col justify-center min-w-0 pr-3">
-                              <div className="flex items-center justify-between gap-1">
-                                <span className="font-heading font-bold text-xs uppercase text-zinc-900 dark:text-white group-hover:text-white transition-colors truncate">
-                                  {cat.title}
-                                </span>
-                                <Icon
-                                  icon="ph:arrow-right-bold"
-                                  className="size-3 text-muted-foreground group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0"
-                                />
-                              </div>
+                            
+                            <div className="relative z-10 space-y-0.5 text-white">
+                              <h5 className="font-heading font-black text-xs uppercase text-white tracking-wide leading-tight truncate">
+                                {cat.title}
+                              </h5>
                               {cat.description && (
-                                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 group-hover:text-white/80 line-clamp-1 font-light leading-snug mt-0.5">
+                                <p className="text-[10px] text-white/75 line-clamp-1 font-light leading-snug">
                                   {cat.description}
                                 </p>
                               )}
@@ -309,21 +316,22 @@ export function Header({ categories = [] }: HeaderProps) {
                     })}
                   </div>
 
-                  {categories.length > 8 && (
-                    <div className="pt-3 border-t border-zinc-200/80 dark:border-white/10 flex items-center justify-between">
-                      <span className="text-xs text-muted-foreground font-light">
-                        Exibindo 8 de {categories.length} categorias
-                      </span>
-                      <Link
-                        href="/categorias"
-                        onClick={() => setIsCategoriesOpen(false)}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors rounded-xs shadow-xs"
-                      >
-                        <span>Ver todas as categorias</span>
-                        <Icon icon="ph:arrow-right-bold" className="size-3.5" />
-                      </Link>
-                    </div>
-                  )}
+                  <div className="pt-3 border-t border-zinc-200/80 dark:border-white/10 flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground font-mono">
+                      Exibindo 4 de {categories.length} categorias
+                    </span>
+                    <Link
+                      href="/categorias"
+                      onClick={() => setIsCategoriesOpen(false)}
+                      className="group/btn inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all rounded-xs shadow-xs cursor-pointer"
+                    >
+                      <span>Ver todas as categorias</span>
+                      <Icon
+                        icon="ph:arrow-right-bold"
+                        className="size-3.5 transition-transform duration-300 ease-out group-hover/btn:translate-x-1.5"
+                      />
+                    </Link>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
