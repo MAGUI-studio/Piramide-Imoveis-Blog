@@ -1,14 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import Link from "next/link";
+import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
+import { TeamMemberCard, type TeamMember } from "./TeamMemberCard";
 
-export interface LeadershipMember {
-  name: string;
-  role: string;
-  creci?: string;
-  image: string;
-}
+export type LeadershipMember = TeamMember;
 
 interface LeadershipSectionProps {
   members: LeadershipMember[];
@@ -17,7 +14,7 @@ interface LeadershipSectionProps {
 export function LeadershipSection({ members }: LeadershipSectionProps) {
   return (
     <section className="w-full py-16 sm:py-24 lg:py-28">
-      <div className="w-full max-w-440 mx-auto px-6 md:px-12 space-y-12 sm:space-y-16">
+      <div className="w-full max-w-440 mx-auto px-6 md:px-12 space-y-10 sm:space-y-12">
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -46,39 +43,25 @@ export function LeadershipSection({ members }: LeadershipSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative group overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-900 shadow-lg"
+              className="w-full"
             >
-              
-              <Image
-                src={member.image}
-                alt={member.name}
-                width={480}
-                height={600}
-                priority
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="w-full h-auto block object-contain transition-transform duration-700 group-hover:scale-105"
-              />
-
-              
-              <div className="absolute top-3 left-3 z-10">
-                <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-flex items-center border-none">
-                  <span>{member.role}</span>
-                </span>
-              </div>
-
-              
-              <div className="absolute bottom-3 left-3 right-3 z-10">
-                <span className="px-2.5 py-1.5 bg-black/40 backdrop-blur-md font-heading font-black text-xs sm:text-sm uppercase tracking-wider text-white shadow-xs inline-flex items-center gap-1.5 border-none max-w-full flex-wrap">
-                  <span>{member.name}</span>
-                  {member.creci && (
-                    <span className="font-mono text-[10px] font-normal text-white/80 shrink-0">
-                      • {member.creci}
-                    </span>
-                  )}
-                </span>
-              </div>
+              <TeamMemberCard member={member} priority isSquare={false} />
             </motion.div>
           ))}
+        </div>
+
+        
+        <div className="flex justify-end pt-2">
+          <Link
+            href="/sobre-nos/nosso-time"
+            className="group inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-foreground hover:text-primary transition-colors py-2"
+          >
+            <span>Ver Nosso Time Completo</span>
+            <Icon
+              icon="ph:arrow-right-bold"
+              className="size-4 text-primary transition-transform group-hover:translate-x-1"
+            />
+          </Link>
         </div>
       </div>
     </section>
