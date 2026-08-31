@@ -579,13 +579,24 @@ export function Footer() {
               <ul className="space-y-2.5 text-sm font-light">
                 <li>
                   <Link
-                    href="/"
+                    href="/artigos"
                     className="hover:text-primary transition-colors flex items-center gap-1 group"
                   >
                     <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                       ›
                     </span>
-                    <span>Todos os Artigos</span>
+                    <span>Artigos</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/videos"
+                    className="hover:text-primary transition-colors flex items-center gap-1 group"
+                  >
+                    <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                      ›
+                    </span>
+                    <span>Vídeos</span>
                   </Link>
                 </li>
                 <li>
@@ -619,6 +630,17 @@ export function Footer() {
                       ›
                     </span>
                     <span>Autores</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/lancamentos"
+                    className="hover:text-primary transition-colors flex items-center gap-1 group"
+                  >
+                    <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                      ›
+                    </span>
+                    <span>Lançamentos</span>
                   </Link>
                 </li>
               </ul>

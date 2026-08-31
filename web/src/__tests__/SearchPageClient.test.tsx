@@ -54,10 +54,10 @@ describe("SearchPageClient", () => {
     fireEvent.change(input, { target: { value: "Aquarius" } });
 
     expect(
-      screen.getByText("Apartamentos de Alto Padrão no Aquarius"),
+      screen.getByRole("heading", { name: /Apartamentos de Alto Padrão no Aquarius/i }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByText("Casas em Condomínio Fechado no Urbanova"),
+      screen.queryByText(/Casas em Condomínio Fechado no Urbanova/i),
     ).not.toBeInTheDocument();
   });
 

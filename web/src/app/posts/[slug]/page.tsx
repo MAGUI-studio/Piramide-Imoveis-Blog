@@ -669,7 +669,7 @@ export default async function PostPage({
               title="Artigos Relacionados"
               action={{
                 label: "Ver Todos os Artigos",
-                href: "/",
+                href: "/artigos",
               }}
             />
 

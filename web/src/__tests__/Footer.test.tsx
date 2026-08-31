@@ -7,12 +7,12 @@ describe("Footer", () => {
     render(<Footer />);
 
     expect(screen.getByText("Navegação")).toBeInTheDocument();
-    expect(screen.getByText("Pirâmide Imóveis")).toBeInTheDocument();
-
-    expect(screen.getByRole("link", { name: /todos os artigos/i })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: /artigos/i })).toHaveAttribute("href", "/artigos");
+    expect(screen.getByRole("link", { name: /vídeos/i })).toHaveAttribute("href", "/videos");
     expect(screen.getByRole("link", { name: /categorias/i })).toHaveAttribute("href", "/categorias");
     expect(screen.getByRole("link", { name: /cidades/i })).toHaveAttribute("href", "/cidades");
     expect(screen.getByRole("link", { name: /autores/i })).toHaveAttribute("href", "/autores");
+    expect(screen.getByRole("link", { name: /lançamentos/i })).toHaveAttribute("href", "/lancamentos");
 
     expect(screen.getByRole("link", { name: /buscar imóveis/i })).toHaveAttribute(
       "href",
