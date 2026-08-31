@@ -1,4 +1,5 @@
 export { HeroSection } from "./HeroSection";
+export { TeamHeroSection } from "./TeamHeroSection";
 export { InfiniteMarquee } from "./InfiniteMarquee";
 export { AboutSection, type ValueItem } from "./AboutSection";
 export { LeadershipSection, type LeadershipMember } from "./LeadershipSection";

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Icon } from "@iconify/react";
-import { InfiniteMarquee, TeamMemberCard, type TeamMember } from "@/src/components/sobre";
+import {
+  InfiniteMarquee,
+  TeamHeroSection,
+  TeamMemberCard,
+  type TeamMember,
+} from "@/src/components/sobre";
 
 export const metadata: Metadata = {
   title: "Nosso Time de Corretores & Consultores | Pirâmide Imóveis",
@@ -579,29 +582,19 @@ export default function NossoTimePage() {
 
   return (
     <div className="w-full text-foreground transition-colors">
-      <section className="relative w-full py-14 sm:py-20 lg:py-24 overflow-hidden">
-        <div className="w-full max-w-440 mx-auto px-6 md:px-12 space-y-12 sm:space-y-16">
+      
+      <TeamHeroSection />
+
+      
+      <section id="equipe" className="relative w-full pb-16 sm:pb-24 lg:pb-28">
+        <div className="w-full max-w-440 mx-auto px-6 md:px-12 space-y-8 sm:space-y-12">
           
-          <div className="flex flex-col items-center text-center justify-center space-y-4">
-            <Link
-              href="/sobre-nos"
-              className="inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-primary transition-colors pb-2"
-            >
-              <Icon icon="ph:arrow-left-bold" className="size-3.5" />
-              <span>Voltar para Sobre Nós</span>
-            </Link>
-
-            <div className="inline-flex items-center justify-center py-1.5 rounded-tr-full rounded-bl-full px-8 bg-primary text-white text-xs font-bold uppercase tracking-wider border border-white/20 shadow-sm">
-              <Icon icon="ph:users-three-fill" className="size-4 mr-2" />
-              <span>Equipe de Especialistas</span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase font-heading tracking-tight text-foreground leading-[1.03]">
-              Nosso Time
-            </h1>
-
-            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 font-light leading-relaxed max-w-3xl">
-              Profissionais credenciados, especializados e dedicados a encontrar as melhores oportunidades imobiliárias para você no Vale do Paraíba e no Litoral Norte.
+          <div className="flex flex-col items-center text-center justify-center space-y-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase font-heading tracking-tight text-foreground">
+              Nossos Corretores & Consultores
+            </h2>
+            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
+              Conecte-se diretamente com os especialistas credenciados da Pirâmide Imóveis.
             </p>
           </div>
 
