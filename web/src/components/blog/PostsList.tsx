@@ -11,13 +11,19 @@ import type { PostItem } from "@/src/types/sanity";
 interface PostsListProps {
   posts: PostItem[];
   hideHeader?: boolean;
+  highlightQuery?: string;
   className?: string;
 }
 
 const INITIAL_VISIBLE_COUNT = 12;
 const STEP = 6;
 
-export function PostsList({ posts, hideHeader = false, className = "" }: PostsListProps) {
+export function PostsList({
+  posts,
+  hideHeader = false,
+  highlightQuery,
+  className = "",
+}: PostsListProps) {
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
   const secondBatchRef = useRef<HTMLDivElement>(null);
 
@@ -66,7 +72,7 @@ export function PostsList({ posts, hideHeader = false, className = "" }: PostsLi
         }}
         className="w-full"
       >
-        <PostCard post={post} />
+        <PostCard post={post} highlightQuery={highlightQuery} />
       </motion.div>
     );
   };

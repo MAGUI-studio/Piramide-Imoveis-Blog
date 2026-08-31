@@ -210,7 +210,7 @@ export function SearchPageClient({
           )}
         </div>
       ) : (
-        <PostsList posts={sortedPosts} hideHeader />
+        <PostsList posts={sortedPosts} highlightQuery={searchTerm} hideHeader />
       )}
     </div>
   );

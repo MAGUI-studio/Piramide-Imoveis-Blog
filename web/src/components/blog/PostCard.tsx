@@ -4,12 +4,14 @@ import { Icon } from "@iconify/react";
 import { urlForImage } from "@/sanity/lib/image";
 import { calculateReadingTime } from "@/src/lib/blog-utils";
 import { ArticleCtaButton } from "@/src/components/blog/ArticleCtaButton";
+import { HighlightText } from "@/src/components/common/HighlightText";
 import type { PostItem } from "@/src/types/sanity";
 
 interface PostCardProps {
   post: PostItem;
   priority?: boolean;
   scroll?: boolean;
+  highlightQuery?: string;
   className?: string;
 }
 
@@ -30,6 +32,7 @@ export function PostCard({
   post,
   priority = false,
   scroll = true,
+  highlightQuery,
   className = "",
 }: PostCardProps) {
   if (!post.slug?.current) return null;
@@ -75,12 +78,16 @@ export function PostCard({
                 title={`Ver categoria ${postCategory.title}`}
               >
                 <Icon icon="ph:tag-fill" className="size-3 text-white" />
-                <span>{postCategory.title}</span>
+                <span>
+                  <HighlightText text={postCategory.title} query={highlightQuery} markClassName="bg-white/30 text-white font-bold px-0.5" />
+                </span>
               </Link>
             ) : (
               <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-flex items-center gap-1.5 border-none">
                 <Icon icon="ph:tag-fill" className="size-3 text-white" />
-                <span>{postCategory.title}</span>
+                <span>
+                  <HighlightText text={postCategory.title} query={highlightQuery} markClassName="bg-white/30 text-white font-bold px-0.5" />
+                </span>
               </span>
             )
           )}
@@ -93,19 +100,22 @@ export function PostCard({
                 title={`Ver artigos em ${post.city.name}`}
               >
                 <Icon icon="ph:map-pin-fill" className="size-3 text-white" />
-                <span>{post.city.name}</span>
+                <span>
+                  <HighlightText text={post.city.name} query={highlightQuery} markClassName="bg-white/30 text-white font-bold px-0.5" />
+                </span>
               </Link>
             ) : (
               <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white bg-black/40 backdrop-blur-md px-2.5 py-1 shadow-xs inline-flex items-center gap-1.5 border-none">
                 <Icon icon="ph:map-pin-fill" className="size-3 text-white" />
-                <span>{post.city.name}</span>
+                <span>
+                  <HighlightText text={post.city.name} query={highlightQuery} markClassName="bg-white/30 text-white font-bold px-0.5" />
+                </span>
               </span>
             )
           )}
         </div>
       </div>
 
-      
       <div className="flex-1 flex flex-col justify-between space-y-4">
         <div className="space-y-2.5">
           <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
@@ -119,21 +129,19 @@ export function PostCard({
 
           <Link href={postHref} scroll={scroll} className="block group/title">
             <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-heading uppercase group-hover/title:text-primary transition-colors line-clamp-2 leading-tight">
-              {post.title}
+              <HighlightText text={post.title} query={highlightQuery} />
             </h3>
           </Link>
 
           {post.excerpt && (
             <Link href={postHref} scroll={scroll} className="block">
               <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 font-light line-clamp-2">
-                {post.excerpt}
+                <HighlightText text={post.excerpt} query={highlightQuery} />
               </p>
             </Link>
           )}
         </div>
 
-        
-        
         <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between gap-3">
           {post.author ? (
             <Link
@@ -157,7 +165,7 @@ export function PostCard({
                 )}
               </div>
               <span className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 group-hover/author:text-primary transition-colors truncate">
-                {post.author.name || "Redação Pirâmide"}
+                <HighlightText text={post.author.name || "Redação Pirâmide"} query={highlightQuery} />
               </span>
             </Link>
           ) : (
