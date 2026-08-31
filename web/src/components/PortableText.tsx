@@ -525,7 +525,7 @@ const components: PortableTextComponents = {
 
       return (
         <Link
-          href={`/posts/${slug}`}
+          href={`/artigos/${slug}`}
           className="font-semibold text-primary underline decoration-primary/50 decoration-1 underline-offset-4 hover:decoration-primary transition-colors cursor-pointer"
         >
           {children}

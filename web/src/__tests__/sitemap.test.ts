@@ -34,7 +34,7 @@ describe("sitemap", () => {
         expect.objectContaining({ url: "https://example.com/autor/guilherme-bustamante" }),
         expect.objectContaining({ url: "https://example.com/tag/urbanova" }),
         expect.objectContaining({ url: "https://example.com/tag/alto-padrao" }),
-        expect.objectContaining({ url: "https://example.com/posts/post-1" }),
+        expect.objectContaining({ url: "https://example.com/artigos/post-1" }),
       ]),
     );
   });

@@ -9,6 +9,6 @@ export default async function SlugPage({
   if (slug === "sobre" || slug === "sobre-nos") {
     redirect("/sobre-nos");
   }
-  redirect(`/posts/${slug}`);
+  redirect(`/artigos/${slug}`);
 }
 

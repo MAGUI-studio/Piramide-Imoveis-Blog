@@ -17,7 +17,7 @@ import { WhatsAppConsultationCard } from "@/src/components/blog/WhatsAppConsulta
 import { ScrollToTop } from "@/src/components/common/ScrollToTop";
 import { calculateReadingTime, extractHeadings, slugifyText } from "@/src/lib/blog-utils";
 import { getBaseUrl } from "@/src/config/site";
-import type { PostItem, AuthorRef, CityRef, CategoryRef, SanityBody } from "@/src/types/sanity";
+import type { PostItem, AuthorRef, CityRef, CategoryRef, SanityBody, SanityImage } from "@/src/types/sanity";
 
 interface AuthorWithSocials extends AuthorRef {
   linkedinUrl?: string;
@@ -32,6 +32,14 @@ interface PostDetail extends Omit<PostItem, "author" | "categories" | "city"> {
   city?: CityRef;
   categories?: CategoryRef[];
   body?: SanityBody;
+}
+
+interface PrevNextItem {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  publishedAt?: string;
+  mainImage?: SanityImage;
 }
 
 function formatDate(dateString?: string) {
@@ -80,7 +88,7 @@ export async function generateMetadata({
   }
 
   const baseUrl = getBaseUrl();
-  const postUrl = `${baseUrl}/posts/${slug}`;
+  const postUrl = `${baseUrl}/artigos/${slug}`;
   const title = postData.metaTitle || postData.title;
   const description = postData.metaDescription || postData.excerpt || `Leia ${postData.title} no Blog Pirâmide Imóveis`;
 
@@ -118,7 +126,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function PostPage({
+export default async function ArticlePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -162,12 +170,12 @@ export default async function PostPage({
   ]);
 
   const relatedList = (relatedPosts as PostItem[]) || [];
-  const prevPost = prevNextData?.prev as { _id: string; title: string; slug: { current: string } } | null;
-  const nextPost = prevNextData?.next as { _id: string; title: string; slug: { current: string } } | null;
+  const prevPost = (prevNextData?.prev as unknown as PrevNextItem | null) || null;
+  const nextPost = (prevNextData?.next as unknown as PrevNextItem | null) || null;
   const primaryCategory = postData.categories?.[0];
 
   const baseUrl = getBaseUrl();
-  const postUrl = `${baseUrl}/posts/${slug}`;
+  const postUrl = `${baseUrl}/artigos/${slug}`;
   const ogImageUrl = postData.mainImage
     ? urlForImage(postData.mainImage)?.width(1200).height(630).url()
     : `${baseUrl}/utils/SEO/og-image.jpg`;
@@ -245,29 +253,18 @@ export default async function PostPage({
             name: "Início",
             item: baseUrl,
           },
-          ...(primaryCategory?.slug?.current
-            ? [
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: primaryCategory.title,
-                  item: `${baseUrl}/categoria/${primaryCategory.slug.current}`,
-                },
-                {
-                  "@type": "ListItem",
-                  position: 3,
-                  name: postData.title,
-                  item: postUrl,
-                },
-              ]
-            : [
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: postData.title,
-                  item: postUrl,
-                },
-              ]),
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Artigos",
+            item: `${baseUrl}/artigos`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: postData.title,
+            item: postUrl,
+          },
         ],
       },
       ...(faqItems.length > 0
@@ -291,21 +288,20 @@ export default async function PostPage({
 
   const breadcrumbItems = [
     {
-      label: "Categorias",
-      href: "/categorias",
+      label: "Artigos",
+      href: "/artigos",
     },
-    ...(primaryCategory?.slug?.current
-      ? [
-          {
-            label: primaryCategory.title || "Categoria",
-            href: `/categoria/${primaryCategory.slug.current}`,
-          },
-        ]
-      : []),
     {
       label: postData.title,
     },
   ];
+
+  const prevImageUrl = prevPost?.mainImage
+    ? urlForImage(prevPost.mainImage)?.width(800).height(450).fit("crop").url()
+    : null;
+  const nextImageUrl = nextPost?.mainImage
+    ? urlForImage(nextPost.mainImage)?.width(800).height(450).fit("crop").url()
+    : null;
 
   return (
     <>
@@ -567,10 +563,11 @@ export default async function PostPage({
                 </div>
               )}
 
+              
               {postData.city && (
-                <div className="border border-zinc-200 dark:border-white/10 bg-card p-6 sm:p-8 space-y-4 rounded-none">
+                <div className="border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900/60 p-6 sm:p-8 space-y-4 rounded-none">
                   <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 bg-primary text-white font-mono text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5">
+                    <span className="px-3 py-1 bg-primary text-white font-mono text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-xs">
                       <Icon icon="ph:buildings-fill" className="size-3 text-white" />
                       <span>Oportunidades na Região</span>
                     </span>
@@ -586,7 +583,7 @@ export default async function PostPage({
                       href="https://www.piramideimoveissjc.com.br/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-6 py-3 bg-foreground text-background dark:bg-zinc-100 dark:text-zinc-900 font-mono text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                      className="px-6 py-3 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-xs cursor-pointer"
                     >
                       <span>Ver Imóveis Disponíveis</span>
                       <Icon icon="ph:arrow-up-right-bold" className="size-3.5" />
@@ -595,7 +592,7 @@ export default async function PostPage({
                       href={`https://wa.me/5512991599801?text=${encodeURIComponent(`Olá! Li o artigo "${postData.title}" e gostaria de informações sobre imóveis em ${postData.city.name}.`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-6 py-3 border border-zinc-300 dark:border-zinc-700 bg-transparent text-foreground hover:border-emerald-500 hover:text-emerald-500 font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                      className="px-6 py-3 border border-zinc-300 dark:border-white/10 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-foreground font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-xs"
                     >
                       <Icon icon="ph:whatsapp-logo-bold" className="size-4 text-emerald-500" />
                       <span>Falar no WhatsApp</span>
@@ -604,20 +601,45 @@ export default async function PostPage({
                 </div>
               )}
 
+              
               {(prevPost || nextPost) && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-zinc-200 dark:border-white/10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-8 border-t border-zinc-200 dark:border-white/10">
                   {prevPost ? (
                     <Link
-                      href={`/posts/${prevPost.slug.current}`}
-                      className="group p-5 border border-zinc-200 dark:border-white/10 hover:border-primary dark:hover:border-primary bg-card/60 hover:bg-card transition-all flex flex-col justify-between space-y-2.5 rounded-none"
+                      href={`/artigos/${prevPost.slug.current}`}
+                      className="group relative w-full aspect-[16/9] sm:aspect-[2/1] overflow-hidden rounded-none border border-zinc-200 dark:border-white/10 bg-zinc-900 flex flex-col justify-between p-5 sm:p-6 transition-all duration-300 select-none cursor-pointer"
                     >
-                      <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
-                        <Icon icon="ph:arrow-left-bold" className="size-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                      
+                      {prevImageUrl ? (
+                        <Image
+                          src={prevImageUrl}
+                          alt={prevPost.title}
+                          fill
+                          className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out pointer-events-none"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-950" />
+                      )}
+
+                      
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/30 pointer-events-none" />
+
+                      
+                      <div className="relative z-10 flex items-center gap-1.5 w-fit px-2.5 py-1 bg-black/50 backdrop-blur-md border border-white/10 font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs">
+                        <Icon
+                          icon="ph:arrow-left-bold"
+                          className="size-3 group-hover:-translate-x-1 transition-transform duration-300"
+                        />
                         <span>Artigo Anterior</span>
                       </div>
-                      <h4 className="text-sm sm:text-base font-bold font-heading uppercase text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
-                        {prevPost.title}
-                      </h4>
+
+                      
+                      <div className="relative z-10 space-y-1">
+                        <h4 className="text-sm sm:text-base font-bold font-heading uppercase text-white line-clamp-2 leading-snug group-hover:text-white transition-colors">
+                          {prevPost.title}
+                        </h4>
+                      </div>
                     </Link>
                   ) : (
                     <div className="hidden sm:block" />
@@ -625,16 +647,40 @@ export default async function PostPage({
 
                   {nextPost ? (
                     <Link
-                      href={`/posts/${nextPost.slug.current}`}
-                      className="group p-5 border border-zinc-200 dark:border-white/10 hover:border-primary dark:hover:border-primary bg-card/60 hover:bg-card transition-all flex flex-col justify-between space-y-2.5 text-left sm:text-right rounded-none"
+                      href={`/artigos/${nextPost.slug.current}`}
+                      className="group relative w-full aspect-[16/9] sm:aspect-[2/1] overflow-hidden rounded-none border border-zinc-200 dark:border-white/10 bg-zinc-900 flex flex-col justify-between p-5 sm:p-6 transition-all duration-300 select-none cursor-pointer"
                     >
-                      <div className="flex items-center sm:justify-end gap-1.5 text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+                      
+                      {nextImageUrl ? (
+                        <Image
+                          src={nextImageUrl}
+                          alt={nextPost.title}
+                          fill
+                          className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out pointer-events-none"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-950" />
+                      )}
+
+                      
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/30 pointer-events-none" />
+
+                      
+                      <div className="relative z-10 flex items-center gap-1.5 w-fit px-2.5 py-1 bg-black/50 backdrop-blur-md border border-white/10 font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs ml-auto">
                         <span>Próximo Artigo</span>
-                        <Icon icon="ph:arrow-right-bold" className="size-3.5 group-hover:translate-x-0.5 transition-transform" />
+                        <Icon
+                          icon="ph:arrow-right-bold"
+                          className="size-3 group-hover:translate-x-1 transition-transform duration-300"
+                        />
                       </div>
-                      <h4 className="text-sm sm:text-base font-bold font-heading uppercase text-foreground line-clamp-2 leading-snug group-hover:text-primary transition-colors">
-                        {nextPost.title}
-                      </h4>
+
+                      
+                      <div className="relative z-10 space-y-1 text-right">
+                        <h4 className="text-sm sm:text-base font-bold font-heading uppercase text-white line-clamp-2 leading-snug group-hover:text-white transition-colors">
+                          {nextPost.title}
+                        </h4>
+                      </div>
                     </Link>
                   ) : (
                     <div className="hidden sm:block" />

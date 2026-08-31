@@ -42,7 +42,7 @@ export function PostCard({
   if (!post.slug?.current) return null;
   const postCategory = post.categories?.[0];
   const readingTime = calculateReadingTime(post.body);
-  const postHref = `/posts/${post.slug.current}`;
+  const postHref = `/artigos/${post.slug.current}`;
   const imageUrl = post.mainImage
     ? urlForImage(post.mainImage)?.width(900).height(1200).url()
     : null;

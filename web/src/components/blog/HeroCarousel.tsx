@@ -217,7 +217,7 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
                 
                 <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black font-heading uppercase tracking-tight text-white leading-[1.1] drop-shadow-md max-w-4xl xl:max-w-5xl 2xl:max-w-6xl">
                   <Link
-                    href={`/posts/${currentPost.slug.current}`}
+                    href={`/artigos/${currentPost.slug.current}`}
                     className="transition-opacity hover:opacity-85"
                   >
                     {currentPost.title}
@@ -262,7 +262,7 @@ export function HeroCarousel({ posts = [] }: HeroCarouselProps) {
               </Link>
 
               <ArticleCtaButton
-                href={`/posts/${currentPost.slug.current}`}
+                href={`/artigos/${currentPost.slug.current}`}
                 size="lg"
               />
             </div>

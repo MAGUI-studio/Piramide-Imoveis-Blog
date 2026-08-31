@@ -37,7 +37,7 @@ export async function GET() {
   const rssItemsXml = postList
     .filter((post) => post.slug?.current)
     .map((post) => {
-      const postUrl = `${baseUrl}/posts/${post.slug?.current}`;
+      const postUrl = `${baseUrl}/artigos/${post.slug?.current}`;
       const pubDate = post.publishedAt
         ? new Date(post.publishedAt).toUTCString()
         : new Date().toUTCString();

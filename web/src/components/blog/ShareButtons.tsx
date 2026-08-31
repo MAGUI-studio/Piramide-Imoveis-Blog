@@ -14,9 +14,9 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
 
   const getFullUrl = () => {
     if (typeof window !== "undefined") {
-      return `${window.location.origin}/posts/${slug}`;
+      return `${window.location.origin}/artigos/${slug}`;
     }
-    return `https://blog.piramideimoveissjc.com.br/posts/${slug}`;
+    return `https://blog.piramideimoveissjc.com.br/artigos/${slug}`;
   };
 
   const handleCopyLink = () => {
