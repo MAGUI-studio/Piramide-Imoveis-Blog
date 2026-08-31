@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useQueryState, parseAsString } from "nuqs";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 
@@ -15,21 +15,24 @@ export function SearchInput({
   placeholder = "Buscar por temas, bairros, condomínios ou palavras-chave...",
   className = "",
 }: SearchInputProps) {
-  const [query, setQuery] = useState(initialQuery);
+  const [query, setQuery] = useQueryState(
+    "q",
+    parseAsString.withDefault(initialQuery).withOptions({ shallow: false, throttleMs: 200 })
+  );
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim()) {
+    const clean = (query || "").trim();
+    if (!clean) {
       router.push("/busca");
       return;
     }
-    router.push(`/busca?q=${encodeURIComponent(query.trim())}`);
+    router.push(`/busca?q=${encodeURIComponent(clean)}`);
   };
 
   const handleClear = () => {
     setQuery("");
-    router.push("/busca");
   };
 
   return (
@@ -43,7 +46,7 @@ export function SearchInput({
 
       <input
         type="text"
-        value={query}
+        value={query || ""}
         onChange={(e) => setQuery(e.target.value)}
         placeholder={placeholder}
         className="flex-1 h-14 sm:h-16 px-3 sm:px-4 bg-transparent border-none text-sm sm:text-base text-foreground placeholder:text-zinc-400 dark:placeholder:text-zinc-500 font-light focus:outline-none focus:ring-0"

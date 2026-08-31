@@ -274,6 +274,79 @@ function GalleryComponent({ value }: { value: GalleryValue }) {
   );
 }
 
+interface CtaValue {
+  title?: string;
+  description?: string;
+  buttonText?: string;
+  buttonUrl?: string;
+  isWhatsApp?: boolean;
+}
+
+function CtaComponent({ value }: { value: CtaValue }) {
+  if (!value?.title) return null;
+
+  const isWhatsApp = value.isWhatsApp !== false;
+  const buttonText = value.buttonText || (isWhatsApp ? "Falar no WhatsApp" : "Saiba Mais");
+
+  let href = value.buttonUrl || "";
+  if (isWhatsApp && (!href || !href.startsWith("http"))) {
+    const text = encodeURIComponent(
+      href || `Olá! Li sobre "${value.title}" no Blog Pirâmide Imóveis e gostaria de mais informações.`
+    );
+    href = `https://wa.me/5512991599801?text=${text}`;
+  }
+
+  const isExternal = href.startsWith("http");
+
+  return (
+    <div className="my-10 p-6 sm:p-8 bg-zinc-900 text-white border-l-4 border-primary rounded-none shadow-xl relative overflow-hidden">
+      <div className="absolute -right-6 -bottom-6 text-white/[0.03] pointer-events-none select-none">
+        <Icon icon="ph:buildings-fill" className="size-48" />
+      </div>
+
+      <div className="relative z-10 space-y-4">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary/20 border border-primary/30 text-primary text-[10px] font-mono font-bold uppercase tracking-widest">
+          <Icon icon={isWhatsApp ? "ph:whatsapp-logo-fill" : "ph:sparkle-fill"} className="size-3.5" />
+          <span>Oportunidade Especial</span>
+        </div>
+
+        <h4 className="text-xl sm:text-2xl font-black font-heading uppercase text-white tracking-tight leading-snug">
+          {value.title}
+        </h4>
+
+        {value.description && (
+          <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed max-w-2xl">
+            {value.description}
+          </p>
+        )}
+
+        <div className="pt-2">
+          {isExternal ? (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer"
+            >
+              {isWhatsApp && <Icon icon="ph:whatsapp-logo-bold" className="size-4 text-white" />}
+              <span>{buttonText}</span>
+              <Icon icon="ph:arrow-up-right-bold" className="size-3.5" />
+            </a>
+          ) : (
+            <Link
+              href={href || "#"}
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer"
+            >
+              <span>{buttonText}</span>
+              <Icon icon="ph:arrow-right-bold" className="size-3.5" />
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const components: PortableTextComponents = {
   types: {
     image: ({ value }) => {
@@ -330,8 +403,8 @@ const components: PortableTextComponents = {
     youtubeBlock: ({ value }) => <YoutubeComponent value={value as YoutubeValue} />,
     callout: ({ value }) => <CalloutComponent value={value as CalloutValue} />,
     calloutBlock: ({ value }) => <CalloutComponent value={value as CalloutValue} />,
-    cta: () => null,
-    ctaBlock: () => null,
+    cta: ({ value }) => <CtaComponent value={value as CtaValue} />,
+    ctaBlock: ({ value }) => <CtaComponent value={value as CtaValue} />,
     table: ({ value }) => <TableComponent value={value as TableValue} />,
     tableBlock: ({ value }) => <TableComponent value={value as TableValue} />,
     faq: ({ value }) => <FaqComponent value={value as FaqValue} />,

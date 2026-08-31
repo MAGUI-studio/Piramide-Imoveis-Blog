@@ -4,7 +4,6 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { POSTS_QUERY, CATEGORIES_QUERY } from "@/sanity/lib/queries";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { SearchPageClient } from "@/src/components/blog/SearchPageClient";
-import { ContactSection } from "@/src/components/blog/ContactSection";
 import type { PostItem, CategoryRef } from "@/src/types/sanity";
 
 export async function generateMetadata({
@@ -87,8 +86,6 @@ export default async function SearchPage({
           categoryList={categoryList}
         />
       </Suspense>
-
-      <ContactSection />
     </div>
   );
 }

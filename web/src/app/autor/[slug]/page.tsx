@@ -24,14 +24,14 @@ interface AuthorDetail extends AuthorRef {
 }
 
 export async function generateStaticParams() {
-  const { data: authors = [] } = await sanityFetch({
+  const { data: slugs } = await sanityFetch({
     query: AUTHOR_SLUGS_QUERY,
     perspective: "published",
     stega: false,
   });
 
-  return (authors as Array<{ slug?: string }>).filter((a) => a.slug).map((a) => ({
-    slug: a.slug,
+  return ((slugs as { slug: string }[]) || []).map((item) => ({
+    slug: item.slug,
   }));
 }
 
@@ -51,21 +51,32 @@ export async function generateMetadata({
   if (!authorData) {
     return {
       title: "Autor não encontrado | Blog Pirâmide Imóveis",
+      description: "O autor solicitado não foi encontrado.",
     };
   }
 
-  const title = `${authorData.name} | Artigos e Análises | Blog Pirâmide Imóveis`;
-  const description = authorData.role
-    ? `Leia os artigos e análises imobiliárias de ${authorData.name}, ${authorData.role} na Pirâmide Imóveis.`
-    : `Confira todos os artigos publicados por ${authorData.name} no Blog Pirâmide Imóveis.`;
+  const title = `${authorData.name} | Blog Pirâmide Imóveis`;
+  const description =
+    authorData.role ||
+    `Artigos, análises de mercado e inteligência imobiliária por ${authorData.name}.`;
+  const canonicalUrl = `/autor/${slug}`;
 
   return {
     title,
     description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title,
       description,
+      url: canonicalUrl,
       type: "profile",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
     },
   };
 }
@@ -77,7 +88,7 @@ export default async function AuthorPage({
 }) {
   const { slug } = await params;
 
-  const [{ data: author }, { data: posts = [] }] = await Promise.all([
+  const [{ data: author }, { data: authorPosts }] = await Promise.all([
     sanityFetch({
       query: AUTHOR_BY_SLUG_QUERY,
       params: { slug },
@@ -94,12 +105,10 @@ export default async function AuthorPage({
     notFound();
   }
 
-  const postList = (posts as PostItem[]) || [];
+  const postList = (authorPosts as PostItem[]) || [];
+
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://blog.piramideimoveissjc.com.br";
   const authorUrl = `${baseUrl}/autor/${slug}`;
-  const authorImageUrl = authorData.image
-    ? urlForImage(authorData.image)?.width(400).height(400).url()
-    : null;
 
   const authorJsonLd = {
     "@context": "https://schema.org",
@@ -107,21 +116,21 @@ export default async function AuthorPage({
       {
         "@type": "ProfilePage",
         "@id": `${authorUrl}/#profile`,
-        name: `Perfil de ${authorData.name} - Blog Pirâmide Imóveis`,
+        name: `${authorData.name} - Blog Pirâmide Imóveis`,
         url: authorUrl,
         mainEntity: {
           "@type": "Person",
-          "@id": `${authorUrl}/#person`,
           name: authorData.name,
-          jobTitle: authorData.role || "Especialista Imobiliário",
-          description: typeof authorData.bio === "string" ? authorData.bio : undefined,
-          image: authorImageUrl || undefined,
-          sameAs: [authorData.linkedinUrl, authorData.instagramUrl].filter(Boolean),
+          jobTitle: authorData.role || "Consultor Imobiliário",
           worksFor: {
             "@type": "Organization",
             name: "Pirâmide Imóveis",
-            url: "https://www.piramideimoveissjc.com.br",
           },
+          ...(authorData.image
+            ? {
+                image: urlForImage(authorData.image)?.width(400).height(400).url(),
+              }
+            : {}),
         },
       },
       {
@@ -165,30 +174,27 @@ export default async function AuthorPage({
         }}
       />
       <div className="w-full px-6 pt-6 pb-12 sm:pb-16 space-y-10 sm:space-y-12">
-        
         <Breadcrumbs items={breadcrumbsItems} />
 
-        
-        <PageHeroHeader
-          badge="Especialista / Autor"
-          badgeIcon="ph:user-circle-fill"
-          title={authorData.name}
-          description={
-            authorData.role
-              ? `${authorData.role}${authorData.creci ? ` • CRECI: ${authorData.creci}` : ""}`
-              : "Especialista em análises imobiliárias e inteligência de mercado."
-          }
-          meta={`${postList.length} ${postList.length === 1 ? "artigo encontrado" : "artigos encontrados"} deste autor`}
-        />
+          <PageHeroHeader
+            badge="Especialista / Autor"
+            badgeIcon="ph:user-circle-fill"
+            title={authorData.name}
+            description={
+              authorData.role
+                ? `${authorData.role}${authorData.creci ? ` • CRECI: ${authorData.creci}` : ""}`
+                : "Especialista em análises imobiliárias e inteligência de mercado."
+            }
+            meta={`${postList.length} ${postList.length === 1 ? "artigo encontrado" : "artigos encontrados"} deste autor`}
+          />
 
-        
-        {(authorData.bio || authorData.linkedinUrl || authorData.instagramUrl || authorData.email) && (
-          <div className="space-y-4 max-w-4xl -mt-4">
-            {authorData.bio && (
-              <div className="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-zinc-400 font-light">
-                <PortableText value={authorData.bio} />
-              </div>
-            )}
+          {(authorData.bio || authorData.linkedinUrl || authorData.instagramUrl || authorData.email) && (
+            <div className="space-y-4 max-w-4xl -mt-4">
+              {authorData.bio && (
+                <div className="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-zinc-400 font-light">
+                  <PortableText value={authorData.bio} />
+                </div>
+              )}
 
             {(authorData.linkedinUrl || authorData.instagramUrl || authorData.email) && (
               <div className="flex items-center gap-2 pt-1">

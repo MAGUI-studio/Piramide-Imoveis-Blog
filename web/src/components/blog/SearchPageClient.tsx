@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo } from "react";
+import { useQueryState, parseAsString, parseAsStringLiteral } from "nuqs";
 import { Icon } from "@iconify/react";
 import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
 import { CategoryShowcase } from "@/src/components/blog/CategoryShowcase";
@@ -14,38 +14,33 @@ interface SearchPageClientProps {
   categoryList: CategoryRef[];
 }
 
-type FilterType = "all" | "categories" | "cities" | "authors";
+const FILTER_OPTIONS = ["all", "categories", "cities", "authors"] as const;
+type FilterType = (typeof FILTER_OPTIONS)[number];
 
 export function SearchPageClient({
   initialQuery = "",
   allPosts,
   categoryList,
 }: SearchPageClientProps) {
-  const [query, setQuery] = useState(initialQuery);
-  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
-  const [, startTransition] = useTransition();
-  const router = useRouter();
+  const [query, setQuery] = useQueryState(
+    "q",
+    parseAsString.withDefault(initialQuery).withOptions({ shallow: false, throttleMs: 250 })
+  );
 
-  const handleQueryChange = (val: string) => {
-    setQuery(val);
-    startTransition(() => {
-      const trimmed = val.trim();
-      if (trimmed) {
-        window.history.replaceState(null, "", `/busca?q=${encodeURIComponent(trimmed)}`);
-      } else {
-        window.history.replaceState(null, "", "/busca");
-      }
-    });
-  };
+  const [activeFilter, setActiveFilter] = useQueryState(
+    "orderby",
+    parseAsStringLiteral(FILTER_OPTIONS).withDefault("all").withOptions({ shallow: false })
+  );
 
   const handleClear = () => {
     setQuery("");
-    router.replace("/busca");
+    setActiveFilter("all");
   };
 
-  const searchTerm = query.toLowerCase().trim();
+  const searchTerm = (query || "").toLowerCase().trim();
 
-  const filteredPosts = useMemo(() => {
+  // 1. Filtra todos os posts que possuem o termo de busca em qualquer campo
+  const matchingPosts = useMemo(() => {
     if (!searchTerm) return [];
 
     return allPosts.filter((p) => {
@@ -58,13 +53,46 @@ export function SearchPageClient({
         c.title?.toLowerCase().includes(searchTerm),
       );
 
-      if (activeFilter === "categories") return matchCategory;
-      if (activeFilter === "cities") return matchCity;
-      if (activeFilter === "authors") return matchAuthor;
-
       return matchTitle || matchExcerpt || matchTag || matchCity || matchAuthor || matchCategory;
     });
-  }, [allPosts, searchTerm, activeFilter]);
+  }, [allPosts, searchTerm]);
+
+  // 2. Ordena os resultados de acordo com o filtro selecionado (Ordem por Categoria, Cidade, Autor ou Data)
+  const sortedPosts = useMemo(() => {
+    if (matchingPosts.length === 0) return [];
+    const list = [...matchingPosts];
+
+    if (activeFilter === "categories") {
+      return list.sort((a, b) => {
+        const catA = a.categories?.[0]?.title || "zzz";
+        const catB = b.categories?.[0]?.title || "zzz";
+        return catA.localeCompare(catB, "pt-BR");
+      });
+    }
+
+    if (activeFilter === "cities") {
+      return list.sort((a, b) => {
+        const cityA = a.city?.name || "zzz";
+        const cityB = b.city?.name || "zzz";
+        return cityA.localeCompare(cityB, "pt-BR");
+      });
+    }
+
+    if (activeFilter === "authors") {
+      return list.sort((a, b) => {
+        const authorA = a.author?.name || "zzz";
+        const authorB = b.author?.name || "zzz";
+        return authorA.localeCompare(authorB, "pt-BR");
+      });
+    }
+
+    // Default "all": ordena por data mais recente
+    return list.sort((a, b) => {
+      const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+      const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+      return dateB - dateA;
+    });
+  }, [matchingPosts, activeFilter]);
 
   const filterTabs: Array<{ id: FilterType; label: string; icon: string }> = [
     { id: "all", label: "Todos os Resultados", icon: "ph:squares-four-bold" },
@@ -80,19 +108,19 @@ export function SearchPageClient({
         badgeIcon="ph:magnifying-glass-bold"
         title={
           searchTerm
-            ? `Resultados para "${query.trim()}"`
+            ? `Resultados para "${(query || "").trim()}"`
             : "Buscar Artigos & Análises"
         }
         description={
           searchTerm
-            ? filteredPosts.length > 0
+            ? sortedPosts.length > 0
               ? "Confira os artigos, matérias e análises correspondentes à sua pesquisa."
               : "Não encontramos nenhum artigo correspondente à sua pesquisa."
             : "Digite palavras-chave, temas, bairros ou autores para encontrar inteligência de mercado imobiliário."
         }
         meta={
           searchTerm
-            ? `${filteredPosts.length} ${filteredPosts.length === 1 ? "artigo encontrado" : "artigos encontrados"}`
+            ? `${sortedPosts.length} ${sortedPosts.length === 1 ? "artigo encontrado" : "artigos encontrados"}`
             : "Utilize o campo de busca abaixo para pesquisar"
         }
       />
@@ -108,8 +136,8 @@ export function SearchPageClient({
 
           <input
             type="text"
-            value={query}
-            onChange={(e) => handleQueryChange(e.target.value)}
+            value={query || ""}
+            onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar por temas, bairros, condomínios ou palavras-chave..."
             className="flex-1 h-14 sm:h-16 px-3 sm:px-4 bg-transparent border-none text-sm sm:text-base text-foreground placeholder:text-zinc-400 dark:placeholder:text-zinc-500 font-light focus:outline-none focus:ring-0"
           />
@@ -134,12 +162,12 @@ export function SearchPageClient({
         {searchTerm && (
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1">
             {filterTabs.map((tab) => {
-              const isActive = activeFilter === tab.id;
+              const isActive = (activeFilter || "all") === tab.id;
               return (
                 <button
                   key={tab.id}
                   type="button"
-                  onClick={() => setActiveFilter(tab.id)}
+                  onClick={() => setActiveFilter(tab.id === "all" ? null : tab.id)}
                   className={`px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shrink-0 cursor-pointer ${
                     isActive
                       ? "bg-foreground text-background dark:bg-zinc-100 dark:text-zinc-900 shadow-xs"
@@ -164,11 +192,11 @@ export function SearchPageClient({
             Digite um termo, tema, bairro, cidade ou autor no campo de busca acima para explorar nosso acervo.
           </p>
         </div>
-      ) : filteredPosts.length === 0 ? (
+      ) : sortedPosts.length === 0 ? (
         <div className="space-y-8 my-6">
           <div className="border border-zinc-200 dark:border-zinc-800 bg-transparent p-12 text-center rounded-none space-y-2">
             <h3 className="text-xl font-bold font-heading uppercase text-foreground">
-              Nenhum artigo encontrado para &ldquo;{query.trim()}&rdquo;
+              Nenhum artigo encontrado para &ldquo;{(query || "").trim()}&rdquo;
             </h3>
             <p className="mt-2 text-sm text-muted-foreground font-light max-w-md mx-auto leading-relaxed">
               Tente buscar por outras palavras-chave ou explore as categorias abaixo.
@@ -182,7 +210,7 @@ export function SearchPageClient({
           )}
         </div>
       ) : (
-        <PostsList posts={filteredPosts} hideHeader />
+        <PostsList posts={sortedPosts} hideHeader />
       )}
     </div>
   );

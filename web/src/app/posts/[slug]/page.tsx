@@ -172,6 +172,26 @@ export default async function PostPage({
     ? urlForImage(postData.mainImage)?.width(1200).height(630).url()
     : `${baseUrl}/utils/SEO/og-image.jpg`;
 
+  interface FaqItemRaw {
+    question?: string;
+    answer?: string;
+  }
+
+  interface FaqBlockRaw {
+    _type?: string;
+    items?: FaqItemRaw[];
+  }
+
+  const faqItems = Array.isArray(postData.body)
+    ? (postData.body as unknown[])
+        .filter((block): block is FaqBlockRaw => {
+          const b = block as FaqBlockRaw | null | undefined;
+          return Boolean((b?._type === "faqBlock" || b?._type === "faq") && Array.isArray(b?.items));
+        })
+        .flatMap((b: FaqBlockRaw) => b.items || [])
+        .filter((item): item is { question: string; answer: string } => Boolean(item?.question && item?.answer))
+    : [];
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -250,10 +270,30 @@ export default async function PostPage({
               ]),
         ],
       },
+      ...(faqItems.length > 0
+        ? [
+            {
+              "@type": "FAQPage",
+              "@id": `${postUrl}/#faq`,
+              mainEntity: faqItems.map((item) => ({
+                "@type": "Question",
+                name: item.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: item.answer,
+                },
+              })),
+            },
+          ]
+        : []),
     ],
   };
 
   const breadcrumbItems = [
+    {
+      label: "Categorias",
+      href: "/categorias",
+    },
     ...(primaryCategory?.slug?.current
       ? [
           {

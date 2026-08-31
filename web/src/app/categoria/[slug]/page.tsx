@@ -119,7 +119,7 @@ export default async function CategoryPage({
             "@type": "ListItem",
             position: 2,
             name: "Categorias",
-            item: `${baseUrl}/#categorias`,
+            item: `${baseUrl}/categorias`,
           },
           {
             "@type": "ListItem",
@@ -133,7 +133,7 @@ export default async function CategoryPage({
   };
 
   const breadcrumbsItems = [
-    { label: "Categorias", href: "/#categorias" },
+    { label: "Categorias", href: "/categorias" },
     { label: catData.title },
   ];
 
@@ -146,7 +146,6 @@ export default async function CategoryPage({
         }}
       />
       <div className="w-full px-6 pt-6 pb-12 sm:pb-16 space-y-10 sm:space-y-12">
-        
         <Breadcrumbs items={breadcrumbsItems} />
 
         <PageHeroHeader

@@ -5,8 +5,10 @@ import { ThemeProvider } from "@/src/components/common/themeProvider";
 import { CookieConsentBanner } from "@/src/components/common/CookieConsentBanner";
 import { PrivacyModal } from "@/src/components/common/PrivacyModal";
 import { WhatsAppWidget } from "@/src/components/common/WhatsAppWidget";
+import { AnalyticsScripts } from "@/src/components/common/AnalyticsScripts";
 import { SanityLive, sanityFetch } from "@/sanity/lib/live";
 import { CATEGORIES_QUERY } from "@/sanity/lib/queries";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { BackToTop } from "@/src/components/common/BackToTop";
 import { fontVariables } from "@/src/config/fonts";
 import { getBaseUrl, siteConfig } from "@/src/config/site";
@@ -83,6 +85,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export default async function RootLayout({
@@ -90,52 +95,44 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { data: categories = [] } = await sanityFetch({
+  const { data: rawCategories = [] } = await sanityFetch({
     query: CATEGORIES_QUERY,
   });
 
-  const categoryList = (categories as CategoryRef[]) || [];
+  const categoryList = (rawCategories as CategoryRef[]) || [];
 
   const organizationSchema = {
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "Organization",
+    name: "Pirâmide Imóveis",
+    url: "https://www.piramideimoveissjc.com.br/",
+    logo: `${baseUrl}/logos/piramide/logo_black.svg`,
+    sameAs: [
+      "https://www.instagram.com/piramideimoveis",
+      "https://www.youtube.com/@piramideimoveis9390/featured",
+      "https://www.linkedin.com/company/piramide-im%C3%B3veis-queops-ltda",
+      "https://www.facebook.com/imobiliariapiramide",
+    ],
+    contactPoint: [
       {
-        "@type": "Organization",
-        "@id": `${baseUrl}/#organization`,
-        name: "Pirâmide Imóveis",
-        url: "https://www.piramideimoveissjc.com.br",
-        logo: {
-          "@type": "ImageObject",
-          url: `${baseUrl}/logos/piramide/logo_black.svg`,
-          width: 512,
-          height: 512,
-        },
-        sameAs: [
-          "https://www.instagram.com/piramideimoveissjc",
-          "https://www.facebook.com/piramideimoveissjc",
-          "https://www.linkedin.com/company/piramide-imoveis-sjc",
-        ],
-        contactPoint: {
-          "@type": "ContactPoint",
-          telephone: "+55-12-99159-9801",
-          contactType: "customer service",
-          areaServed: "BR",
-          availableLanguage: ["Portuguese"],
-        },
+        "@type": "ContactPoint",
+        telephone: "+55-12-99159-9801",
+        contactType: "customer service",
+        areaServed: "BR",
+        availableLanguage: ["Portuguese"],
       },
+    ],
+    potentialAction: [
       {
-        "@type": "WebSite",
-        "@id": `${baseUrl}/#website`,
-        url: baseUrl,
-        name: "Blog Pirâmide Imóveis",
-        publisher: {
-          "@id": `${baseUrl}/#organization`,
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${baseUrl}/busca?q={search_term_string}`,
         },
-        inLanguage: "pt-BR",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: `${baseUrl}/?search={search_term_string}`,
-          "query-input": "required name=search_term_string",
+        "query-input": {
+          "@type": "PropertyValueSpecification",
+          valueRequired: true,
+          valueName: "search_term_string",
         },
       },
     ],
@@ -147,24 +144,27 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`antialiased scroll-smooth scroll-pt-24 h-full ${fontVariables}`}
     >
-      <head>
+      <body className="mx-auto w-full max-w-440 bg-[#F1F1F1] dark:bg-[#161616] text-zinc-900 dark:text-zinc-100 transition-colors flex min-h-full flex-col font-sans overflow-x-clip">
         <script
+          id="organization-schema"
           type="application/ld+json"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationSchema),
           }}
         />
-      </head>
-      <body className="mx-auto w-full max-w-440 bg-[#F1F1F1] dark:bg-[#161616] text-zinc-900 dark:text-zinc-100 transition-colors flex min-h-full flex-col font-sans overflow-x-clip">
         <ThemeProvider>
-          <Header categories={categoryList} />
-          <main className="flex-1 w-full overflow-x-clip">{children}</main>
-          <Footer />
-          <WhatsAppWidget />
-          <CookieConsentBanner />
-          <PrivacyModal />
-          <BackToTop />
-          <SanityLive />
+          <NuqsAdapter>
+            <AnalyticsScripts />
+            <Header categories={categoryList} />
+            <main className="flex-1 w-full overflow-x-clip">{children}</main>
+            <Footer />
+            <WhatsAppWidget />
+            <CookieConsentBanner />
+            <PrivacyModal />
+            <BackToTop />
+            <SanityLive />
+          </NuqsAdapter>
         </ThemeProvider>
       </body>
     </html>

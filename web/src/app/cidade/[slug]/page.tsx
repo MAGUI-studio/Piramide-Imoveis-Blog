@@ -122,7 +122,7 @@ export default async function CityPage({
             "@type": "ListItem",
             position: 2,
             name: "Cidades",
-            item: `${baseUrl}/#cidades`,
+            item: `${baseUrl}/cidades`,
           },
           {
             "@type": "ListItem",
@@ -136,7 +136,7 @@ export default async function CityPage({
   };
 
   const breadcrumbItems = [
-    { label: "Cidades", href: "/#cidades" },
+    { label: "Cidades", href: "/cidades" },
     { label: cityData.name },
   ];
 
@@ -149,7 +149,6 @@ export default async function CityPage({
         }}
       />
       <div className="w-full px-6 pt-6 pb-12 sm:pb-16 space-y-10 sm:space-y-12">
-        
         <Breadcrumbs items={breadcrumbItems} />
 
         <PageHeroHeader

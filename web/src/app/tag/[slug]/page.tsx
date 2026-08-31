@@ -5,7 +5,6 @@ import { POSTS_QUERY, ALL_TAGS_QUERY } from "@/sanity/lib/queries";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
 import { PostsList } from "@/src/components/blog/PostsList";
-import { ContactSection } from "@/src/components/blog/ContactSection";
 import { slugifyText } from "@/src/lib/blog-utils";
 import type { PostItem } from "@/src/types/sanity";
 
@@ -99,8 +98,6 @@ export default async function TagPage({
       />
 
       <PostsList posts={tagPosts} hideHeader />
-
-      <ContactSection />
     </div>
   );
 }

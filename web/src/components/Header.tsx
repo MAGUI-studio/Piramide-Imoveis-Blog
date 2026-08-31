@@ -242,70 +242,81 @@ export function Header({ categories = [] }: HeaderProps) {
                     </span>
                   </div>
 
-                  
-                  <ScrollArea className="h-[380px] pr-3">
-                    <div className="grid grid-cols-2 gap-3">
-                      {categories.map((cat, idx) => {
-                        if (!cat.slug?.current) return null;
-                        const imageUrl = cat.image
-                          ? urlForImage(cat.image)?.width(200).height(200).fit("crop").url()
-                          : null;
+                  <div className="grid grid-cols-2 gap-3">
+                    {categories.slice(0, 8).map((cat, idx) => {
+                      if (!cat.slug?.current) return null;
+                      const imageUrl = cat.image
+                        ? urlForImage(cat.image)?.width(200).height(200).fit("crop").url()
+                        : null;
 
-                        return (
-                          <motion.div
-                            key={cat._id}
-                            initial={{ opacity: 0, y: 6 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{
-                              duration: 0.25,
-                              delay: idx * 0.02,
-                              ease: "easeOut",
-                            }}
+                      return (
+                        <motion.div
+                          key={cat._id}
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            duration: 0.25,
+                            delay: idx * 0.02,
+                            ease: "easeOut",
+                          }}
+                        >
+                          <Link
+                            href={`/categoria/${cat.slug.current}`}
+                            onClick={() => setIsCategoriesOpen(false)}
+                            className="group relative flex items-stretch h-[76px] rounded-xs bg-zinc-50/90 dark:bg-zinc-900/60 hover:bg-primary dark:hover:bg-primary border border-zinc-200/60 dark:border-white/5 hover:border-primary transition-all duration-200 overflow-hidden"
                           >
-                            <Link
-                              href={`/categoria/${cat.slug.current}`}
-                              onClick={() => setIsCategoriesOpen(false)}
-                              className="group relative flex items-stretch h-[76px] rounded-xs bg-zinc-50/90 dark:bg-zinc-900/60 hover:bg-primary dark:hover:bg-primary border border-zinc-200/60 dark:border-white/5 hover:border-primary transition-all duration-200 overflow-hidden"
-                            >
-                              
-                              <div className="w-24 shrink-0 relative overflow-hidden bg-zinc-200 dark:bg-zinc-800">
-                                {imageUrl ? (
-                                  <Image
-                                    src={imageUrl}
-                                    alt={cat.title}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                                  />
-                                ) : (
-                                  <div className="flex size-full items-center justify-center bg-primary/10 text-primary">
-                                    <Icon icon="ph:buildings-bold" className="size-5" />
-                                  </div>
-                                )}
-                              </div>
-
-                              
-                              <div className="flex-1 p-2.5 flex flex-col justify-center min-w-0 pr-3">
-                                <div className="flex items-center justify-between gap-1">
-                                  <span className="font-heading font-bold text-xs uppercase text-zinc-900 dark:text-white group-hover:text-white transition-colors truncate">
-                                    {cat.title}
-                                  </span>
-                                  <Icon
-                                    icon="ph:arrow-right-bold"
-                                    className="size-3 text-muted-foreground group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0"
-                                  />
+                            <div className="w-24 shrink-0 relative overflow-hidden bg-zinc-200 dark:bg-zinc-800">
+                              {imageUrl ? (
+                                <Image
+                                  src={imageUrl}
+                                  alt={cat.title}
+                                  fill
+                                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                              ) : (
+                                <div className="flex size-full items-center justify-center bg-primary/10 text-primary">
+                                  <Icon icon="ph:buildings-bold" className="size-5" />
                                 </div>
-                                {cat.description && (
-                                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 group-hover:text-white/80 line-clamp-1 font-light leading-snug mt-0.5">
-                                    {cat.description}
-                                  </p>
-                                )}
+                              )}
+                            </div>
+
+                            <div className="flex-1 p-2.5 flex flex-col justify-center min-w-0 pr-3">
+                              <div className="flex items-center justify-between gap-1">
+                                <span className="font-heading font-bold text-xs uppercase text-zinc-900 dark:text-white group-hover:text-white transition-colors truncate">
+                                  {cat.title}
+                                </span>
+                                <Icon
+                                  icon="ph:arrow-right-bold"
+                                  className="size-3 text-muted-foreground group-hover:text-white group-hover:translate-x-0.5 transition-all shrink-0"
+                                />
                               </div>
-                            </Link>
-                          </motion.div>
-                        );
-                      })}
+                              {cat.description && (
+                                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 group-hover:text-white/80 line-clamp-1 font-light leading-snug mt-0.5">
+                                  {cat.description}
+                                </p>
+                              )}
+                            </div>
+                          </Link>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+
+                  {categories.length > 8 && (
+                    <div className="pt-3 border-t border-zinc-200/80 dark:border-white/10 flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground font-light">
+                        Exibindo 8 de {categories.length} categorias
+                      </span>
+                      <Link
+                        href="/categorias"
+                        onClick={() => setIsCategoriesOpen(false)}
+                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors rounded-xs shadow-xs"
+                      >
+                        <span>Ver todas as categorias</span>
+                        <Icon icon="ph:arrow-right-bold" className="size-3.5" />
+                      </Link>
                     </div>
-                  </ScrollArea>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

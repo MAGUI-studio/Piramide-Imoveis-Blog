@@ -96,3 +96,22 @@ vi.mock("framer-motion", () => {
       React.createElement(React.Fragment, null, children),
   };
 });
+
+vi.mock("nuqs", () => ({
+  useQueryState: (_key: string, parser?: { defaultValue?: string }) => {
+    const [val, setVal] = React.useState(parser?.defaultValue || "");
+    return [val, setVal];
+  },
+  parseAsString: {
+    withDefault: (val: string) => ({
+      defaultValue: val,
+      withOptions: () => ({ defaultValue: val }),
+    }),
+  },
+  parseAsStringLiteral: () => ({
+    withDefault: (val: string) => ({
+      defaultValue: val,
+      withOptions: () => ({ defaultValue: val }),
+    }),
+  }),
+}));

@@ -9,7 +9,8 @@ const emptySubscribe = () => () => {};
 
 let isPrivacyModalOpen =
   typeof window !== "undefined"
-    ? new URLSearchParams(window.location.search).get("privacidade") === "true"
+    ? new URLSearchParams(window.location.search).get("privacy") === "true" ||
+      new URLSearchParams(window.location.search).get("privacidade") === "true"
     : false;
 
 const listeners = new Set<() => void>();
@@ -33,7 +34,8 @@ export function openPrivacyModal() {
   isPrivacyModalOpen = true;
   if (typeof window !== "undefined") {
     const url = new URL(window.location.href);
-    url.searchParams.set("privacidade", "true");
+    url.searchParams.set("privacy", "true");
+    url.searchParams.delete("privacidade");
     window.history.pushState({}, "", url.toString());
   }
   listeners.forEach((listener) => listener());
@@ -43,6 +45,7 @@ export function closePrivacyModal() {
   isPrivacyModalOpen = false;
   if (typeof window !== "undefined") {
     const url = new URL(window.location.href);
+    url.searchParams.delete("privacy");
     url.searchParams.delete("privacidade");
     window.history.pushState({}, "", url.toString());
   }

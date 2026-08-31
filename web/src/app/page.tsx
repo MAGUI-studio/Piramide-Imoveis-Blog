@@ -8,7 +8,6 @@ import {
 import { HeroCarousel } from "@/src/components/blog/HeroCarousel";
 import { CategoryShowcase } from "@/src/components/blog/CategoryShowcase";
 import { PostsList } from "@/src/components/blog/PostsList";
-import { ContactSection } from "@/src/components/blog/ContactSection";
 import type { PostItem, CategoryRef } from "@/src/types/sanity";
 
 export const metadata: Metadata = {
@@ -66,8 +65,6 @@ export default async function HomePage() {
         )}
 
         <PostsList posts={allPosts} />
-
-        <ContactSection />
       </div>
     </div>
   );
