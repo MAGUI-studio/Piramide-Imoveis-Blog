@@ -97,7 +97,7 @@ export function HeroSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 pt-6 sm:pt-10"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 pt-6 sm:pt-10"
         >
           <div className="space-y-1">
             <span className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight text-foreground block">
@@ -107,7 +107,7 @@ export function HeroSection() {
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               História e Tradição
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light hidden sm:block">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">
               Solidez e credibilidade ininterrupta no mercado imobiliário.
             </p>
           </div>
@@ -120,7 +120,7 @@ export function HeroSection() {
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Presença Estratégica
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light hidden sm:block">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">
               Jardim Esplanada, Urbanova e Litoral Norte.
             </p>
           </div>
@@ -133,7 +133,7 @@ export function HeroSection() {
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Assessoria Jurídica
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light hidden sm:block">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">
               Corpo jurídico e comercial de ponta a ponta.
             </p>
           </div>
@@ -146,7 +146,7 @@ export function HeroSection() {
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Liderança Regional
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light hidden sm:block">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">
               Pioneirismo nos maiores lançamentos do Vale.
             </p>
           </div>

@@ -119,7 +119,7 @@ export function TeamHeroSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 pt-6 sm:pt-10"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 pt-6 sm:pt-10"
         >
           
           <div className="space-y-1">
@@ -132,7 +132,7 @@ export function TeamHeroSection() {
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Corretores Credenciados
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light hidden sm:block">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">
               Profissionais experientes atuando no Vale do Paraíba e Litoral.
             </p>
           </div>
@@ -148,7 +148,7 @@ export function TeamHeroSection() {
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Habilitação CRECI
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light hidden sm:block">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">
               Rigor ético, conformidade legal e segurança em cada contrato.
             </p>
           </div>
@@ -164,7 +164,7 @@ export function TeamHeroSection() {
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Assessoria Completa
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light hidden sm:block">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">
               Da prospecção à análise jurídica e entrega das chaves.
             </p>
           </div>
@@ -180,7 +180,7 @@ export function TeamHeroSection() {
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Atendimento Consultivo
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light hidden sm:block">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-light">
               Soluções personalizadas para o seu momento de vida e patrimônio.
             </p>
           </div>
