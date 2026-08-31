@@ -6,5 +6,9 @@ export default async function SlugPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (slug === "sobre" || slug === "sobre-nos") {
+    redirect("/sobre-nos");
+  }
   redirect(`/posts/${slug}`);
 }
+

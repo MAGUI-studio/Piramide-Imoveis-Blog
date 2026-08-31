@@ -558,7 +558,7 @@ export function Footer() {
               </div>
 
               <p className="text-sm text-zinc-400 leading-relaxed font-light max-w-md">
-                Mais de 40 anos de tradição, credibilidade e excelência no mercado imobiliário de São José dos Campos e região.
+                Mais de 45 anos de tradição, credibilidade e excelência no mercado imobiliário de São José dos Campos e região.
               </p>
 
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-none bg-zinc-900 border border-zinc-800 text-xs">
@@ -643,17 +643,15 @@ export function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://www.piramideimoveissjc.com.br/sobre"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/sobre-nos"
                     className="hover:text-primary transition-colors flex items-center gap-1 group"
                   >
                     <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                       ›
                     </span>
-                    <span>Sobre a Pirâmide</span>
-                  </a>
+                    <span>Sobre Nós</span>
+                  </Link>
                 </li>
                 <li>
                   <a

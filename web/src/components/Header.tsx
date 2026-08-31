@@ -191,6 +191,13 @@ export function Header({ categories = [] }: HeaderProps) {
             Início
           </Link>
 
+          <Link
+            href="/sobre-nos"
+            className="px-4 py-2 rounded-xs text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
+          >
+            Sobre Nós
+          </Link>
+
           
           <div
             className="relative"
@@ -438,6 +445,13 @@ export function Header({ categories = [] }: HeaderProps) {
                         className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
                       >
                         Início
+                      </Link>
+                      <Link
+                        href="/sobre-nos"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
+                      >
+                        Sobre Nós
                       </Link>
                       <Link
                         href="/categorias"
