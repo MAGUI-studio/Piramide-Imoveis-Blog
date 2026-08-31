@@ -48,8 +48,7 @@ export function CityCard({ city, className = "" }: CityCardProps) {
       
       <div className="relative z-10 space-y-2 text-white pointer-events-none w-full">
         <div>
-          
-          <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-block transition-all border-none">
+          <span className="px-2.5 py-1 bg-black/50 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-block transition-all border border-white/10">
             {city.postCount || 0} {city.postCount === 1 ? "Artigo" : "Artigos"}
           </span>
         </div>

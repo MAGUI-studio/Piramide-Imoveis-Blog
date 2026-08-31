@@ -517,13 +517,19 @@ export function Header({ categories = [] }: HeaderProps) {
                     </div>
 
                     
-                    <div className="space-y-2 pt-2 border-t border-zinc-200 dark:border-white/10">
-                      <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary block">
-                        Categorias ({categories.length})
-                      </span>
+                    
+                    <div className="space-y-3 pt-3 border-t border-zinc-200 dark:border-white/10">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary block">
+                          Categorias
+                        </span>
+                        <span className="font-mono text-[10px] text-muted-foreground">
+                          {categories.length} temas
+                        </span>
+                      </div>
 
                       <div className="space-y-2">
-                        {categories.map((cat) => {
+                        {categories.slice(0, 4).map((cat) => {
                           if (!cat.slug?.current) return null;
                           const imageUrl = cat.image
                             ? urlForImage(cat.image)?.width(160).height(160).fit("crop").url()
@@ -534,10 +540,9 @@ export function Header({ categories = [] }: HeaderProps) {
                               key={cat._id}
                               href={`/categoria/${cat.slug.current}`}
                               onClick={() => setIsMobileOpen(false)}
-                              className="group relative flex items-stretch h-[68px] rounded-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/60 dark:border-white/5 hover:border-primary overflow-hidden transition-colors"
+                              className="group relative flex items-stretch h-[60px] rounded-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/60 dark:border-white/5 hover:border-primary overflow-hidden transition-colors"
                             >
-                              
-                              <div className="w-20 shrink-0 relative overflow-hidden bg-zinc-200 dark:bg-zinc-800">
+                              <div className="w-16 shrink-0 relative overflow-hidden bg-zinc-200 dark:bg-zinc-800">
                                 {imageUrl ? (
                                   <Image
                                     src={imageUrl}
@@ -547,25 +552,38 @@ export function Header({ categories = [] }: HeaderProps) {
                                   />
                                 ) : (
                                   <div className="flex size-full items-center justify-center bg-primary/10 text-primary">
-                                    <Icon icon="ph:buildings-bold" className="size-5" />
+                                    <Icon icon="ph:buildings-bold" className="size-4" />
                                   </div>
                                 )}
                               </div>
 
-                              
-                              <div className="flex-1 p-2.5 flex items-center justify-between min-w-0 pr-3">
+                              <div className="flex-1 px-3 py-2 flex items-center justify-between min-w-0 pr-3">
                                 <span className="font-heading font-bold text-xs uppercase text-foreground group-hover:text-primary transition-colors truncate">
                                   {cat.title}
                                 </span>
                                 <Icon
                                   icon="ph:arrow-right-bold"
-                                  className="size-3.5 text-muted-foreground group-hover:text-primary shrink-0 ml-2"
+                                  className="size-3 text-muted-foreground group-hover:text-primary shrink-0 ml-2"
                                 />
                               </div>
                             </Link>
                           );
                         })}
                       </div>
+
+                      {categories.length > 4 && (
+                        <Link
+                          href="/categorias"
+                          onClick={() => setIsMobileOpen(false)}
+                          className="group/mobbtn flex items-center justify-center gap-1.5 w-full py-2 bg-zinc-100 dark:bg-zinc-900 hover:bg-primary hover:text-white dark:hover:bg-primary text-foreground font-mono text-xs font-bold uppercase tracking-wider transition-colors rounded-xs border border-zinc-200 dark:border-white/10 mt-1"
+                        >
+                          <span>Ver todas as categorias</span>
+                          <Icon
+                            icon="ph:arrow-right-bold"
+                            className="size-3.5 transition-transform duration-300 group-hover/mobbtn:translate-x-1"
+                          />
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </ScrollArea>

@@ -50,8 +50,7 @@ export function AuthorCard({ author, className = "" }: AuthorCardProps) {
       
       <div className="relative z-10 space-y-2 text-white pointer-events-none w-full">
         <div>
-          
-          <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-block transition-all border-none">
+          <span className="px-2.5 py-1 bg-black/50 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-block transition-all border border-white/10">
             {author.postCount || 0} {author.postCount === 1 ? "Artigo" : "Artigos"}
           </span>
         </div>
