@@ -214,7 +214,6 @@ export function Header({ categories = [] }: HeaderProps) {
                   : "text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5"
               }`}
             >
-              <Icon icon="ph:squares-four-bold" className="size-3.5" />
               <span>Categorias</span>
               <Icon
                 icon="ph:caret-down-bold"
@@ -330,13 +329,10 @@ export function Header({ categories = [] }: HeaderProps) {
           </div>
 
           <Link
-            href="/#lancamentos"
-            className="px-4 py-2 rounded-xs text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1.5"
+            href="/lancamentos"
+            className="px-4 py-2 rounded-xs text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
           >
-            <span>Lançamentos</span>
-            <span className="px-1.5 py-0.2 rounded-xs bg-primary text-white text-[9px] font-bold">
-              Novos
-            </span>
+            Lançamentos
           </Link>
         </nav>
 
@@ -475,7 +471,7 @@ export function Header({ categories = [] }: HeaderProps) {
                         Autores
                       </Link>
                       <Link
-                        href="/#lancamentos"
+                        href="/lancamentos"
                         onClick={() => setIsMobileOpen(false)}
                         className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
                       >
