@@ -117,6 +117,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/tags`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
     ...categoryUrls,
     ...cityUrls,
     ...authorUrls,

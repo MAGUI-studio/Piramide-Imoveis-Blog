@@ -13,7 +13,6 @@ import { ShareButtons } from "@/src/components/blog/ShareButtons";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PostCard } from "@/src/components/blog/PostCard";
 import { SectionHeader } from "@/src/components/blog/SectionHeader";
-import { WhatsAppConsultationCard } from "@/src/components/blog/WhatsAppConsultationCard";
 import { ScrollToTop } from "@/src/components/common/ScrollToTop";
 import { calculateReadingTime, extractHeadings, slugifyText } from "@/src/lib/blog-utils";
 import { getBaseUrl } from "@/src/config/site";
@@ -481,127 +480,7 @@ export default async function ArticlePage({
                   </div>
                 </div>
               )}
-
-              
-              {postData.author && (
-                <div className="pt-10 border-t border-zinc-200 dark:border-white/10 space-y-4 bg-transparent border-none">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                      <Link
-                        href={postData.author.slug?.current ? `/autor/${postData.author.slug.current}` : "#"}
-                        className="size-16 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-white/10 overflow-hidden relative shrink-0 hover:scale-105 transition-transform"
-                      >
-                        {postData.author.image ? (
-                          <Image
-                            src={urlForImage(postData.author.image)?.width(128).height(128).url() || ""}
-                            alt={postData.author.name}
-                            fill
-                            className="object-cover rounded-full"
-                          />
-                        ) : (
-                          <div className="flex size-full items-center justify-center font-bold text-xl font-mono text-foreground">
-                            {postData.author.name.charAt(0)}
-                          </div>
-                        )}
-                      </Link>
-                      <div>
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary block">
-                          Sobre o Autor
-                        </span>
-                        <h3 className="text-xl font-bold font-heading uppercase text-foreground">
-                          <Link
-                            href={postData.author.slug?.current ? `/autor/${postData.author.slug.current}` : "#"}
-                            className="hover:text-primary transition-colors"
-                          >
-                            {postData.author.name}
-                          </Link>
-                        </h3>
-                        {postData.author.role && (
-                          <p className="text-xs font-mono text-zinc-500">
-                            {postData.author.role} {postData.author.creci ? `• ${postData.author.creci}` : ""}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    
-                    <div className="flex items-center gap-2">
-                      {postData.author.linkedinUrl && (
-                        <a
-                          href={postData.author.linkedinUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 text-zinc-400 hover:text-sky-500 transition-colors cursor-pointer bg-transparent border-none"
-                          title="LinkedIn"
-                        >
-                          <Icon icon="ph:linkedin-logo-bold" className="size-4" />
-                        </a>
-                      )}
-                      {postData.author.instagramUrl && (
-                        <a
-                          href={postData.author.instagramUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 text-zinc-400 hover:text-pink-500 transition-colors cursor-pointer bg-transparent border-none"
-                          title="Instagram"
-                        >
-                          <Icon icon="ph:instagram-logo-bold" className="size-4" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-
-                  {postData.author.bio && (
-                    <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 font-light pt-1">
-                      {typeof postData.author.bio === "string" ? (
-                        <p>{postData.author.bio}</p>
-                      ) : (
-                        <PortableText value={postData.author.bio} />
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              
-              {postData.city && (
-                <div className="border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900/60 p-6 sm:p-8 space-y-4 rounded-none">
-                  <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 bg-primary text-white font-mono text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-xs">
-                      <Icon icon="ph:buildings-fill" className="size-3 text-white" />
-                      <span>Oportunidades na Região</span>
-                    </span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold font-heading uppercase text-foreground">
-                    Procurando imóveis em {postData.city.name}?
-                  </h3>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
-                    A Pirâmide Imóveis possui a seleção mais exclusiva de apartamentos, casas em condomínio e lançamentos em {postData.city.name}. Fale com nossos consultores especialistas.
-                  </p>
-                  <div className="flex items-center gap-3 pt-2 flex-wrap">
-                    <a
-                      href="https://www.piramideimoveissjc.com.br/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-6 py-3 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-xs cursor-pointer"
-                    >
-                      <span>Ver Imóveis Disponíveis</span>
-                      <Icon icon="ph:arrow-up-right-bold" className="size-3.5" />
-                    </a>
-                    <a
-                      href={`https://wa.me/5512991599801?text=${encodeURIComponent(`Olá! Li o artigo "${postData.title}" e gostaria de informações sobre imóveis em ${postData.city.name}.`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-6 py-3 border border-zinc-300 dark:border-white/10 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-foreground font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-xs"
-                    >
-                      <Icon icon="ph:whatsapp-logo-bold" className="size-4 text-emerald-500" />
-                      <span>Falar no WhatsApp</span>
-                    </a>
-                  </div>
-                </div>
-              )}
-
-              
+                     
               {(prevPost || nextPost) && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-8 border-t border-zinc-200 dark:border-white/10">
                   {prevPost ? (
@@ -691,7 +570,7 @@ export default async function ArticlePage({
 
             
             <aside className="lg:col-span-4 self-stretch">
-              <div className="sticky top-28 space-y-8">
+              <div className="sticky top-28 space-y-6">
                 
                 {headings.length > 1 && (
                   <div className="hidden lg:block">
@@ -699,8 +578,121 @@ export default async function ArticlePage({
                   </div>
                 )}
 
+                {postData.author && (
+                  <div className="p-5 sm:p-6 border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900/60 rounded-none space-y-4">
+                    <div className="flex items-center gap-3.5">
+                      <Link
+                        href={postData.author.slug?.current ? `/autor/${postData.author.slug.current}` : "#"}
+                        className="size-14 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-white/10 overflow-hidden relative shrink-0 hover:scale-105 transition-transform"
+                      >
+                        {postData.author.image ? (
+                          <Image
+                            src={urlForImage(postData.author.image)?.width(112).height(112).url() || ""}
+                            alt={postData.author.name}
+                            fill
+                            className="object-cover rounded-full"
+                          />
+                        ) : (
+                          <div className="flex size-full items-center justify-center font-bold text-lg font-mono text-foreground">
+                            {postData.author.name.charAt(0)}
+                          </div>
+                        )}
+                      </Link>
+
+                      <div className="space-y-0.5 min-w-0 flex-1">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary block">
+                          Sobre o Autor
+                        </span>
+                        <h3 className="text-base font-bold font-heading uppercase text-foreground truncate">
+                          <Link
+                            href={postData.author.slug?.current ? `/autor/${postData.author.slug.current}` : "#"}
+                            className="hover:text-primary transition-colors"
+                          >
+                            {postData.author.name}
+                          </Link>
+                        </h3>
+                        {postData.author.role && (
+                          <p className="text-xs font-mono text-zinc-500 truncate">
+                            {postData.author.role} {postData.author.creci ? `• ${postData.author.creci}` : ""}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {postData.author.bio && (
+                      <div className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400 font-light">
+                        {typeof postData.author.bio === "string" ? (
+                          <p>{postData.author.bio}</p>
+                        ) : (
+                          <PortableText value={postData.author.bio} />
+                        )}
+                      </div>
+                    )}
+
+                    {(postData.author.linkedinUrl || postData.author.instagramUrl) && (
+                      <div className="flex items-center gap-2 pt-2 border-t border-zinc-200/80 dark:border-white/10">
+                        {postData.author.linkedinUrl && (
+                          <a
+                            href={postData.author.linkedinUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-1.5 text-zinc-400 hover:text-sky-500 transition-colors cursor-pointer bg-transparent border-none"
+                            title="LinkedIn"
+                          >
+                            <Icon icon="ph:linkedin-logo-bold" className="size-4" />
+                          </a>
+                        )}
+                        {postData.author.instagramUrl && (
+                          <a
+                            href={postData.author.instagramUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-1.5 text-zinc-400 hover:text-pink-500 transition-colors cursor-pointer bg-transparent border-none"
+                            title="Instagram"
+                          >
+                            <Icon icon="ph:instagram-logo-bold" className="size-4" />
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 
-                <WhatsAppConsultationCard postTitle={postData.title} />
+                <div className="border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900/60 p-5 sm:p-6 space-y-4 rounded-none">
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 bg-primary text-white font-mono text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-xs">
+                      <Icon icon="ph:buildings-fill" className="size-3 text-white" />
+                      <span>Oportunidades na Região</span>
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold font-heading uppercase text-foreground">
+                    Procurando imóveis em {postData.city?.name || "São José dos Campos"}?
+                  </h3>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
+                    A Pirâmide Imóveis possui a seleção mais exclusiva de apartamentos, casas em condomínio e lançamentos em {postData.city?.name || "São José dos Campos e Região"}. Fale com nossos consultores especialistas.
+                  </p>
+                  <div className="flex flex-col gap-2.5 pt-1">
+                    <a
+                      href="https://www.piramideimoveissjc.com.br/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2.5 px-4 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer text-center"
+                    >
+                      <span>Ver Imóveis Disponíveis</span>
+                      <Icon icon="ph:arrow-up-right-bold" className="size-3.5" />
+                    </a>
+                    <a
+                      href={`https://wa.me/5512991599801?text=${encodeURIComponent(`Olá! Li o artigo "${postData.title}" e gostaria de informações sobre imóveis em ${postData.city?.name || "São José dos Campos"}.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2.5 px-4 border border-zinc-300 dark:border-white/10 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-foreground font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs text-center"
+                    >
+                      <Icon icon="ph:whatsapp-logo-bold" className="size-4 text-emerald-500" />
+                      <span>Falar no WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </aside>
           </div>

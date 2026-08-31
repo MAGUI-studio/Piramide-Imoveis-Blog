@@ -50,13 +50,13 @@ export const postType = defineType({
       title: 'Tópico 01 - Descrição',
       type: 'string',
       fieldset: 'featuredTopics',
-      description: 'Máximo 50 caracteres',
+      description: 'Máximo 150 caracteres',
       hidden: ({document}) => !document?.featured,
       validation: (rule) =>
         rule.custom((val, context) => {
           if (context.document?.featured) {
             if (!val) return 'A descrição do Tópico 01 é obrigatória quando em destaque.'
-            if (val.length > 50) return 'A descrição não pode ter mais de 50 caracteres.'
+            if (val.length > 150) return 'A descrição não pode ter mais de 150 caracteres.'
           }
           return true
         }),
@@ -83,13 +83,13 @@ export const postType = defineType({
       title: 'Tópico 02 - Descrição',
       type: 'string',
       fieldset: 'featuredTopics',
-      description: 'Máximo 50 caracteres',
+      description: 'Máximo 150 caracteres',
       hidden: ({document}) => !document?.featured,
       validation: (rule) =>
         rule.custom((val, context) => {
           if (context.document?.featured) {
             if (!val) return 'A descrição do Tópico 02 é obrigatória quando em destaque.'
-            if (val.length > 50) return 'A descrição não pode ter mais de 50 caracteres.'
+            if (val.length > 150) return 'A descrição não pode ter mais de 150 caracteres.'
           }
           return true
         }),
@@ -116,13 +116,13 @@ export const postType = defineType({
       title: 'Tópico 03 - Descrição',
       type: 'string',
       fieldset: 'featuredTopics',
-      description: 'Máximo 50 caracteres',
+      description: 'Máximo 150 caracteres',
       hidden: ({document}) => !document?.featured,
       validation: (rule) =>
         rule.custom((val, context) => {
           if (context.document?.featured) {
             if (!val) return 'A descrição do Tópico 03 é obrigatória quando em destaque.'
-            if (val.length > 50) return 'A descrição não pode ter mais de 50 caracteres.'
+            if (val.length > 150) return 'A descrição não pode ter mais de 150 caracteres.'
           }
           return true
         }),

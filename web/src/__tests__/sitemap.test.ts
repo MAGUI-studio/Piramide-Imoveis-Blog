@@ -29,6 +29,7 @@ describe("sitemap", () => {
         expect.objectContaining({ url: "https://example.com/categorias", priority: 0.8 }),
         expect.objectContaining({ url: "https://example.com/cidades", priority: 0.8 }),
         expect.objectContaining({ url: "https://example.com/autores", priority: 0.7 }),
+        expect.objectContaining({ url: "https://example.com/tags", priority: 0.7 }),
         expect.objectContaining({ url: "https://example.com/categoria/mercado-imobiliario" }),
         expect.objectContaining({ url: "https://example.com/cidade/sao-jose-dos-campos" }),
         expect.objectContaining({ url: "https://example.com/autor/guilherme-bustamante" }),

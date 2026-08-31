@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function TagIndexPage() {
-  redirect("/");
+export default function TagIndexRedirect() {
+  redirect("/tags");
 }
