@@ -39,7 +39,7 @@ export function SearchPageClient({
 
   const searchTerm = (query || "").toLowerCase().trim();
 
-  // 1. Filtra todos os posts que possuem o termo de busca em qualquer campo
+  
   const matchingPosts = useMemo(() => {
     if (!searchTerm) return [];
 
@@ -57,7 +57,7 @@ export function SearchPageClient({
     });
   }, [allPosts, searchTerm]);
 
-  // 2. Ordena os resultados de acordo com o filtro selecionado (Ordem por Categoria, Cidade, Autor ou Data)
+  
   const sortedPosts = useMemo(() => {
     if (matchingPosts.length === 0) return [];
     const list = [...matchingPosts];
@@ -86,7 +86,7 @@ export function SearchPageClient({
       });
     }
 
-    // Default "all": ordena por data mais recente
+    
     return list.sort((a, b) => {
       const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
       const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;

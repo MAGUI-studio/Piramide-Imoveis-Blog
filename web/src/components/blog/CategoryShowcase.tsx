@@ -74,7 +74,7 @@ export function CategoryShowcase({ categories }: CategoryShowcaseProps) {
   };
 
   return (
-    <section className="relative w-full overflow-x-clip">
+    <section id="categorias" className="relative w-full overflow-x-clip scroll-mt-24 sm:scroll-mt-28">
       <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-l from-[#F1F1F1] dark:from-[#161616] to-transparent z-10 opacity-75" />
       <div
         ref={containerRef}

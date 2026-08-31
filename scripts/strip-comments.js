@@ -78,7 +78,7 @@ function run() {
   for (const dir of targetDirs) {
     const files = getFiles(dir);
     for (const file of files) {
-      if (file.endsWith('strip-comments.js')) continue;
+      if (file.endsWith('strip-comments.js') || file.endsWith('google-apps-script.js')) continue;
 
       processedCount++;
       const content = readFileSync(file, 'utf8');

@@ -52,7 +52,10 @@ const infiniteBanners = [
 
 export function LaunchesCarousel() {
   return (
-    <section className="relative w-full py-6 sm:py-10 space-y-6 overflow-hidden select-none">
+    <section
+      id="lancamentos"
+      className="relative w-full py-6 sm:py-10 space-y-6 overflow-hidden select-none scroll-mt-24 sm:scroll-mt-28"
+    >
       <style>{`
         @keyframes launches-marquee {
           0% { transform: translateX(0%); }

@@ -45,7 +45,7 @@ export default function NotFound() {
         meta="Código de Erro: 404 • URL Não Localizada"
       />
 
-      {/* Formulário de Busca Limpo */}
+      
       <div className="w-full space-y-3">
         <label htmlFor="search-input" className="block text-xs font-mono font-bold uppercase tracking-widest text-muted-foreground">
           Buscar no Acervo do Blog:
@@ -71,7 +71,7 @@ export default function NotFound() {
         </form>
       </div>
 
-      {/* Seção de Links Diretos Tipográficos */}
+      
       <div className="w-full space-y-6 pt-4">
         <span className="font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground block">
           Navegue pelas principais seções:
