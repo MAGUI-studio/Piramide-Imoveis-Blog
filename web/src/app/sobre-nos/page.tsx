@@ -79,28 +79,43 @@ export default function SobreNosPage() {
   const values: ValueItem[] = [
     {
       number: "01",
-      title: "Compromisso com o cliente",
-      icon: "ph:user-focus-bold",
-    },
-    {
-      number: "02",
-      title: "Ética e transparência",
+      title: "Ética",
       icon: "ph:scales-bold",
     },
     {
+      number: "02",
+      title: "Transparência",
+      icon: "ph:eye-bold",
+    },
+    {
       number: "03",
-      title: "Valorização das pessoas",
-      icon: "ph:handshake-bold",
+      title: "Excelência Operacional",
+      icon: "ph:chart-line-up-bold",
     },
     {
       number: "04",
-      title: "Inovação com responsabilidade",
-      icon: "ph:cpu-bold",
+      title: "Desenvolvimento Humano",
+      icon: "ph:users-three-bold",
     },
     {
       number: "05",
-      title: "Paixão pelo que fazemos",
-      icon: "ph:fire-bold",
+      title: "Segurança Jurídica",
+      icon: "ph:shield-check-bold",
+    },
+    {
+      number: "06",
+      title: "Inovação em Processos",
+      icon: "ph:cpu-bold",
+    },
+    {
+      number: "07",
+      title: "Comprometimento",
+      icon: "ph:handshake-bold",
+    },
+    {
+      number: "08",
+      title: "Credibilidade",
+      icon: "ph:certificate-bold",
     },
   ];
 

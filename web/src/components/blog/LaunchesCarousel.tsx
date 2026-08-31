@@ -49,7 +49,6 @@ const launches: LaunchBanner[] = [
   },
 ];
 
-
 const infiniteBanners = [
   ...launches,
   ...launches,
@@ -71,7 +70,7 @@ export function LaunchesCarousel() {
         .animate-launches-marquee {
           display: flex;
           width: max-content;
-          animation: launches-marquee 180s linear infinite;
+          animation: launches-marquee 130s linear infinite;
         }
       `}</style>
 
@@ -84,23 +83,23 @@ export function LaunchesCarousel() {
 
       
       <div className="w-full overflow-hidden pt-2 select-none">
-        <div className="animate-launches-marquee flex items-center gap-5 sm:gap-7 md:gap-8">
+        <div className="animate-launches-marquee flex items-center gap-4 sm:gap-5 md:gap-6">
           {infiniteBanners.map((launch, idx) => (
             <a
               key={`${launch.id}-${idx}`}
               href={launch.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative shrink-0 w-[280px] sm:w-[380px] md:w-[480px] lg:w-[580px] xl:w-[640px] aspect-square overflow-hidden bg-zinc-900 transition-transform duration-300 hover:scale-[1.01] block cursor-pointer"
+              className="relative shrink-0 w-[200px] sm:w-[260px] md:w-[300px] lg:w-[320px] xl:w-[350px] aspect-square overflow-hidden bg-zinc-900 transition-transform duration-300 hover:scale-[1.02] block cursor-pointer"
               title={`Conhecer ${launch.title}`}
             >
               <Image
                 src={launch.image}
                 alt={launch.title}
                 fill
-                priority={idx < 4}
+                priority={idx < 6}
                 className="object-cover object-center select-none pointer-events-none"
-                sizes="(max-width: 640px) 280px, (max-width: 1024px) 480px, 640px"
+                sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 350px"
               />
             </a>
           ))}

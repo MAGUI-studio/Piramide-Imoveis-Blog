@@ -4,11 +4,13 @@ import {
   POSTS_QUERY,
   CATEGORIES_QUERY,
   FEATURED_POSTS_QUERY,
+  REELS_QUERY,
 } from "@/sanity/lib/queries";
 import { HeroCarousel } from "@/src/components/blog/HeroCarousel";
 import { CategoryShowcase } from "@/src/components/blog/CategoryShowcase";
 import { PostsList } from "@/src/components/blog/PostsList";
-import type { PostItem, CategoryRef } from "@/src/types/sanity";
+import { LaunchesCarousel } from "@/src/components/blog/LaunchesCarousel";
+import type { PostItem, CategoryRef, ReelItem } from "@/src/types/sanity";
 
 export const metadata: Metadata = {
   title: "Blog Pirâmide Imóveis | Mercado Imobiliário, Tendências e Dicas",
@@ -24,15 +26,18 @@ export default async function HomePage() {
     { data: posts = [] },
     { data: categories = [] },
     { data: featured = [] },
+    { data: reels = [] },
   ] = await Promise.all([
     sanityFetch({ query: POSTS_QUERY }),
     sanityFetch({ query: CATEGORIES_QUERY }),
     sanityFetch({ query: FEATURED_POSTS_QUERY }),
+    sanityFetch({ query: REELS_QUERY }),
   ]);
 
   const allPosts = (posts as PostItem[]) || [];
   const rawCategories = (categories as CategoryRef[]) || [];
   const featuredList = (featured as PostItem[]) || [];
+  const reelsList = (reels as ReelItem[]) || [];
 
   const heroPosts =
     featuredList.length > 0 ? featuredList : allPosts.slice(0, 3);
@@ -64,7 +69,13 @@ export default async function HomePage() {
           </div>
         )}
 
-        <PostsList posts={allPosts} />
+        
+        <PostsList posts={allPosts} reels={reelsList} />
+
+        
+        <div className="px-6 py-4 sm:py-8">
+          <LaunchesCarousel />
+        </div>
       </div>
     </div>
   );

@@ -45,10 +45,13 @@ export function SectionHeader({
       ) : action ? (
         <Link
           href={action.href}
-          className="font-mono text-xs font-bold uppercase tracking-wider text-primary hover:underline flex items-center gap-1.5 shrink-0"
+          className="group/action font-mono text-xs font-bold uppercase tracking-wider text-primary hover:underline flex items-center gap-1.5 shrink-0 transition-colors"
         >
           <span>{action.label}</span>
-          <Icon icon={action.icon || "ph:arrow-right-bold"} className="size-3.5" />
+          <Icon
+            icon={action.icon || "ph:arrow-right-bold"}
+            className="size-3.5 transition-transform duration-300 ease-out group-hover/action:translate-x-1.5"
+          />
         </Link>
       ) : meta ? (
         <span className="font-mono text-xs text-muted-foreground uppercase shrink-0">

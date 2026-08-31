@@ -1,9 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { urlForImage } from "@/sanity/lib/image";
 import { calculateReadingTime } from "@/src/lib/blog-utils";
-import { ArticleCtaButton } from "@/src/components/blog/ArticleCtaButton";
 import { HighlightText } from "@/src/components/common/HighlightText";
 import type { PostItem } from "@/src/types/sanity";
 
@@ -35,158 +37,199 @@ export function PostCard({
   highlightQuery,
   className = "",
 }: PostCardProps) {
+  const router = useRouter();
+
   if (!post.slug?.current) return null;
   const postCategory = post.categories?.[0];
   const readingTime = calculateReadingTime(post.body);
   const postHref = `/posts/${post.slug.current}`;
+  const imageUrl = post.mainImage
+    ? urlForImage(post.mainImage)?.width(900).height(1200).url()
+    : null;
+
+  const handleCategoryClick = (e: React.MouseEvent, catSlug: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/categoria/${catSlug}`);
+  };
+
+  const handleCityClick = (e: React.MouseEvent, citySlug: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/cidade/${citySlug}`);
+  };
+
+  const handleAuthorClick = (e: React.MouseEvent, authorSlug: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/autor/${authorSlug}`);
+  };
 
   return (
-    <article
-      className={`group flex flex-col bg-transparent space-y-4 transition-all duration-300 overflow-hidden h-full ${className}`}
+    <Link
+      href={postHref}
+      scroll={scroll}
+      className={`group relative w-full min-h-[460px] sm:min-h-[520px] aspect-[3/4] overflow-hidden rounded-none border border-zinc-200 dark:border-white/10 bg-zinc-900 flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 shadow-none cursor-pointer select-none ${className}`}
     >
       
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
-        <Link
-          href={postHref}
-          scroll={scroll}
-          className="block size-full relative"
-          aria-label={post.title}
-        >
-          {post.mainImage ? (
-            <Image
-              src={urlForImage(post.mainImage)?.width(800).height(500).url() || ""}
-              alt={(typeof post.mainImage === "object" && post.mainImage?.alt) || post.title}
-              fill
-              priority={priority}
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          ) : (
-            <div className="flex size-full items-center justify-center bg-muted">
-              <Icon icon="ph:article" className="size-10 opacity-30 text-muted-foreground" />
-            </div>
-          )}
-        </Link>
+      {imageUrl ? (
+        <Image
+          src={imageUrl}
+          alt={
+            (typeof post.mainImage === "object" && post.mainImage?.alt) ||
+            post.title
+          }
+          fill
+          priority={priority}
+          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-950" />
+      )}
 
-        
-        <div className="absolute top-3 left-3 flex items-center gap-2 flex-wrap z-10">
+      
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent pointer-events-none" />
+
+      
+      <div className="relative z-10 flex items-start justify-between gap-2 w-full">
+        <div className="flex items-center gap-2 flex-wrap">
           {postCategory && (
-            postCategory.slug?.current ? (
-              <Link
-                href={`/categoria/${postCategory.slug.current}`}
-                className="px-2.5 py-1 bg-black/40 hover:bg-black/60 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-flex items-center gap-1.5 transition-all border-none"
-                title={`Ver categoria ${postCategory.title}`}
-              >
-                <Icon icon="ph:tag-fill" className="size-3 text-white" />
-                <span>
-                  <HighlightText text={postCategory.title} query={highlightQuery} markClassName="bg-white/30 text-white font-bold px-0.5" />
-                </span>
-              </Link>
-            ) : (
-              <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-flex items-center gap-1.5 border-none">
-                <Icon icon="ph:tag-fill" className="size-3 text-white" />
-                <span>
-                  <HighlightText text={postCategory.title} query={highlightQuery} markClassName="bg-white/30 text-white font-bold px-0.5" />
-                </span>
+            <button
+              type="button"
+              onClick={(e) =>
+                postCategory.slug?.current &&
+                handleCategoryClick(e, postCategory.slug.current)
+              }
+              className="px-2.5 py-1 bg-black/50 hover:bg-black/80 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-flex items-center gap-1.5 transition-all border border-white/10 cursor-pointer"
+              title={`Ver categoria ${postCategory.title}`}
+            >
+              <Icon icon="ph:tag-fill" className="size-3 text-white" />
+              <span>
+                <HighlightText
+                  text={postCategory.title}
+                  query={highlightQuery}
+                  markClassName="bg-white/30 text-white font-bold px-0.5"
+                />
               </span>
-            )
+            </button>
           )}
 
           {post.city && (
-            post.city.slug?.current ? (
-              <Link
-                href={`/cidade/${post.city.slug.current}`}
-                className="font-mono text-[10px] font-bold uppercase tracking-widest text-white bg-black/40 hover:bg-black/60 backdrop-blur-md px-2.5 py-1 shadow-xs inline-flex items-center gap-1.5 transition-all border-none"
-                title={`Ver artigos em ${post.city.name}`}
-              >
-                <Icon icon="ph:map-pin-fill" className="size-3 text-white" />
-                <span>
-                  <HighlightText text={post.city.name} query={highlightQuery} markClassName="bg-white/30 text-white font-bold px-0.5" />
-                </span>
-              </Link>
-            ) : (
-              <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white bg-black/40 backdrop-blur-md px-2.5 py-1 shadow-xs inline-flex items-center gap-1.5 border-none">
-                <Icon icon="ph:map-pin-fill" className="size-3 text-white" />
-                <span>
-                  <HighlightText text={post.city.name} query={highlightQuery} markClassName="bg-white/30 text-white font-bold px-0.5" />
-                </span>
+            <button
+              type="button"
+              onClick={(e) =>
+                post.city?.slug?.current &&
+                handleCityClick(e, post.city.slug.current)
+              }
+              className="font-mono text-[10px] font-bold uppercase tracking-widest text-white bg-black/50 hover:bg-black/80 backdrop-blur-md px-2.5 py-1 shadow-xs inline-flex items-center gap-1.5 transition-all border border-white/10 cursor-pointer"
+              title={`Ver artigos em ${post.city.name}`}
+            >
+              <Icon icon="ph:map-pin-fill" className="size-3 text-white" />
+              <span>
+                <HighlightText
+                  text={post.city.name}
+                  query={highlightQuery}
+                  markClassName="bg-white/30 text-white font-bold px-0.5"
+                />
               </span>
-            )
+            </button>
           )}
+        </div>
+
+        
+        <div className="overflow-hidden pointer-events-none shrink-0">
+          <Icon
+            icon="ph:arrow-up-right-bold"
+            className="size-5 text-white drop-shadow-md opacity-0 -translate-x-2.5 translate-y-2.5 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 ease-out"
+          />
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col justify-between space-y-4">
-        <div className="space-y-2.5">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
-            <span>{formatDate(post.publishedAt)}</span>
-            <span>•</span>
-            <span className="inline-flex items-center gap-1">
-              <Icon icon="ph:clock-bold" className="size-3 text-zinc-400" />
-              <span>{readingTime} min de leitura</span>
-            </span>
-          </div>
-
-          <Link href={postHref} scroll={scroll} className="block group/title">
-            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-heading uppercase group-hover/title:text-primary transition-colors line-clamp-2 leading-tight">
-              <HighlightText text={post.title} query={highlightQuery} />
-            </h3>
-          </Link>
-
-          {post.excerpt && (
-            <Link href={postHref} scroll={scroll} className="block">
-              <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 font-light line-clamp-2">
-                <HighlightText text={post.excerpt} query={highlightQuery} />
-              </p>
-            </Link>
-          )}
+      
+      <div className="relative z-10 space-y-3.5 text-white w-full">
+        
+        <div className="flex items-center gap-2 text-xs font-mono text-white/70">
+          <span>{formatDate(post.publishedAt)}</span>
+          <span>•</span>
+          <span className="inline-flex items-center gap-1">
+            <Icon icon="ph:clock-bold" className="size-3 text-white/70" />
+            <span>{readingTime} min de leitura</span>
+          </span>
         </div>
 
-        <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between gap-3">
+        
+        <h3 className="text-xl sm:text-2xl font-bold font-heading uppercase text-white line-clamp-2 leading-tight">
+          <HighlightText text={post.title} query={highlightQuery} />
+        </h3>
+
+        
+        {post.excerpt && (
+          <p className="text-xs sm:text-sm text-white/75 font-light line-clamp-3 leading-relaxed">
+            <HighlightText text={post.excerpt} query={highlightQuery} />
+          </p>
+        )}
+
+        
+        <div className="pt-3 flex items-center justify-between gap-3 border-t border-white/10">
           {post.author ? (
-            <Link
-              href={post.author.slug?.current ? `/autor/${post.author.slug.current}` : "#"}
-              className="flex items-center gap-2 group/author min-w-0 max-w-[65%]"
-              title={post.author.name ? `Ver perfil de ${post.author.name}` : undefined}
+            <button
+              type="button"
+              onClick={(e) =>
+                post.author?.slug?.current &&
+                handleAuthorClick(e, post.author.slug.current)
+              }
+              className="flex items-center gap-2 group/author min-w-0 max-w-[65%] text-left cursor-pointer"
+              title={
+                post.author.name
+                  ? `Ver perfil de ${post.author.name}`
+                  : undefined
+              }
             >
-              <div className="size-6 rounded-full overflow-hidden relative bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-white/10 shrink-0">
+              <div className="size-6 rounded-full overflow-hidden relative bg-white/10 border border-white/20 shrink-0">
                 {post.author.image ? (
                   <Image
-                    src={urlForImage(post.author.image)?.width(64).height(64).url() || ""}
+                    src={
+                      urlForImage(post.author.image)
+                        ?.width(64)
+                        .height(64)
+                        .url() || ""
+                    }
                     alt={post.author.name || "Autor"}
                     fill
                     className="object-cover rounded-full"
                     sizes="24px"
                   />
                 ) : (
-                  <div className="flex size-full items-center justify-center font-bold text-[10px] font-mono text-foreground">
+                  <div className="flex size-full items-center justify-center font-bold text-[10px] font-mono text-white">
                     {post.author.name?.charAt(0) || "P"}
                   </div>
                 )}
               </div>
-              <span className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 group-hover/author:text-primary transition-colors truncate">
-                <HighlightText text={post.author.name || "Redação Pirâmide"} query={highlightQuery} />
+              <span className="text-xs font-mono font-medium text-white/80 group-hover/author:text-white transition-colors truncate">
+                <HighlightText
+                  text={post.author.name || "Redação Pirâmide"}
+                  query={highlightQuery}
+                />
               </span>
-            </Link>
+            </button>
           ) : (
             <div className="flex items-center gap-2 min-w-0 max-w-[65%]">
-              <div className="size-6 rounded-full overflow-hidden relative bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-white/10 shrink-0 flex items-center justify-center font-bold text-[10px] font-mono text-foreground">
+              <div className="size-6 rounded-full overflow-hidden relative bg-white/10 border border-white/20 shrink-0 flex items-center justify-center font-bold text-[10px] font-mono text-white">
                 P
               </div>
-              <span className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 truncate">
+              <span className="text-xs font-mono font-medium text-white/80 truncate">
                 Redação Pirâmide
               </span>
             </div>
           )}
 
-          <ArticleCtaButton
-            href={postHref}
-            label="Ler Artigo"
-            size="sm"
-            scroll={scroll}
-          />
+          <div className="font-mono text-xs font-bold uppercase tracking-wider text-white inline-flex items-center gap-1 shrink-0">
+            <span>Ler Artigo</span>
+            <Icon icon="ph:arrow-right-bold" className="size-3" />
+          </div>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

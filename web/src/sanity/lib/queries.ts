@@ -429,3 +429,19 @@ export const SITEMAP_DATA_QUERY = defineQuery(`
     "tags": array::unique(*[_type == "post" && defined(tags)].tags[])
   }
 `);
+
+export const REELS_QUERY = defineQuery(`
+  *[_type == "reel"] | order(publishedAt desc) {
+    _id,
+    title,
+    description,
+    thumbnail,
+    "videoFileUrl": videoFile.asset->url,
+    videoUrl,
+    propertyTitle,
+    propertyUrl,
+    instagramUrl,
+    publishedAt
+  }
+`);
+

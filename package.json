@@ -10,6 +10,7 @@
     "build": "pnpm -r build",
     "lint": "pnpm --filter web lint",
     "test": "pnpm --filter web test",
+    "seed:reels": "pnpm --filter studio seed:reels",
     "typegen": "pnpm --filter studio typegen"
   }
 }

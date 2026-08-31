@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "seed:reels": "npx tsx scripts/seed-reels.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },

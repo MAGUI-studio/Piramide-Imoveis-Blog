@@ -183,17 +183,18 @@ export function Header({ categories = [] }: HeaderProps) {
         </div>
 
         
-        <nav className="hidden lg:flex items-center gap-1 font-mono text-xs">
+        
+        <nav className="hidden xl:flex items-center gap-1 font-mono text-xs whitespace-nowrap">
           <Link
             href="/"
-            className="px-4 py-2 rounded-xs text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
+            className="px-3.5 py-2 rounded-xs whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
           >
             Início
           </Link>
 
           <Link
             href="/sobre-nos"
-            className="px-4 py-2 rounded-xs text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
+            className="px-3.5 py-2 rounded-xs whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
           >
             Sobre Nós
           </Link>
@@ -208,7 +209,7 @@ export function Header({ categories = [] }: HeaderProps) {
               type="button"
               onClick={() => setIsCategoriesOpen((prev) => !prev)}
               aria-expanded={isCategoriesOpen}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xs uppercase tracking-wider font-bold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xs uppercase tracking-wider font-bold whitespace-nowrap transition-all cursor-pointer ${
                 isCategoriesOpen
                   ? "bg-primary text-white shadow-xs"
                   : "text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5"
@@ -329,10 +330,17 @@ export function Header({ categories = [] }: HeaderProps) {
           </div>
 
           <Link
-            href="/lancamentos"
-            className="px-4 py-2 rounded-xs text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
+            href="/artigos"
+            className="px-3.5 py-2 rounded-xs whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
           >
-            Lançamentos
+            Artigos
+          </Link>
+
+          <Link
+            href="/videos"
+            className="px-3.5 py-2 rounded-xs whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-200/60 dark:hover:bg-white/5 font-bold uppercase tracking-wider transition-all"
+          >
+            Vídeos
           </Link>
         </nav>
 
@@ -365,7 +373,7 @@ export function Header({ categories = [] }: HeaderProps) {
           </form>
 
           
-          <div className="hidden xl:flex items-center gap-2.5 pl-2 pr-3 border-r border-zinc-300 dark:border-white/10">
+          <div className="hidden 2xl:flex items-center gap-2.5 pl-2 pr-3 border-r border-zinc-300 dark:border-white/10">
             {socialLinks.map((social) => (
               <a
                 key={social.label}
@@ -384,7 +392,7 @@ export function Header({ categories = [] }: HeaderProps) {
           <ThemeToggle isDarkOverlay={false} />
 
           
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
               <SheetTrigger asChild>
                 <button
@@ -450,6 +458,20 @@ export function Header({ categories = [] }: HeaderProps) {
                         Sobre Nós
                       </Link>
                       <Link
+                        href="/artigos"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
+                      >
+                        Artigos
+                      </Link>
+                      <Link
+                        href="/videos"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
+                      >
+                        Vídeos
+                      </Link>
+                      <Link
                         href="/categorias"
                         onClick={() => setIsMobileOpen(false)}
                         className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
@@ -469,13 +491,6 @@ export function Header({ categories = [] }: HeaderProps) {
                         className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
                       >
                         Autores
-                      </Link>
-                      <Link
-                        href="/lancamentos"
-                        onClick={() => setIsMobileOpen(false)}
-                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
-                      >
-                        Lançamentos
                       </Link>
                     </div>
 

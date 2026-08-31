@@ -77,14 +77,14 @@ export function AboutSection({ values }: AboutSectionProps) {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             {values.map((val, idx) => (
               <motion.div
                 key={val.number}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
                 className="relative overflow-hidden p-6 sm:p-7 border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900/60 flex flex-col justify-between min-h-[140px] hover:border-primary/60 transition-all duration-300 group"
               >
                 
@@ -128,8 +128,8 @@ export function AboutSection({ values }: AboutSectionProps) {
               <Icon icon="ph:target-bold" className="size-5" />
               <span>Missão</span>
             </div>
-            <p className="text-base sm:text-lg text-foreground font-light leading-relaxed">
-              Realizar sonhos e gerar oportunidades por meio de soluções imobiliárias seguras, humanas e personalizadas.
+            <p className="text-sm sm:text-base text-foreground font-light leading-relaxed">
+              Atuar com excelência no mercado imobiliário, oferecendo soluções seguras, transparentes e eficientes em locação, administração, vendas e lançamentos imobiliários, promovendo confiança nas relações, valorização patrimonial e experiência de qualidade para clientes, parceiros e colaboradores.
             </p>
           </div>
 
@@ -138,8 +138,8 @@ export function AboutSection({ values }: AboutSectionProps) {
               <Icon icon="ph:eye-bold" className="size-5" />
               <span>Visão</span>
             </div>
-            <p className="text-base sm:text-lg text-foreground font-light leading-relaxed">
-              Realizar sonhos e gerar oportunidades por meio de soluções imobiliárias seguras, humanas e personalizadas.
+            <p className="text-sm sm:text-base text-foreground font-light leading-relaxed">
+              Ser reconhecida como a principal referência imobiliária do Vale do Paraíba e Litoral Norte, destacando-se pela solidez, inovação em processos, segurança operacional e desenvolvimento contínuo das pessoas e dos serviços prestados.
             </p>
           </div>
         </motion.div>

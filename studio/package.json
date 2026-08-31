@@ -10,6 +10,7 @@
     "sanity": "sanity",
     "start": "sanity start",
     "seed": "npx tsx scripts/seed.ts",
+    "seed:reels": "npx tsx scripts/seed-reels.ts",
     "typegen": "sanity schema extract --force && sanity typegen generate"
   },
   "dependencies": {

@@ -74,3 +74,17 @@ export interface PostItem {
   city?: CityRef;
   categories?: CategoryRef[];
 }
+
+export interface ReelItem {
+  _id: string;
+  title: string;
+  description?: string;
+  thumbnail?: SanityImageObject;
+  videoFileUrl?: string;
+  videoUrl?: string;
+  propertyTitle?: string;
+  propertyUrl?: string;
+  instagramUrl?: string;
+  publishedAt?: string;
+}
+
