@@ -5,6 +5,7 @@ import {
   AboutSection,
   LeadershipSection,
   UnitsSection,
+  InfiniteMarquee,
   type ValueItem,
   type LeadershipMember,
   type UnitItem,
@@ -190,6 +191,9 @@ export default function SobreNosPage() {
 
         
         <UnitsSection units={units} />
+
+        
+        <InfiniteMarquee />
       </div>
     </>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
 
 export interface UnitItem {
   name: string;
@@ -54,7 +55,14 @@ export function UnitsSection({ units }: UnitsSectionProps) {
   return (
     <section className="w-full py-16 sm:py-24">
       <div className="w-full max-w-440 mx-auto px-6 md:px-12 space-y-12 sm:space-y-16">
-        <div className="flex flex-col items-center text-center justify-center space-y-4">
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center text-center justify-center space-y-4"
+        >
           <div className="inline-flex items-center justify-center py-1.5 rounded-tr-full rounded-bl-full px-8 bg-primary text-white text-xs font-bold uppercase tracking-wider border border-white/20 shadow-sm">
             <Icon icon="ph:buildings-fill" className="size-4 mr-2" />
             <span>Presença Regional</span>
@@ -65,12 +73,19 @@ export function UnitsSection({ units }: UnitsSectionProps) {
           <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
             Estrutura física e atendimento presencial em pontos estratégicos de São José dos Campos e do Litoral Norte.
           </p>
-        </div>
+        </motion.div>
 
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-start">
           {units.map((unit, idx) => (
-            <div key={idx} className="space-y-5 flex flex-col justify-between h-full">
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-5 flex flex-col justify-between h-full"
+            >
               <div className="space-y-4">
                 
                 <div className="relative aspect-[16/10] w-full overflow-hidden border border-zinc-200 dark:border-white/10 bg-zinc-200 dark:bg-zinc-800 shadow-md group">
@@ -126,7 +141,7 @@ export function UnitsSection({ units }: UnitsSectionProps) {
                       aria-label="Copiar endereço"
                     >
                       {copiedIdx === idx ? (
-                        <Icon icon="ph:check-bold" className="size-4 text-emerald-500 animate-scale-in" />
+                        <Icon icon="ph:check-bold" className="size-4 text-emerald-500" />
                       ) : (
                         <Icon icon="ph:copy-bold" className="size-4 text-zinc-600 dark:text-zinc-300 group-hover:text-foreground" />
                       )}
@@ -169,7 +184,7 @@ export function UnitsSection({ units }: UnitsSectionProps) {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

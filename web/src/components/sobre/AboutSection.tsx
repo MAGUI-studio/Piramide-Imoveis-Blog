@@ -1,4 +1,7 @@
+"use client";
+
 import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
 
 export interface ValueItem {
   number: string;
@@ -15,7 +18,13 @@ export function AboutSection({ values }: AboutSectionProps) {
     <section className="w-full py-16 sm:py-24 lg:py-28">
       <div className="w-full max-w-440 mx-auto px-6 md:px-12 space-y-16 sm:space-y-20">
         
-        <div className="space-y-10 sm:space-y-12">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="space-y-10 sm:space-y-12"
+        >
           <div className="flex flex-col items-center text-center justify-center space-y-4">
             <div className="inline-flex items-center justify-center py-1.5 rounded-tr-full rounded-bl-full px-8 bg-primary text-white text-xs font-bold uppercase tracking-wider border border-white/20 shadow-sm">
               <Icon icon="ph:buildings-fill" className="size-4 mr-2" />
@@ -49,10 +58,16 @@ export function AboutSection({ values }: AboutSectionProps) {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         
-        <div className="space-y-8 pt-4">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="space-y-8 pt-4"
+        >
           <div className="space-y-2">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary block">
               Cultura & Conduta
@@ -63,9 +78,13 @@ export function AboutSection({ values }: AboutSectionProps) {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
-            {values.map((val) => (
-              <div
+            {values.map((val, idx) => (
+              <motion.div
                 key={val.number}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="relative overflow-hidden p-6 sm:p-7 border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900/60 flex flex-col justify-between min-h-[140px] hover:border-primary/60 transition-all duration-300 group"
               >
                 
@@ -82,13 +101,19 @@ export function AboutSection({ values }: AboutSectionProps) {
                     {val.title}
                   </h4>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-start pt-2">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-start pt-2"
+        >
           <div className="space-y-2">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary block">
               Pirâmide Imóveis
@@ -117,7 +142,7 @@ export function AboutSection({ values }: AboutSectionProps) {
               Realizar sonhos e gerar oportunidades por meio de soluções imobiliárias seguras, humanas e personalizadas.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

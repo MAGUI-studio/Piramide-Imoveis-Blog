@@ -1,6 +1,36 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { motion, useInView, useMotionValue, animate } from "framer-motion";
+
+function CounterNumber({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const motionVal = useMotionValue(0);
+  const [displayVal, setDisplayVal] = useState(0);
+
+  useEffect(() => {
+    if (isInView) {
+      const controls = animate(motionVal, value, {
+        duration: 2.2,
+        ease: [0.16, 1, 0.3, 1],
+        onUpdate: (latest) => setDisplayVal(Math.round(latest)),
+      });
+      return () => controls.stop();
+    }
+  }, [isInView, motionVal, value]);
+
+  return (
+    <span ref={ref} className="tabular-nums">
+      {prefix}
+      {value < 10 && !prefix ? `0${displayVal}` : displayVal}
+      {suffix}
+    </span>
+  );
+}
 
 export function HeroSection() {
   return (
@@ -20,7 +50,12 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 w-full max-w-440 mx-auto px-6 md:px-12 space-y-12 sm:space-y-16">
-        <div className="max-w-5xl space-y-6 sm:space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-5xl space-y-6 sm:space-y-8"
+        >
           
           <div className="w-full sm:w-fit inline-flex items-center justify-center sm:justify-start py-2 px-8 rounded-tr-full rounded-bl-full bg-primary text-white text-xs font-bold uppercase tracking-wider border border-white/20 shadow-md">
             <Icon icon="ph:shield-check-fill" className="size-4 mr-2" />
@@ -54,13 +89,20 @@ export function HeroSection() {
               <span>Falar com um Consultor</span>
             </a>
           </div>
-        </div>
+        </motion.div>
 
         
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 pt-6 sm:pt-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 pt-6 sm:pt-10"
+        >
           <div className="space-y-1">
             <span className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight text-foreground block">
-              45<span className="text-primary text-xl sm:text-2xl ml-1 font-mono">Anos</span>
+              <CounterNumber value={45} />
+              <span className="text-primary text-xl sm:text-2xl ml-1 font-mono">Anos</span>
             </span>
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               História e Tradição
@@ -72,7 +114,8 @@ export function HeroSection() {
 
           <div className="space-y-1">
             <span className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight text-foreground block">
-              03<span className="text-primary text-xl sm:text-2xl ml-1 font-mono">Sedes</span>
+              <CounterNumber value={3} />
+              <span className="text-primary text-xl sm:text-2xl ml-1 font-mono">Sedes</span>
             </span>
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Presença Estratégica
@@ -84,7 +127,8 @@ export function HeroSection() {
 
           <div className="space-y-1">
             <span className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight text-foreground block">
-              100%<span className="text-primary text-xl sm:text-2xl ml-1 font-mono">Suporte</span>
+              <CounterNumber value={100} suffix="%" />
+              <span className="text-primary text-xl sm:text-2xl ml-1 font-mono">Suporte</span>
             </span>
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Assessoria Jurídica
@@ -96,7 +140,8 @@ export function HeroSection() {
 
           <div className="space-y-1">
             <span className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight text-foreground block">
-              #1<span className="text-primary text-xl sm:text-2xl ml-1 font-mono">Top</span>
+              #<CounterNumber value={1} />
+              <span className="text-primary text-xl sm:text-2xl ml-1 font-mono">Top</span>
             </span>
             <p className="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider text-foreground">
               Liderança Regional
@@ -105,7 +150,7 @@ export function HeroSection() {
               Pioneirismo nos maiores lançamentos do Vale.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
