@@ -472,6 +472,13 @@ export function Header({ categories = [] }: HeaderProps) {
                         Vídeos
                       </Link>
                       <Link
+                        href="/lancamentos"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
+                      >
+                        Lançamentos
+                      </Link>
+                      <Link
                         href="/categorias"
                         onClick={() => setIsMobileOpen(false)}
                         className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
@@ -491,6 +498,13 @@ export function Header({ categories = [] }: HeaderProps) {
                         className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
                       >
                         Autores
+                      </Link>
+                      <Link
+                        href="/sobre-nos/nosso-time"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="block p-2.5 rounded-xs font-heading font-bold text-sm uppercase text-foreground hover:bg-primary hover:text-white transition-colors"
+                      >
+                        Nosso Time
                       </Link>
                     </div>
 

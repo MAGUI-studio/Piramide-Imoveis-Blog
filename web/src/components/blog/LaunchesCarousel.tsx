@@ -79,6 +79,10 @@ export function LaunchesCarousel() {
         eyebrow="Lançamentos Exclusivos"
         eyebrowIcon="ph:buildings-fill"
         title="Conheça Nossos Empreendimentos"
+        action={{
+          label: "Ver Todos os Lançamentos",
+          href: "/lancamentos",
+        }}
       />
 
       
