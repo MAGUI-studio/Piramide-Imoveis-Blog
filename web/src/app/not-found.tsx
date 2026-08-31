@@ -14,22 +14,34 @@ export default function NotFound() {
       icon: "ph:house-bold",
     },
     {
-      title: "Todas as Categorias",
-      description: "Explore temas como financiamento, decoração, investimento, arquitetura e legislação.",
+      title: "Todos os Artigos",
+      description: "Explore o acervo completo de matérias com filtros por bairro, tema e data.",
+      href: "/artigos",
+      icon: "ph:newspaper-bold",
+    },
+    {
+      title: "Tours & Vídeos",
+      description: "Assista a tours virtuais e apresentações exclusivas dos imóveis da região.",
+      href: "/videos",
+      icon: "ph:video-camera-bold",
+    },
+    {
+      title: "Lançamentos",
+      description: "Empreendimentos de alto padrão, condomínios fechados e bairros planejados.",
+      href: "/lancamentos",
+      icon: "ph:buildings-bold",
+    },
+    {
+      title: "Categorias",
+      description: "Explore temas como financiamento, decoração, investimentos e arquitetura.",
       href: "/categorias",
       icon: "ph:squares-four-bold",
     },
     {
       title: "Cidades & Regiões",
-      description: "Guias dos principais bairros de São José dos Campos, Vale do Paraíba e Litoral Norte.",
+      description: "Guias dos principais bairros de São José dos Campos, Vale do Paraíba e Litoral.",
       href: "/cidades",
       icon: "ph:map-pin-bold",
-    },
-    {
-      title: "Nossos Autores",
-      description: "Conheça os especialistas, corretores e analistas responsáveis pelo conteúdo do blog.",
-      href: "/autores",
-      icon: "ph:users-bold",
     },
   ];
 
@@ -74,24 +86,24 @@ export default function NotFound() {
       
       <div className="w-full space-y-6 pt-4">
         <span className="font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground block">
-          Navegue pelas principais seções:
+          Navegue pelas principais seções do blog:
         </span>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {navigationLinks.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="group block space-y-1.5 transition-colors cursor-pointer"
+              className="group block space-y-1.5 p-4 rounded-xs border border-zinc-200/80 dark:border-white/5 bg-zinc-50/50 dark:bg-zinc-900/30 hover:border-primary transition-all duration-300 cursor-pointer"
             >
               <div className="flex items-center gap-2 text-foreground group-hover:text-primary transition-colors">
                 <Icon icon={item.icon} className="size-4 text-primary shrink-0" />
-                <h3 className="text-base sm:text-lg font-bold font-heading uppercase tracking-tight">
+                <h3 className="text-sm sm:text-base font-bold font-heading uppercase tracking-tight">
                   {item.title}
                 </h3>
-                <Icon icon="ph:arrow-right-bold" className="size-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                <Icon icon="ph:arrow-right-bold" className="size-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed pl-6">
+              <p className="text-xs text-muted-foreground font-light leading-relaxed">
                 {item.description}
               </p>
             </Link>
