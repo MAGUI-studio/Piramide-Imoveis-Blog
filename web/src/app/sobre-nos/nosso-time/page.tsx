@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import {
   InfiniteMarquee,
   TeamHeroSection,
-  TeamMemberCard,
+  TeamGridFilter,
   type TeamMember,
 } from "@/src/components/sobre";
 
@@ -599,16 +599,7 @@ export default function NossoTimePage() {
           </div>
 
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8 items-start">
-            {allTeam.map((member, idx) => (
-              <TeamMemberCard
-                key={idx}
-                member={member}
-                priority={idx < 8}
-                isSquare={true}
-              />
-            ))}
-          </div>
+          <TeamGridFilter members={allTeam} />
         </div>
       </section>
 
