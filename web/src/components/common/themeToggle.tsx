@@ -4,7 +4,7 @@ import * as React from "react";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { useThemeTransition } from "@/src/lib/hooks/useThemeTransition";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils/utils";
 
 export interface ThemeToggleProps {
   isDarkOverlay?: boolean;

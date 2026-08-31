@@ -535,7 +535,7 @@ const components: PortableTextComponents = {
   },
 };
 
-export function PortableText({ value }: { value: SanityBody }) {
+export function PortableText({ value }: { value?: SanityBody | null }) {
   if (!value) return null;
   return <PortableTextComponent value={value as unknown as import("next-sanity").PortableTextBlock[]} components={components} />;
 }

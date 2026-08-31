@@ -98,8 +98,8 @@ vi.mock("framer-motion", () => {
 });
 
 vi.mock("nuqs", () => ({
-  useQueryState: (_key: string, parser?: { defaultValue?: string }) => {
-    const [val, setVal] = React.useState(parser?.defaultValue || "");
+  useQueryState: (_key: string, parser?: { defaultValue?: unknown }) => {
+    const [val, setVal] = React.useState(parser?.defaultValue ?? "");
     return [val, setVal];
   },
   parseAsString: {
@@ -108,10 +108,23 @@ vi.mock("nuqs", () => ({
       withOptions: () => ({ defaultValue: val }),
     }),
   },
+  parseAsInteger: {
+    withDefault: (val: number) => ({
+      defaultValue: val,
+      withOptions: () => ({ defaultValue: val }),
+    }),
+  },
+  parseAsBoolean: {
+    withDefault: (val: boolean) => ({
+      defaultValue: val,
+      withOptions: () => ({ defaultValue: val }),
+    }),
+  },
   parseAsStringLiteral: () => ({
-    withDefault: (val: string) => ({
+    withDefault: (val: unknown) => ({
       defaultValue: val,
       withOptions: () => ({ defaultValue: val }),
     }),
   }),
 }));
+
