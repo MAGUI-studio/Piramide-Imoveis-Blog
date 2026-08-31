@@ -1,8 +1,8 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import Image from "next/image";
-import { Icon } from "@iconify/react";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
+import { LaunchesExplorer, type LaunchItem } from "@/src/components/blog/LaunchesExplorer";
 import { getBaseUrl } from "@/src/config/site";
 
 export const metadata: Metadata = {
@@ -19,15 +19,6 @@ export const metadata: Metadata = {
     url: "/lancamentos",
   },
 };
-
-interface LaunchItem {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  href: string;
-  tag: string;
-}
 
 const launches: LaunchItem[] = [
   {
@@ -119,76 +110,15 @@ export default function LancamentosPage() {
           meta={`${launches.length} ${launches.length === 1 ? "empreendimento disponível" : "empreendimentos disponíveis"}`}
         />
 
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {launches.map((launch, idx) => (
-            <article
-              key={launch.id}
-              className="group flex flex-col bg-transparent space-y-4 transition-all duration-300 overflow-hidden h-full"
-            >
-              
-              <div className="relative aspect-square w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
-                <a
-                  href={launch.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block size-full relative"
-                  aria-label={launch.title}
-                >
-                  <Image
-                    src={launch.image}
-                    alt={launch.title}
-                    fill
-                    priority={idx < 3}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                  />
-                </a>
-
-                
-                <div className="absolute top-3 left-3 flex items-center gap-2 flex-wrap z-10 pointer-events-none">
-                  <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-xs inline-flex items-center gap-1.5 border-none">
-                    <Icon icon="ph:buildings-bold" className="size-3 text-white" />
-                    <span>{launch.tag}</span>
-                  </span>
-                </div>
-              </div>
-
-              
-              <div className="flex-1 flex flex-col justify-between space-y-4">
-                <div className="space-y-2.5">
-                  <a
-                    href={launch.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block group/title"
-                  >
-                    <h3 className="font-heading font-black text-lg sm:text-xl uppercase text-zinc-900 dark:text-white group-hover/title:text-primary transition-colors leading-tight line-clamp-2">
-                      {launch.title}
-                    </h3>
-                  </a>
-
-                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 font-light line-clamp-3 leading-relaxed">
-                    {launch.description}
-                  </p>
-                </div>
-
-                
-                <div className="pt-1">
-                  <a
-                    href={launch.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors group-hover:translate-x-1 duration-200"
-                  >
-                    <span>Conhecer Empreendimento</span>
-                    <Icon icon="ph:arrow-right-bold" className="size-3.5" />
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <Suspense
+          fallback={
+            <div className="py-12 text-center text-muted-foreground font-mono text-xs">
+              Carregando lançamentos...
+            </div>
+          }
+        >
+          <LaunchesExplorer launches={launches} />
+        </Suspense>
       </div>
     </>
   );

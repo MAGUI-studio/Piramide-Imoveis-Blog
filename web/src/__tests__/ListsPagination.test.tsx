@@ -1,9 +1,40 @@
-import { describe, it, expect } from "vitest";
+import React from "react";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { CategoriesList } from "@/src/components/blog/CategoriesList";
-import { CitiesList } from "@/src/components/blog/CitiesList";
-import { AuthorsList } from "@/src/components/blog/AuthorsList";
+import { CategoriesExplorer } from "@/src/components/blog/CategoriesExplorer";
+import { CitiesExplorer } from "@/src/components/blog/CitiesExplorer";
+import { AuthorsExplorer } from "@/src/components/blog/AuthorsExplorer";
+import { LaunchesExplorer, type LaunchItem } from "@/src/components/blog/LaunchesExplorer";
 import type { CategoryRef, CityRef, AuthorRef } from "@/src/types/sanity";
+
+
+vi.mock("nuqs", () => {
+  return {
+    useQueryState: (_key: string, parser?: { defaultValue?: unknown }) => {
+      const defaultValue = parser?.defaultValue ?? "";
+      const [val, setVal] = React.useState(defaultValue);
+      return [val, setVal];
+    },
+    parseAsString: {
+      withDefault: (def: string) => ({
+        defaultValue: def,
+        withOptions: () => ({ defaultValue: def }),
+      }),
+    },
+    parseAsInteger: {
+      withDefault: (def: number) => ({
+        defaultValue: def,
+        withOptions: () => ({ defaultValue: def }),
+      }),
+    },
+    parseAsStringLiteral: () => ({
+      withDefault: (def: string) => ({
+        defaultValue: def,
+        withOptions: () => ({ defaultValue: def }),
+      }),
+    }),
+  };
+});
 
 const mockCategories: CategoryRef[] = Array.from({ length: 14 }, (_, i) => ({
   _id: `cat-${i + 1}`,
@@ -28,44 +59,46 @@ const mockAuthors: AuthorRef[] = Array.from({ length: 14 }, (_, i) => ({
   postCount: i + 1,
 }));
 
-describe("ListsPagination", () => {
-  it("CategoriesList should initially show 6 items and load 6 more upon clicking 'Carregar Mais'", () => {
-    render(<CategoriesList categories={mockCategories} />);
+const mockLaunches: LaunchItem[] = Array.from({ length: 8 }, (_, i) => ({
+  id: `launch-${i + 1}`,
+  title: `Lançamento ${i + 1}`,
+  description: `Descrição do lançamento ${i + 1}`,
+  image: `/banners/banner-${i + 1}.webp`,
+  href: `https://piramideimoveissjc.com.br/launch-${i + 1}`,
+  tag: i % 2 === 0 ? "Alto Padrão" : "Residencial",
+}));
+
+describe("Explorers with Filters & Pagination", () => {
+  it("CategoriesExplorer should filter categories and paginate items", () => {
+    render(<CategoriesExplorer categories={mockCategories} />);
+
+    expect(screen.getByPlaceholderText(/pesquisar por nome da categoria/i)).toBeInTheDocument();
+    expect(screen.getByText("Categoria 14")).toBeInTheDocument();
+
+    const searchInput = screen.getByPlaceholderText(/pesquisar por nome da categoria/i);
+    fireEvent.change(searchInput, { target: { value: "Categoria 1" } });
 
     expect(screen.getByText("Categoria 1")).toBeInTheDocument();
-    expect(screen.getByText("Categoria 6")).toBeInTheDocument();
-    expect(screen.queryByText("Categoria 7")).not.toBeInTheDocument();
-
-    const loadMoreBtn = screen.getByRole("button", { name: /carregar mais categorias/i });
-    fireEvent.click(loadMoreBtn);
-
-    expect(screen.getByText("Categoria 7")).toBeInTheDocument();
-    expect(screen.getByText("Categoria 12")).toBeInTheDocument();
   });
 
-  it("CitiesList should load more cities and show 'Mostrar Menos' when all loaded", () => {
-    render(<CitiesList cities={mockCities} />);
+  it("CitiesExplorer should render search and sort controls", () => {
+    render(<CitiesExplorer cities={mockCities} />);
 
-    expect(screen.getByText(/Cidade 1 - SP/i)).toBeInTheDocument();
-    expect(screen.queryByText(/Cidade 7 - SP/i)).not.toBeInTheDocument();
-
-    const loadMoreBtn = screen.getByRole("button", { name: /carregar mais cidades/i });
-    fireEvent.click(loadMoreBtn);
-    fireEvent.click(loadMoreBtn);
-
-    const showLessBtn = screen.getByRole("button", { name: /mostrar menos/i });
-    expect(showLessBtn).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/pesquisar por nome da cidade/i)).toBeInTheDocument();
+    expect(screen.getByText(/Cidade 14 - SP/i)).toBeInTheDocument();
   });
 
-  it("AuthorsList should paginate authors correctly", () => {
-    render(<AuthorsList authors={mockAuthors} />);
+  it("AuthorsExplorer should filter authors and render cards", () => {
+    render(<AuthorsExplorer authors={mockAuthors} />);
 
-    expect(screen.getByText("Autor 1")).toBeInTheDocument();
-    expect(screen.queryByText("Autor 7")).not.toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/pesquisar por nome do autor/i)).toBeInTheDocument();
+    expect(screen.getByText("Autor 14")).toBeInTheDocument();
+  });
 
-    const loadMoreBtn = screen.getByRole("button", { name: /carregar mais autores/i });
-    fireEvent.click(loadMoreBtn);
+  it("LaunchesExplorer should filter launches by text and tag", () => {
+    render(<LaunchesExplorer launches={mockLaunches} />);
 
-    expect(screen.getByText("Autor 7")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/pesquisar lançamentos/i)).toBeInTheDocument();
+    expect(screen.getByText("Lançamento 1")).toBeInTheDocument();
   });
 });

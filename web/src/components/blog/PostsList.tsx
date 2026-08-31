@@ -56,7 +56,7 @@ export function PostsList({
     );
   };
 
-  // Quando hideHeader é true (páginas de arquivo, categorias, busca, etc.), renderiza todos os posts sem cortar
+  
   if (hideHeader) {
     return (
       <section className={`space-y-8 ${className}`}>
@@ -67,39 +67,39 @@ export function PostsList({
     );
   }
 
-  // Na Home: divide os primeiros 12 posts em 2 blocos de 6 com os vídeos no meio
+  
   const firstBatch = posts.slice(0, 6);
   const secondBatch = posts.slice(6, 12);
 
   return (
     <section className={`space-y-12 sm:space-y-16 px-6 pt-8 sm:pt-10 pb-4 sm:pb-6 ${className}`}>
-      {/* Header da Listagem na Home */}
+      
       <SectionHeader
         eyebrow="Explorar Acervo"
         eyebrowIcon="ph:books-fill"
         title="Últimos Artigos & Análises"
       />
 
-      {/* Primeiro lote de 6 posts */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {firstBatch.map((post, idx) => renderPostCard(post, idx))}
       </div>
 
-      {/* Carrossel de Vídeos posicionado no meio da listagem respeitando o max-w-440 */}
+      
       {reels && reels.length > 0 && (
         <div className="-mx-6 w-[calc(100%+3rem)] overflow-hidden">
           <ReelsSection reels={reels} />
         </div>
       )}
 
-      {/* Segundo lote de 6 posts */}
+      
       {secondBatch.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {secondBatch.map((post, idx) => renderPostCard(post, idx + 6))}
         </div>
       )}
 
-      {/* Link Discreto na Direita para Ver Todos os Artigos com Seta Animada */}
+      
       <div className="flex items-center justify-end pt-2">
         <Link
           href="/artigos"

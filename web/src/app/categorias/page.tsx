@@ -1,8 +1,9 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { CATEGORIES_QUERY, POSTS_QUERY } from "@/sanity/lib/queries";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
-import { CategoriesList } from "@/src/components/blog/CategoriesList";
+import { CategoriesExplorer } from "@/src/components/blog/CategoriesExplorer";
 import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
 import type { CategoryRef, PostItem } from "@/src/types/sanity";
 
@@ -22,10 +23,11 @@ export const metadata: Metadata = {
 };
 
 export default async function CategoriasPage() {
-  const [{ data: rawCategories = [] }, { data: allPostsRaw = [] }] = await Promise.all([
-    sanityFetch({ query: CATEGORIES_QUERY }),
-    sanityFetch({ query: POSTS_QUERY }),
-  ]);
+  const [{ data: rawCategories = [] }, { data: allPostsRaw = [] }] =
+    await Promise.all([
+      sanityFetch({ query: CATEGORIES_QUERY }),
+      sanityFetch({ query: POSTS_QUERY }),
+    ]);
 
   const categories = (rawCategories as CategoryRef[]) || [];
   const allPosts = (allPostsRaw as PostItem[]) || [];
@@ -72,14 +74,22 @@ export default async function CategoriasPage() {
         <Breadcrumbs items={breadcrumbsItems} />
 
         <PageHeroHeader
-          badge="Acervo Editorial"
+          badge="Guia Temático"
           badgeIcon="ph:tag-fill"
           title="Todas as Categorias"
-          description="Navegue pelos principais temas do mercado imobiliário, análises de valorização, tendências de arquitetura, dicas jurídicas e financiamento."
-          meta={`${categoryList.length} ${categoryList.length === 1 ? "categoria disponível" : "categorias disponíveis"}`}
+          description="Navegue pelas principais categorias e temas do mercado imobiliário: análises de bairros, lançamentos, tendências e guias práticos."
+          meta={`${categoryList.length} categorias disponíveis`}
         />
 
-        <CategoriesList categories={categoryList} />
+        <Suspense
+          fallback={
+            <div className="py-12 text-center text-muted-foreground font-mono text-xs">
+              Carregando categorias...
+            </div>
+          }
+        >
+          <CategoriesExplorer categories={categoryList} />
+        </Suspense>
       </div>
     </>
   );

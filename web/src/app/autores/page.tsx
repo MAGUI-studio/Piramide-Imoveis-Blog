@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { AUTHORS_QUERY } from "@/sanity/lib/queries";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
-import { AuthorsList } from "@/src/components/blog/AuthorsList";
+import { AuthorsExplorer } from "@/src/components/blog/AuthorsExplorer";
 import type { AuthorRef } from "@/src/types/sanity";
 
 export const metadata: Metadata = {
@@ -58,10 +59,18 @@ export default async function AutoresPage() {
           badgeIcon="ph:user-circle-fill"
           title="Nossos Autores & Especialistas"
           description="Conheça os corretores, consultores e analistas que compartilham inteligência imobiliária, tendências e análises exclusivas."
-          meta={`${authors.length} ${authors.length === 1 ? "autor cadastrado" : "autores cadastrados"}`}
+          meta={`${authors.length} especialistas cadastrados`}
         />
 
-        <AuthorsList authors={authors} />
+        <Suspense
+          fallback={
+            <div className="py-12 text-center text-muted-foreground font-mono text-xs">
+              Carregando autores...
+            </div>
+          }
+        >
+          <AuthorsExplorer authors={authors} />
+        </Suspense>
       </div>
     </>
   );

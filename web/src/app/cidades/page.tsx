@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { CITIES_QUERY } from "@/sanity/lib/queries";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PageHeroHeader } from "@/src/components/blog/PageHeroHeader";
-import { CitiesList } from "@/src/components/blog/CitiesList";
+import { CitiesExplorer } from "@/src/components/blog/CitiesExplorer";
 import type { CityRef } from "@/src/types/sanity";
 
 export const metadata: Metadata = {
@@ -58,10 +59,18 @@ export default async function CidadesPage() {
           badgeIcon="ph:map-pin-fill"
           title="Cidades & Regiões"
           description="Explore análises de valorização de bairros, oportunidades e infraestrutura no Vale do Paraíba, Litoral Norte e Serra da Mantiqueira."
-          meta={`${cities.length} ${cities.length === 1 ? "cidade mapeada" : "cidades mapeadas"}`}
+          meta={`${cities.length} cidades disponíveis`}
         />
 
-        <CitiesList cities={cities} />
+        <Suspense
+          fallback={
+            <div className="py-12 text-center text-muted-foreground font-mono text-xs">
+              Carregando cidades...
+            </div>
+          }
+        >
+          <CitiesExplorer cities={cities} />
+        </Suspense>
       </div>
     </>
   );
