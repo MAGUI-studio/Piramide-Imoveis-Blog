@@ -469,7 +469,7 @@ export default function NossoTimePage() {
       name: "Monique Araujo",
       role: "Corretora",
       creci: "CRECI 243546",
-      image: "/utils/placeholder.svg",
+      image: "/utils/equipe/monique-araujo.webp",
       email: "monique@piramideimoveissjc.com.br",
       whatsapps: [
         { label: "(12) 98250-0071", url: "https://api.whatsapp.com/send?phone=5512982500071" },
