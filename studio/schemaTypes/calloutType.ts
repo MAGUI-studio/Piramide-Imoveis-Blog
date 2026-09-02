@@ -20,10 +20,10 @@ export const calloutType = defineType({
       description: 'Escolha o tipo de caixa para definir a cor e o ícone.',
       options: {
         list: [
-          {title: '💡 Dica de Ouro (Tip - Verde/Dourado)', value: 'tip'},
-          {title: 'ℹ️ Informação Importante (Info - Azul)', value: 'info'},
-          {title: '⚠️ Atenção / Cuidado (Warning - Âmbar)', value: 'warning'},
-          {title: '💬 Citação Especial (Quote - Minimalista)', value: 'quote'},
+          {title: 'Dica de Ouro', value: 'tip'},
+          {title: 'Informação Importante', value: 'info'},
+          {title: 'Atenção', value: 'warning'},
+          {title: 'Citação Especial', value: 'quote'},
         ],
         layout: 'radio',
       },
@@ -52,10 +52,10 @@ export const calloutType = defineType({
     },
     prepare({type}) {
       const typeLabels: Record<string, string> = {
-        tip: '💡 Dica de Ouro (Tip)',
-        info: 'ℹ️ Informação Importante (Info)',
-        warning: '⚠️ Atenção / Cuidado (Warning)',
-        quote: '💬 Citação Especial (Quote)',
+        tip: 'Dica de Ouro',
+        info: 'Informação Importante',
+        warning: 'Atenção',
+        quote: 'Citação Especial',
       }
       return {
         title: typeLabels[type] || 'Caixa de Destaque / Alerta',

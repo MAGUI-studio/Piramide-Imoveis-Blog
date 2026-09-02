@@ -23,7 +23,7 @@ export function TableOfContents({ headings, variant = "sidebar" }: TableOfConten
       const el = document.getElementById(headings[i].id);
       if (el) {
         const rect = el.getBoundingClientRect();
-        if (rect.top <= 180) {
+        if (rect.top <= 200) {
           currentActive = headings[i].id;
         }
       }
@@ -52,12 +52,14 @@ export function TableOfContents({ headings, variant = "sidebar" }: TableOfConten
     if (el) {
       const headerOffset = 110;
       const elementPosition = el.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      const offsetPosition = elementPosition + (window.pageYOffset || document.documentElement.scrollTop || 0) - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+      if (typeof window.scrollTo === "function") {
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
       setActiveId(id);
     }
   };
@@ -93,7 +95,7 @@ export function TableOfContents({ headings, variant = "sidebar" }: TableOfConten
               {headings.map((h) => {
                 const isActive = activeId === h.id;
                 return (
-                  <li key={h.id} className={h.level === 3 ? "pl-3" : ""}>
+                  <li key={h.id}>
                     <button
                       type="button"
                       onClick={() => scrollToHeading(h.id)}
@@ -118,7 +120,7 @@ export function TableOfContents({ headings, variant = "sidebar" }: TableOfConten
   
   return (
     <nav className="w-full bg-transparent p-0 select-none border-none">
-      <div className="flex items-center justify-between mb-4 pb-2 border-b border-zinc-200 dark:border-white/10">
+      <div className="flex items-center justify-between mb-3 pb-2 border-b border-zinc-200 dark:border-white/10">
         <div className="flex items-center gap-2">
           <span className="size-2 rounded-full bg-primary" />
           <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-foreground">
@@ -153,7 +155,7 @@ export function TableOfContents({ headings, variant = "sidebar" }: TableOfConten
                   />
                 )}
 
-                <span className={`line-clamp-2 leading-relaxed ${h.level === 3 ? "pl-2 opacity-85" : ""}`}>
+                <span className="line-clamp-2 leading-relaxed">
                   {h.text}
                 </span>
               </button>

@@ -466,7 +466,7 @@ export default async function ArticlePage({
               </div>
 
               
-              {/* Caixa de Destaque Dedicada (se preenchida) */}
+              
               {postData.calloutContent && (
                 <CalloutComponent
                   value={{
@@ -477,7 +477,7 @@ export default async function ArticlePage({
                 />
               )}
 
-              {/* Corpo Principal do Artigo (PortableText) */}
+              
               <div className="prose prose-zinc dark:prose-invert max-w-none">
                 {postData.body ? (
                   <PortableText value={postData.body} />
@@ -486,7 +486,7 @@ export default async function ArticlePage({
                 )}
               </div>
 
-              {/* Vídeo Dedicado (se preenchido) */}
+              
               {postData.videoUrl && (
                 <YoutubeComponent
                   value={{
@@ -497,7 +497,7 @@ export default async function ArticlePage({
                 />
               )}
 
-              {/* Galeria de Fotos Dedicada (se preenchida) */}
+              
               {postData.galleryImages && postData.galleryImages.length > 0 && (
                 <GalleryComponent
                   value={{
@@ -507,7 +507,7 @@ export default async function ArticlePage({
                 />
               )}
 
-              {/* FAQ Dedicado (se preenchido) */}
+              
               {postData.faqItems && postData.faqItems.length > 0 && (
                 <FaqComponent
                   value={{
@@ -517,7 +517,7 @@ export default async function ArticlePage({
                 />
               )}
 
-              {/* Bloco de Conversão CTA Dedicado (se preenchido) */}
+              
               {postData.ctaTitle && (
                 <CtaComponent
                   value={{

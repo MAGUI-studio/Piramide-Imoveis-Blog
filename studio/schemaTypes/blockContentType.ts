@@ -1,5 +1,5 @@
-import {defineType, defineArrayMember, defineField} from 'sanity'
-import {ImageIcon, LinkIcon} from '@sanity/icons'
+import {defineType, defineArrayMember} from 'sanity'
+import {ImageIcon, LinkIcon, PlayIcon} from '@sanity/icons'
 
 export const blockContentType = defineType({
   title: 'Conteúdo do Artigo',
@@ -80,7 +80,7 @@ export const blockContentType = defineType({
       },
     }),
 
-    // Imagem no Artigo (_type: 'image') - Mantida no editor de texto
+    
     defineArrayMember({
       title: 'Imagem no Artigo',
       type: 'image',
@@ -88,118 +88,76 @@ export const blockContentType = defineType({
       options: {
         hotspot: true,
       },
-      fields: [
-        defineField({
-          name: 'alt',
-          type: 'string',
-          title: 'Texto Alternativo (Alt Text)',
-          placeholder: 'Ex: Living integrado com iluminação em perfis de LED',
-          description: 'Descreva a imagem para acessibilidade e SEO do Google.',
-          validation: (rule) => rule.required().warning('Adicione o alt text da imagem.'),
-        }),
-        defineField({
-          name: 'caption',
-          type: 'string',
-          title: 'Legenda da Imagem',
-          placeholder: 'Ex: Conceito aberto com iluminação indireta no Jardim Aquarius.',
-          description: 'Texto curto exibido logo abaixo da foto.',
-        }),
-        defineField({
-          name: 'layout',
-          type: 'string',
-          title: 'Largura de Exibição da Imagem',
-          description: 'Escolha se a imagem ocupará a largura normal do texto, largura destacada ou tela cheia.',
-          options: {
-            list: [
-              {title: 'Padrão (Largura do texto)', value: 'normal'},
-              {title: 'Larga (Destaque)', value: 'wide'},
-              {title: 'Tela Cheia (Full Width)', value: 'full'},
-            ],
-            layout: 'radio',
-          },
-          initialValue: 'normal',
-        }),
-      ],
     }),
 
-    // Tipos Ocultos do Menu de Inserção (para compatibilidade transparente com documentos existentes)
+    
+    defineArrayMember({
+      title: 'Vídeo (YouTube / Vimeo)',
+      type: 'youtube',
+      icon: PlayIcon,
+    }),
+
+    
     defineArrayMember({
       name: 'callout',
       type: 'callout',
       title: 'Caixa de Destaque',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'calloutBlock',
       type: 'callout',
       title: 'Caixa de Destaque (Legado)',
       hidden: true,
     }),
-
-    defineArrayMember({
-      name: 'youtube',
-      type: 'youtube',
-      title: 'Vídeo',
-      hidden: true,
-    }),
-
     defineArrayMember({
       name: 'youtubeBlock',
       type: 'youtube',
       title: 'Vídeo (Legado)',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'cta',
       type: 'cta',
       title: 'Bloco de Conversão',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'ctaBlock',
       type: 'cta',
       title: 'Bloco de Conversão (Legado)',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'table',
       type: 'table',
       title: 'Tabela',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'tableBlock',
       type: 'table',
       title: 'Tabela (Legada)',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'faq',
       type: 'faq',
       title: 'FAQ',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'faqBlock',
       type: 'faq',
       title: 'FAQ (Legado)',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'gallery',
       type: 'gallery',
       title: 'Galeria',
       hidden: true,
     }),
-
     defineArrayMember({
       name: 'galleryBlock',
       type: 'gallery',

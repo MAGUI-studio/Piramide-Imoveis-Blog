@@ -189,6 +189,8 @@ export function YoutubeComponent({ value }: { value: YoutubeValue }) {
   let embedUrl = value.url;
   if (value.url.includes("youtube.com/watch?v=")) {
     embedUrl = value.url.replace("watch?v=", "embed/");
+  } else if (value.url.includes("youtube.com/shorts/")) {
+    embedUrl = value.url.replace("youtube.com/shorts/", "youtube.com/embed/");
   } else if (value.url.includes("youtu.be/")) {
     embedUrl = value.url.replace("youtu.be/", "www.youtube.com/embed/");
   } else if (value.url.includes("vimeo.com/")) {
@@ -357,12 +359,18 @@ const components: PortableTextComponents = {
       const imageUrl = urlForImage(value)?.width(1400).height(800).url();
       if (!imageUrl) return null;
 
+      const altText =
+        value.alt ||
+        (typeof value.asset === "object" && (value.asset as { originalFilename?: string })?.originalFilename
+          ? (value.asset as { originalFilename?: string }).originalFilename!.replace(/\.[^/.]+$/, "")
+          : "Fotografia ilustrativa do artigo no Blog Pirâmide Imóveis");
+
       return (
         <figure className="my-10 overflow-hidden rounded-none w-full bg-transparent border-none">
           <div className="relative aspect-video w-full overflow-hidden">
             <Image
               src={imageUrl}
-              alt={value.alt || "Imagem do artigo"}
+              alt={altText}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 100vw"

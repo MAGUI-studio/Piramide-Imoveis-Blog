@@ -6,42 +6,29 @@ export const youtubeType = defineType({
   title: 'Vídeo (YouTube / Vimeo)',
   type: 'object',
   icon: PlayIcon,
-  options: {
-    modal: {
-      type: 'dialog',
-      width: 2,
-    },
-  },
   fields: [
     defineField({
       name: 'url',
       type: 'url',
-      title: 'Link do Vídeo (YouTube ou Vimeo)',
-      placeholder: 'Ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      description: 'Cole o link completo do vídeo no YouTube ou Vimeo.',
-      validation: (rule) => rule.required().error('Insira a URL do vídeo.'),
-    }),
-    defineField({
-      name: 'title',
-      type: 'string',
-      title: 'Título do Vídeo (Acessibilidade & SEO)',
-      placeholder: 'Ex: Tour Virtual pelo Conceito de Studios Modernos em SJC',
-      description: 'Título descritivo para leitores de tela e Google.',
-      validation: (rule) => rule.required().error('Insira um título para o vídeo.'),
-    }),
-    defineField({
-      name: 'caption',
-      type: 'string',
-      title: 'Legenda abaixo do vídeo (Opcional)',
-      placeholder: 'Ex: Assista à análise técnica sobre rentabilidade em São José dos Campos.',
-      description: 'Texto curto explicativo exibido abaixo do vídeo.',
+      title: 'Link do Vídeo no YouTube ou Vimeo',
+      placeholder: 'Ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ ou https://youtu.be/dQw4w9WgXcQ',
+      description:
+        'Cole o link oficial do vídeo horizontal (16:9) do YouTube ou Vimeo. Não utilize links de YouTube Shorts aqui (para vídeos verticais 9:16 estilo Reels, utilize a seção "Reels" do blog). Exemplos válidos: https://www.youtube.com/watch?v=dQw4w9WgXcQ ou https://vimeo.com/76979871.',
+      validation: (rule) =>
+        rule
+          .required()
+          .error('Cole o link do vídeo no YouTube ou Vimeo.')
+          .uri({scheme: ['http', 'https']}),
     }),
   ],
   preview: {
-    prepare() {
+    select: {
+      url: 'url',
+    },
+    prepare({url}) {
       return {
-        title: 'Vídeo Incorporado (YouTube / Vimeo)',
-        subtitle: 'Clique para editar o link e informações',
+        title: 'Vídeo no Artigo (Player)',
+        subtitle: url || 'Cole a URL do YouTube ou Vimeo',
         media: PlayIcon,
       }
     },

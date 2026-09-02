@@ -9,49 +9,49 @@ export const postType = defineType({
   fieldsets: [
     {
       name: 'featuredTopics',
-      title: '📌 3 Tópicos Principais do Destaque (Carrossel Hero)',
+      title: '3 Tópicos Principais do Destaque (Carrossel Hero)',
       description:
         'Aparecem como 3 "pílulas" de resumo rápido no rodapé do banner principal na página inicial quando o artigo está marcado em Destaque.',
       options: {collapsible: true, collapsed: true},
     },
     {
       name: 'calloutSection',
-      title: '💡 Caixa de Destaque / Dica do Consultor (Opcional)',
+      title: 'Caixa de Destaque / Dica do Consultor (Opcional)',
       description:
         'Adicione uma caixa estilizada de dica de ouro, atenção ou citação especial exibida com destaque no artigo.',
       options: {collapsible: true, collapsed: true},
     },
     {
       name: 'faqSection',
-      title: '❓ FAQ - Perguntas Frequentes do Artigo (Opcional - Google Schema)',
+      title: 'FAQ - Perguntas Frequentes do Artigo (Opcional - Google Schema)',
       description:
         'Adicione perguntas e respostas frequentes sobre o tema do artigo. O sistema gera automaticamente os dados estruturados (FAQPage) para o Google.',
       options: {collapsible: true, collapsed: true},
     },
     {
       name: 'ctaSection',
-      title: '💬 Bloco de Conversão / WhatsApp Personalizado (Opcional)',
+      title: 'Bloco de Conversão / WhatsApp Personalizado (Opcional)',
       description:
         'Personalize a chamada comercial e o botão de WhatsApp no final do artigo. Se não preenchido, o blog exibirá o CTA padrão da imobiliária.',
       options: {collapsible: true, collapsed: true},
     },
     {
       name: 'videoSection',
-      title: '🎥 Vídeo em Destaque (YouTube / Vimeo - Opcional)',
+      title: 'Vídeo em Destaque (YouTube / Vimeo - Opcional)',
       description:
         'Incorpore um vídeo de tour virtual ou explicação técnica no artigo.',
       options: {collapsible: true, collapsed: true},
     },
     {
       name: 'gallerySection',
-      title: '🖼️ Galeria de Fotos do Imóvel / Região (Opcional)',
+      title: 'Galeria de Fotos do Imóvel / Região (Opcional)',
       description:
         'Adicione uma grade elegante de fotos adicionais para enriquecer o artigo.',
       options: {collapsible: true, collapsed: true},
     },
     {
       name: 'seo',
-      title: '🔍 Otimização para SEO & Google',
+      title: 'Otimização para SEO & Google',
       description:
         'Configure como este artigo aparecerá nos resultados de pesquisa do Google e nos compartilhamentos de redes sociais (WhatsApp, LinkedIn, Facebook).',
       options: {collapsible: true, collapsed: false},
@@ -60,14 +60,14 @@ export const postType = defineType({
   fields: [
     defineField({
       name: 'featured',
-      title: '⭐ Artigo em Destaque (Carrossel Hero)',
+      title: 'Artigo em Destaque (Carrossel Hero)',
       type: 'boolean',
       description:
         'Ative esta opção para colocar este artigo no carrossel de capa principal na página inicial do blog. Ao ativar, preencha os 3 tópicos de destaque abaixo.',
       initialValue: false,
     }),
 
-    // Tópicos de Destaque (Hero)
+    
     defineField({
       name: 'highlight1Title',
       title: 'Tópico 01 - Título Curto',
@@ -131,7 +131,7 @@ export const postType = defineType({
       hidden: ({document}) => !document?.featured,
     }),
 
-    // Dados Principais do Artigo
+    
     defineField({
       name: 'title',
       title: 'Título Principal do Artigo (H1)',
@@ -249,7 +249,7 @@ export const postType = defineType({
       validation: (rule) => rule.required().max(250).warning('Mantenha o resumo em até 250 caracteres para não quebrar o layout dos cards.'),
     }),
 
-    // Conteúdo Rico Principal (Body)
+    
     defineField({
       name: 'body',
       title: 'Conteúdo do Artigo (Editor de Texto Rico)',
@@ -258,7 +258,7 @@ export const postType = defineType({
       type: 'blockContent',
     }),
 
-    // 💡 Seção Dedicada de Destaque / Callout (Sem popovers!)
+    
     defineField({
       name: 'calloutStyle',
       title: 'Estilo do Destaque',
@@ -267,10 +267,10 @@ export const postType = defineType({
       description: 'Escolha a cor e o ícone da caixa de destaque.',
       options: {
         list: [
-          {title: '💡 Dica de Ouro (Tip - Verde/Dourado)', value: 'tip'},
-          {title: 'ℹ️ Informação Importante (Info - Azul)', value: 'info'},
-          {title: '⚠️ Atenção / Cuidado (Warning - Âmbar)', value: 'warning'},
-          {title: '💬 Citação Especial (Quote - Minimalista)', value: 'quote'},
+          {title: 'Dica de Ouro', value: 'tip'},
+          {title: 'Informação Importante', value: 'info'},
+          {title: 'Atenção', value: 'warning'},
+          {title: 'Citação Especial', value: 'quote'},
         ],
         layout: 'radio',
       },
@@ -294,7 +294,7 @@ export const postType = defineType({
       description: 'Texto principal exibido dentro da caixa de destaque.',
     }),
 
-    // ❓ Seção Dedicada de FAQ (Perguntas & Respostas - Sem popovers!)
+    
     defineField({
       name: 'faqTitle',
       title: 'Título da Seção de FAQ',
@@ -342,7 +342,7 @@ export const postType = defineType({
       ],
     }),
 
-    // 💬 Seção Dedicada de CTA / WhatsApp (Sem popovers!)
+    
     defineField({
       name: 'ctaTitle',
       title: 'Título da Chamada (CTA)',
@@ -376,13 +376,15 @@ export const postType = defineType({
       description: 'Se deixar em branco, o sistema usará o WhatsApp padrão da Pirâmide Imóveis.',
     }),
 
-    // 🎥 Seção Dedicada de Vídeo (Sem popovers!)
+    
     defineField({
       name: 'videoUrl',
-      title: 'Link do Vídeo (YouTube ou Vimeo)',
+      title: 'Link do Vídeo no YouTube ou Vimeo (16:9 Horizontal)',
       type: 'url',
       fieldset: 'videoSection',
-      placeholder: 'Ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      placeholder: 'Ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ ou https://youtu.be/dQw4w9WgXcQ',
+      description:
+        'Cole o link oficial do vídeo horizontal (16:9). Não utilize links de YouTube Shorts aqui (para vídeos verticais 9:16 estilo Reels, use a seção de Reels do blog). Exemplos válidos: https://www.youtube.com/watch?v=dQw4w9WgXcQ ou https://vimeo.com/76979871.',
     }),
     defineField({
       name: 'videoTitle',
@@ -399,7 +401,7 @@ export const postType = defineType({
       placeholder: 'Ex: Assista aos detalhes exclusivos do projeto.',
     }),
 
-    // 🖼️ Seção Dedicada de Galeria (Sem popovers!)
+    
     defineField({
       name: 'galleryTitle',
       title: 'Título da Galeria de Fotos',
@@ -434,7 +436,7 @@ export const postType = defineType({
       ],
     }),
 
-    // Seção de SEO & Google
+    
     defineField({
       name: 'metaTitle',
       title: 'Título para o Google (Meta Title)',
@@ -494,9 +496,9 @@ export const postType = defineType({
     },
     prepare({title, author, media, date, featured}) {
       const formattedDate = date ? new Date(date).toLocaleDateString('pt-BR') : 'Rascunho'
-      const star = featured ? '⭐ ' : ''
+      const badge = featured ? '[Destaque] ' : ''
       return {
-        title: `${star}${title || 'Artigo sem título'}`,
+        title: `${badge}${title || 'Artigo sem título'}`,
         subtitle: `${formattedDate} • Por ${author || 'Redação'}`,
         media,
       }
