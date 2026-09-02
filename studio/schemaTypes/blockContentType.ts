@@ -1,16 +1,5 @@
 import {defineType, defineArrayMember, defineField} from 'sanity'
-import {
-  ImageIcon,
-  LinkIcon,
-  PlayIcon,
-  InfoOutlineIcon,
-  BulbOutlineIcon,
-  WarningOutlineIcon,
-  HelpCircleIcon,
-  ThListIcon,
-  ImagesIcon,
-  EnvelopeIcon,
-} from '@sanity/icons'
+import {ImageIcon, LinkIcon} from '@sanity/icons'
 
 export const blockContentType = defineType({
   title: 'Conteúdo do Artigo',
@@ -22,14 +11,14 @@ export const blockContentType = defineType({
       type: 'block',
       styles: [
         {title: 'Parágrafo Normal', value: 'normal'},
-        {title: 'Título H2', value: 'h2'},
-        {title: 'Título H3', value: 'h3'},
-        {title: 'Título H4', value: 'h4'},
-        {title: 'Citação / Destaque', value: 'blockquote'},
+        {title: 'Título H2 (Cria seção no Índice)', value: 'h2'},
+        {title: 'Subtítulo H3 (Cria subseção no Índice)', value: 'h3'},
+        {title: 'Título Menor H4', value: 'h4'},
+        {title: 'Citação em Destaque (Blockquote)', value: 'blockquote'},
       ],
       lists: [
-        {title: 'Lista com Marcadores', value: 'bullet'},
-        {title: 'Lista Numerada', value: 'number'},
+        {title: 'Lista com Marcadores (Pontos)', value: 'bullet'},
+        {title: 'Lista Numerada (1, 2, 3...)', value: 'number'},
       ],
       marks: {
         decorators: [
@@ -45,11 +34,13 @@ export const blockContentType = defineType({
             name: 'link',
             type: 'object',
             icon: LinkIcon,
+            description: 'Insira um link para qualquer site externo ou portal.',
             fields: [
               {
                 title: 'URL de Destino',
                 name: 'href',
                 type: 'url',
+                placeholder: 'https://exemplo.com.br',
                 validation: (rule) =>
                   rule.uri({
                     allowRelative: true,
@@ -71,10 +62,11 @@ export const blockContentType = defineType({
             ],
           },
           {
-            title: 'Link para Outro Artigo',
+            title: 'Link para Outro Artigo do Blog',
             name: 'internalLink',
             type: 'object',
             icon: LinkIcon,
+            description: 'Crie links internos entre artigos para fortalecer o SEO do blog.',
             fields: [
               {
                 title: 'Artigo Referenciado',
@@ -88,30 +80,35 @@ export const blockContentType = defineType({
       },
     }),
 
-    
+    // Imagem no Artigo (_type: 'image') - Mantida no editor de texto
     defineArrayMember({
-      name: 'imageBlock',
-      title: 'Imagem com SEO',
+      title: 'Imagem no Artigo',
       type: 'image',
       icon: ImageIcon,
-      options: {hotspot: true},
+      options: {
+        hotspot: true,
+      },
       fields: [
         defineField({
           name: 'alt',
           type: 'string',
           title: 'Texto Alternativo (Alt Text)',
-          description: 'Obrigatório para SEO e acessibilidade (Google Image Search).',
-          validation: (rule) => rule.required().warning('Adicione texto alternativo para otimizar no Google.'),
+          placeholder: 'Ex: Living integrado com iluminação em perfis de LED',
+          description: 'Descreva a imagem para acessibilidade e SEO do Google.',
+          validation: (rule) => rule.required().warning('Adicione o alt text da imagem.'),
         }),
         defineField({
           name: 'caption',
           type: 'string',
           title: 'Legenda da Imagem',
+          placeholder: 'Ex: Conceito aberto com iluminação indireta no Jardim Aquarius.',
+          description: 'Texto curto exibido logo abaixo da foto.',
         }),
         defineField({
           name: 'layout',
           type: 'string',
-          title: 'Largura da Imagem',
+          title: 'Largura de Exibição da Imagem',
+          description: 'Escolha se a imagem ocupará a largura normal do texto, largura destacada ou tela cheia.',
           options: {
             list: [
               {title: 'Padrão (Largura do texto)', value: 'normal'},
@@ -125,353 +122,89 @@ export const blockContentType = defineType({
       ],
     }),
 
-    
+    // Tipos Ocultos do Menu de Inserção (para compatibilidade transparente com documentos existentes)
     defineArrayMember({
-      name: 'galleryBlock',
-      title: 'Galeria de Imagens / Fotos',
-      type: 'object',
-      icon: ImagesIcon,
-      fields: [
-        defineField({
-          name: 'title',
-          type: 'string',
-          title: 'Título da Galeria (Opcional)',
-        }),
-        defineField({
-          name: 'images',
-          type: 'array',
-          title: 'Fotos da Galeria',
-          of: [
-            defineArrayMember({
-              type: 'image',
-              options: {hotspot: true},
-              fields: [
-                defineField({
-                  name: 'alt',
-                  type: 'string',
-                  title: 'Alt Text',
-                  validation: (rule) => rule.required(),
-                }),
-                defineField({
-                  name: 'caption',
-                  type: 'string',
-                  title: 'Legenda',
-                }),
-              ],
-            }),
-          ],
-          validation: (rule) => rule.min(2).error('Adicione pelo menos 2 imagens na galeria.'),
-        }),
-        defineField({
-          name: 'columns',
-          type: 'number',
-          title: 'Colunas no Desktop',
-          options: {
-            list: [
-              {title: '2 Colunas', value: 2},
-              {title: '3 Colunas', value: 3},
-            ],
-            layout: 'radio',
-          },
-          initialValue: 2,
-        }),
-      ],
-      preview: {
-        select: {
-          title: 'title',
-          images: 'images',
-        },
-        prepare({title, images}) {
-          return {
-            title: title || 'Galeria de Imagens',
-            subtitle: `${images?.length || 0} imagens`,
-            media: ImagesIcon,
-          }
-        },
-      },
+      name: 'callout',
+      type: 'callout',
+      title: 'Caixa de Destaque',
+      hidden: true,
     }),
 
-    
-    defineArrayMember({
-      name: 'youtubeBlock',
-      title: 'Vídeo (YouTube / Vimeo)',
-      type: 'object',
-      icon: PlayIcon,
-      fields: [
-        defineField({
-          name: 'url',
-          type: 'url',
-          title: 'URL do Vídeo (YouTube ou Vimeo)',
-          validation: (rule) => rule.required().error('Insira a URL do vídeo.'),
-        }),
-        defineField({
-          name: 'title',
-          type: 'string',
-          title: 'Título do Vídeo (SEO & Acessibilidade)',
-          validation: (rule) => rule.required().error('Insira um título para o vídeo.'),
-        }),
-        defineField({
-          name: 'caption',
-          type: 'string',
-          title: 'Legenda abaixo do vídeo (Opcional)',
-        }),
-      ],
-      preview: {
-        select: {
-          title: 'title',
-          url: 'url',
-        },
-        prepare({title, url}) {
-          return {
-            title: title || 'Vídeo Embed',
-            subtitle: url,
-            media: PlayIcon,
-          }
-        },
-      },
-    }),
-
-    
     defineArrayMember({
       name: 'calloutBlock',
-      title: 'Caixa de Destaque / Alerta',
-      type: 'object',
-      icon: BulbOutlineIcon,
-      fields: [
-        defineField({
-          name: 'type',
-          type: 'string',
-          title: 'Tipo de Destaque',
-          options: {
-            list: [
-              {title: '💡 Dica de Ouro (Tip)', value: 'tip'},
-              {title: 'ℹ️ Informação / Nota (Info)', value: 'info'},
-              {title: '⚠️ Atenção / Cuidado (Warning)', value: 'warning'},
-              {title: '💬 Citação Especial (Quote)', value: 'quote'},
-            ],
-            layout: 'radio',
-          },
-          initialValue: 'tip',
-        }),
-        defineField({
-          name: 'title',
-          type: 'string',
-          title: 'Título da Caixa (Opcional)',
-        }),
-        defineField({
-          name: 'content',
-          type: 'text',
-          rows: 3,
-          title: 'Texto do Destaque',
-          validation: (rule) => rule.required(),
-        }),
-      ],
-      preview: {
-        select: {
-          title: 'title',
-          content: 'content',
-          type: 'type',
-        },
-        prepare({title, content, type}) {
-          return {
-            title: title || `Destaque (${type})`,
-            subtitle: content,
-            media:
-              type === 'warning'
-                ? WarningOutlineIcon
-                : type === 'info'
-                  ? InfoOutlineIcon
-                  : BulbOutlineIcon,
-          }
-        },
-      },
+      type: 'callout',
+      title: 'Caixa de Destaque (Legado)',
+      hidden: true,
     }),
 
-    
+    defineArrayMember({
+      name: 'youtube',
+      type: 'youtube',
+      title: 'Vídeo',
+      hidden: true,
+    }),
+
+    defineArrayMember({
+      name: 'youtubeBlock',
+      type: 'youtube',
+      title: 'Vídeo (Legado)',
+      hidden: true,
+    }),
+
+    defineArrayMember({
+      name: 'cta',
+      type: 'cta',
+      title: 'Bloco de Conversão',
+      hidden: true,
+    }),
+
     defineArrayMember({
       name: 'ctaBlock',
-      title: 'Bloco de Conversão (CTA / WhatsApp)',
-      type: 'object',
-      icon: EnvelopeIcon,
-      fields: [
-        defineField({
-          name: 'title',
-          type: 'string',
-          title: 'Título da Chamada',
-          placeholder: 'Quer simular seu financiamento imobiliário?',
-          validation: (rule) => rule.required(),
-        }),
-        defineField({
-          name: 'description',
-          type: 'text',
-          rows: 2,
-          title: 'Descrição Curta',
-          placeholder: 'Fale agora com nossa equipe de especialistas da Pirâmide Imóveis.',
-        }),
-        defineField({
-          name: 'buttonText',
-          type: 'string',
-          title: 'Texto do Botão',
-          placeholder: 'Simular no WhatsApp',
-          validation: (rule) => rule.required(),
-        }),
-        defineField({
-          name: 'buttonUrl',
-          type: 'string',
-          title: 'Link ou Mensagem do WhatsApp',
-          description: 'Se for WhatsApp, digite o link direto ou deixe em branco para usar o WhatsApp padrão da Pirâmide.',
-        }),
-        defineField({
-          name: 'isWhatsApp',
-          type: 'boolean',
-          title: 'É um botão direto para o WhatsApp?',
-          initialValue: true,
-        }),
-      ],
-      preview: {
-        select: {
-          title: 'title',
-          buttonText: 'buttonText',
-        },
-        prepare({title, buttonText}) {
-          return {
-            title: title || 'Bloco de Conversão (CTA)',
-            subtitle: `Botão: ${buttonText}`,
-            media: EnvelopeIcon,
-          }
-        },
-      },
+      type: 'cta',
+      title: 'Bloco de Conversão (Legado)',
+      hidden: true,
     }),
 
-    
+    defineArrayMember({
+      name: 'table',
+      type: 'table',
+      title: 'Tabela',
+      hidden: true,
+    }),
+
     defineArrayMember({
       name: 'tableBlock',
-      title: 'Tabela de Dados (Comparativos)',
-      type: 'object',
-      icon: ThListIcon,
-      fields: [
-        defineField({
-          name: 'title',
-          type: 'string',
-          title: 'Título da Tabela (Opcional)',
-        }),
-        defineField({
-          name: 'headers',
-          type: 'array',
-          title: 'Cabeçalhos das Colunas',
-          of: [{type: 'string'}],
-          validation: (rule) => rule.min(2).error('A tabela deve ter pelo menos 2 colunas.'),
-        }),
-        defineField({
-          name: 'rows',
-          type: 'array',
-          title: 'Linhas da Tabela',
-          of: [
-            defineArrayMember({
-              type: 'object',
-              fields: [
-                defineField({
-                  name: 'cells',
-                  type: 'array',
-                  title: 'Células da Linha',
-                  of: [{type: 'string'}],
-                }),
-              ],
-              preview: {
-                select: {
-                  cells: 'cells',
-                },
-                prepare({cells}) {
-                  return {
-                    title: cells?.join(' | ') || 'Linha vazia',
-                  }
-                },
-              },
-            }),
-          ],
-        }),
-      ],
-      preview: {
-        select: {
-          title: 'title',
-          headers: 'headers',
-          rows: 'rows',
-        },
-        prepare({title, headers, rows}) {
-          return {
-            title: title || 'Tabela de Dados',
-            subtitle: `${headers?.length || 0} colunas, ${rows?.length || 0} linhas`,
-            media: ThListIcon,
-          }
-        },
-      },
+      type: 'table',
+      title: 'Tabela (Legada)',
+      hidden: true,
     }),
 
-    
+    defineArrayMember({
+      name: 'faq',
+      type: 'faq',
+      title: 'FAQ',
+      hidden: true,
+    }),
+
     defineArrayMember({
       name: 'faqBlock',
-      title: 'FAQ - Perguntas Frequentes (Google Schema)',
-      type: 'object',
-      icon: HelpCircleIcon,
-      fields: [
-        defineField({
-          name: 'title',
-          type: 'string',
-          title: 'Título da Seção de FAQ',
-          initialValue: 'Perguntas Frequentes',
-        }),
-        defineField({
-          name: 'items',
-          type: 'array',
-          title: 'Perguntas e Respostas',
-          of: [
-            defineArrayMember({
-              type: 'object',
-              fields: [
-                defineField({
-                  name: 'question',
-                  type: 'string',
-                  title: 'Pergunta',
-                  validation: (rule) => rule.required(),
-                }),
-                defineField({
-                  name: 'answer',
-                  type: 'text',
-                  rows: 3,
-                  title: 'Resposta',
-                  validation: (rule) => rule.required(),
-                }),
-              ],
-              preview: {
-                select: {
-                  question: 'question',
-                  answer: 'answer',
-                },
-                prepare({question, answer}) {
-                  return {
-                    title: question,
-                    subtitle: answer,
-                  }
-                },
-              },
-            }),
-          ],
-          validation: (rule) => rule.min(1).error('Adicione pelo menos 1 pergunta no FAQ.'),
-        }),
-      ],
-      preview: {
-        select: {
-          title: 'title',
-          items: 'items',
-        },
-        prepare({title, items}) {
-          return {
-            title: title || 'FAQ - Perguntas Frequentes',
-            subtitle: `${items?.length || 0} perguntas (Gera FAQPage JSON-LD)`,
-            media: HelpCircleIcon,
-          }
-        },
-      },
+      type: 'faq',
+      title: 'FAQ (Legado)',
+      hidden: true,
+    }),
+
+    defineArrayMember({
+      name: 'gallery',
+      type: 'gallery',
+      title: 'Galeria',
+      hidden: true,
+    }),
+
+    defineArrayMember({
+      name: 'galleryBlock',
+      type: 'gallery',
+      title: 'Galeria (Legada)',
+      hidden: true,
     }),
   ],
 })

@@ -6,7 +6,14 @@ import { Icon } from "@iconify/react";
 import { sanityFetch } from "@/sanity/lib/live";
 import { POST_QUERY, POST_SLUGS_QUERY, RELATED_POSTS_QUERY, POST_PREV_NEXT_QUERY } from "@/sanity/lib/queries";
 import { urlForImage } from "@/sanity/lib/image";
-import { PortableText } from "@/components/PortableText";
+import {
+  PortableText,
+  CalloutComponent,
+  FaqComponent,
+  YoutubeComponent,
+  GalleryComponent,
+  CtaComponent,
+} from "@/components/PortableText";
 import { TableOfContents } from "@/src/components/blog/TableOfContents";
 import { ReadingProgressBar } from "@/src/components/blog/ReadingProgressBar";
 import { ShareButtons } from "@/src/components/blog/ShareButtons";
@@ -189,7 +196,7 @@ export default async function ArticlePage({
     items?: FaqItemRaw[];
   }
 
-  const faqItems = Array.isArray(postData.body)
+  const bodyFaqItems = Array.isArray(postData.body)
     ? (postData.body as unknown[])
         .filter((block): block is FaqBlockRaw => {
           const b = block as FaqBlockRaw | null | undefined;
@@ -198,6 +205,12 @@ export default async function ArticlePage({
         .flatMap((b: FaqBlockRaw) => b.items || [])
         .filter((item): item is { question: string; answer: string } => Boolean(item?.question && item?.answer))
     : [];
+
+  const dedicatedFaqItems = (postData.faqItems || []).filter(
+    (item): item is { question: string; answer: string } => Boolean(item?.question && item?.answer)
+  );
+
+  const faqItems = [...dedicatedFaqItems, ...bodyFaqItems];
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -453,6 +466,18 @@ export default async function ArticlePage({
               </div>
 
               
+              {/* Caixa de Destaque Dedicada (se preenchida) */}
+              {postData.calloutContent && (
+                <CalloutComponent
+                  value={{
+                    type: (postData.calloutStyle as "tip" | "info" | "warning" | "quote") || "tip",
+                    title: postData.calloutTitle,
+                    content: postData.calloutContent,
+                  }}
+                />
+              )}
+
+              {/* Corpo Principal do Artigo (PortableText) */}
               <div className="prose prose-zinc dark:prose-invert max-w-none">
                 {postData.body ? (
                   <PortableText value={postData.body} />
@@ -460,6 +485,50 @@ export default async function ArticlePage({
                   <p className="text-muted-foreground italic">Sem conteúdo adicional para este artigo.</p>
                 )}
               </div>
+
+              {/* Vídeo Dedicado (se preenchido) */}
+              {postData.videoUrl && (
+                <YoutubeComponent
+                  value={{
+                    url: postData.videoUrl,
+                    title: postData.videoTitle,
+                    caption: postData.videoCaption,
+                  }}
+                />
+              )}
+
+              {/* Galeria de Fotos Dedicada (se preenchida) */}
+              {postData.galleryImages && postData.galleryImages.length > 0 && (
+                <GalleryComponent
+                  value={{
+                    title: postData.galleryTitle,
+                    images: postData.galleryImages,
+                  }}
+                />
+              )}
+
+              {/* FAQ Dedicado (se preenchido) */}
+              {postData.faqItems && postData.faqItems.length > 0 && (
+                <FaqComponent
+                  value={{
+                    title: postData.faqTitle || "Perguntas Frequentes",
+                    items: postData.faqItems,
+                  }}
+                />
+              )}
+
+              {/* Bloco de Conversão CTA Dedicado (se preenchido) */}
+              {postData.ctaTitle && (
+                <CtaComponent
+                  value={{
+                    title: postData.ctaTitle,
+                    description: postData.ctaDescription,
+                    buttonText: postData.ctaButtonText,
+                    buttonUrl: postData.ctaButtonUrl,
+                    isWhatsApp: true,
+                  }}
+                />
+              )}
 
               
               {postData.tags && postData.tags.length > 0 && (

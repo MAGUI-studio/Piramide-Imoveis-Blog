@@ -413,7 +413,26 @@ async function runSeed() {
   ];
 
   for (const post of posts) {
-    await client.createOrReplace(post);
+    const preparedPost = {
+      ...post,
+      categories: (post.categories || []).map((cat: any, idx: number) => ({
+        ...cat,
+        _key: cat._key || `cat_${idx}_${cat._ref || Math.random().toString(36).substring(2, 7)}`,
+      })),
+      body: (post.body || []).filter(Boolean).map((block: any, idx: number) => ({
+        ...block,
+        _key: block._key || `blk_${idx}_${Math.random().toString(36).substring(2, 7)}`,
+        ...(block.children
+          ? {
+              children: block.children.filter(Boolean).map((child: any, cIdx: number) => ({
+                ...child,
+                _key: child._key || `span_${cIdx}_${Math.random().toString(36).substring(2, 7)}`,
+              })),
+            }
+          : {}),
+      })),
+    };
+    await client.createOrReplace(preparedPost);
     console.log(`  ✓ Artigo: ${post.title}`);
   }
 

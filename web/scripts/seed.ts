@@ -403,17 +403,25 @@ async function runSeed() {
       slug: { _type: "slug", current: "como-funciona-o-financiamento-imobiliario-em-2026" },
       featured: true,
       publishedAt: new Date("2026-02-15T10:00:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T15:30:00Z").toISOString(),
       excerpt: "Entenda a diferença prática entre Tabela SAC e Price, como usar o FGTS na entrada e as estratégias comprovadas para conseguir a menor taxa de juros na compra do seu imóvel.",
-      mainImage: imgFinanciamento,
+      mainImage: {
+        ...imgFinanciamento,
+        alt: "Simulação de financiamento imobiliário e cálculo de taxas de juros no computador",
+        caption: "Planejamento financeiro inteligente: compare Tabela SAC vs Price e use o FGTS a seu favor.",
+      },
       highlight1Title: "SAC vs Price sem Segredos",
-      highlight1Description: "Qual modalidade gera mais economia de juros no longo prazo",
+      highlight1Description: "Qual modalidade gera mais economia de juros no longo prazo para o comprador",
       highlight2Title: "Uso Estratégico do FGTS",
-      highlight2Description: "Como abater a entrada e amortizar parcelas com eficiência",
+      highlight2Description: "Como abater o valor de entrada e amortizar parcelas com máxima eficiência financeira",
       highlight3Title: "Menores Taxas Bancárias",
-      highlight3Description: "Dicas para negociar o Custo Efetivo Total com os bancos",
+      highlight3Description: "Estratégias práticas para negociar o Custo Efetivo Total direto com os principais bancos",
       author: { _type: "reference", _ref: "author-ana-silva" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [{ _type: "reference", _ref: "category-financiamento-credito" }],
+      tags: ["Financiamento", "Tabela SAC", "Tabela Price", "FGTS", "Crédito Imobiliário"],
+      metaTitle: "Financiamento Imobiliário 2026: Tabela SAC vs Price e Dicas de Juros",
+      metaDescription: "Entenda tudo sobre financiamento imobiliário em 2026. Compare SAC vs Price, saiba como usar o FGTS na entrada e consiga as menores taxas de juros com a Pirâmide.",
       body: [
         {
           _type: "block",
@@ -474,20 +482,28 @@ async function runSeed() {
       slug: { _type: "slug", current: "sao-jose-dos-campos-aquarius-urbanova-valorizacao" },
       featured: true,
       publishedAt: new Date("2026-02-20T14:30:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T18:00:00Z").toISOString(),
       excerpt: "Com novos centros comerciais, infraestrutura planejada e condomínios de alto padrão, a Zona Oeste de São José dos Campos consolida-se como o maior polo de liquidez imobiliária.",
-      mainImage: imgLuxo,
+      mainImage: {
+        ...imgLuxo,
+        alt: "Praça Ulisses Guimarães e edifícios modernos no Jardim Aquarius, São José dos Campos",
+        caption: "Jardim Aquarius e Urbanova: polos de alta valorização e qualidade de vida na Zona Oeste de SJC.",
+      },
       highlight1Title: "Polo de Alta Liquidez",
-      highlight1Description: "Imóveis que valorizam acima da média do estado de SP",
+      highlight1Description: "Imóveis que valorizam acima da média estadual no Vale do Paraíba",
       highlight2Title: "Qualidade de Vida & Parques",
-      highlight2Description: "Ciclovias, praças e segurança nos condomínios fechados",
+      highlight2Description: "Ciclovias, praças arborizadas e segurança patrimonial nos condomínios fechados",
       highlight3Title: "Infraestrutura Completa",
-      highlight3Description: "Comércio, colégios de ponta e gastronomia renomada",
+      highlight3Description: "Comércio cosmopolita, colégios de ponta e gastronomia renomada",
       author: { _type: "reference", _ref: "author-guilherme-bustamante" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-mercado-imobiliario" },
         { _type: "reference", _ref: "category-cidades-bairros" },
       ],
+      tags: ["Jardim Aquarius", "Urbanova", "São José dos Campos", "Valorização", "Alto Padrão"],
+      metaTitle: "Jardim Aquarius e Urbanova em SJC: Por que Morar e Investir",
+      metaDescription: "Conheça o Jardim Aquarius e Urbanova em São José dos Campos. Infraestrutura completa, praças, escolas renomadas, gastronomia e imóveis de alto padrão na Pirâmide Imóveis.",
       body: [
         {
           _type: "block",
@@ -508,14 +524,19 @@ async function runSeed() {
       slug: { _type: "slug", current: "investir-em-imoveis-em-ubatuba-litoral-norte" },
       featured: true,
       publishedAt: new Date("2026-02-25T09:15:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T16:00:00Z").toISOString(),
       excerpt: "Descubra quais praias de Ubatuba oferecem o melhor retorno sobre o investimento (ROI) para locação via plataformas digitais e valorização patrimonial a médio prazo.",
-      mainImage: imgUbatuba,
+      mainImage: {
+        ...imgUbatuba,
+        alt: "Praia de Ubatuba com mar calmo e vegetação nativa preservada no Litoral Norte de SP",
+        caption: "Ubatuba combina valorização acelerada com alta liquidez em locação por temporada.",
+      },
       highlight1Title: "Retorno com Temporada",
-      highlight1Description: "Taxas de ocupação elevadas durante o ano inteiro",
+      highlight1Description: "Taxas de ocupação elevadas durante todos os meses do ano",
       highlight2Title: "Praias Mais Valorizadas",
-      highlight2Description: "Praia Grande, Tenório, Toninhas e Enseada em destaque",
+      highlight2Description: "Praia Grande, Tenório, Toninhas e Enseada em grande destaque",
       highlight3Title: "Liquidez e Valorização",
-      highlight3Description: "Alta procura por casas modernas e apartamentos perto do mar",
+      highlight3Description: "Alta procura por casas modernas e apartamentos próximos ao mar",
       author: { _type: "reference", _ref: "author-felipe-santos" },
       city: { _type: "reference", _ref: "city-ubatuba" },
       categories: [
@@ -523,6 +544,9 @@ async function runSeed() {
         { _type: "reference", _ref: "category-cidades-bairros" },
         { _type: "reference", _ref: "category-investimentos-rentabilidade" },
       ],
+      tags: ["Ubatuba", "Litoral Norte", "Temporada", "Investimento", "Praia"],
+      metaTitle: "Investir em Imóveis em Ubatuba: Oportunidades no Litoral Norte",
+      metaDescription: "Descubra por que Ubatuba atrai investidores de São Paulo e Vale do Paraíba. Oportunidades frente ao mar e alto retorno em locação de temporada.",
       body: [
         {
           _type: "block",
@@ -543,14 +567,22 @@ async function runSeed() {
       slug: { _type: "slug", current: "tendencias-arquitetura-autoral-alto-padrao-vale" },
       featured: false,
       publishedAt: new Date("2026-02-26T16:00:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T16:30:00Z").toISOString(),
       excerpt: "Conheça os elementos que definem as mansões contemporâneas: integração com a natureza, biofilia, concreto aparente, madeira nobre e automação residencial completa.",
-      mainImage: imgArquitetura,
+      mainImage: {
+        ...imgArquitetura,
+        alt: "Living integrado de mansão moderna com iluminação em LED e materiais naturais",
+        caption: "Arquitetura autoral: design contemporâneo que valoriza o imóvel no Vale do Paraíba.",
+      },
       author: { _type: "reference", _ref: "author-marcos-oliveira" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-imoveis-de-luxo" },
         { _type: "reference", _ref: "category-arquitetura-design" },
       ],
+      tags: ["Arquitetura", "Design", "Alto Padrão", "Biofilia", "Luxo"],
+      metaTitle: "Tendências de Arquitetura Autoral em Casas de Luxo no Vale",
+      metaDescription: "Confira as principais tendências de arquitetura e interiores para 2026: biofilia, concreto aparente, madeira natural e automação residencial para valorizar seu imóvel.",
       body: [
         {
           _type: "block",
@@ -571,14 +603,22 @@ async function runSeed() {
       slug: { _type: "slug", current: "campos-do-jordao-como-escolher-casa-de-campo-perfeita" },
       featured: false,
       publishedAt: new Date("2026-02-24T11:00:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T19:30:00Z").toISOString(),
       excerpt: "Guia com as melhores regiões de Campos do Jordão: Capivari, Alto do Capivari, Jaguaribe e condomínios com vista panorâmica para a Pedra do Baú.",
-      mainImage: imgCampos,
+      mainImage: {
+        ...imgCampos,
+        alt: "Casa de campo em estilo alpino com vista para as montanhas de Campos do Jordão",
+        caption: "Campos do Jordão: sofisticação e alta procura por casas de temporada na Serra da Mantiqueira.",
+      },
       author: { _type: "reference", _ref: "author-guilherme-bustamante" },
       city: { _type: "reference", _ref: "city-campos-do-jordao" },
       categories: [
         { _type: "reference", _ref: "category-imoveis-de-luxo" },
         { _type: "reference", _ref: "category-cidades-bairros" },
       ],
+      tags: ["Campos do Jordão", "Serra da Mantiqueira", "Casa de Campo", "Capivari", "Luxo"],
+      metaTitle: "Casas de Campo em Campos do Jordão: Refúgio de Luxo na Serra",
+      metaDescription: "Guia completo para comprar ou investir em casas de campo e chalés em Campos do Jordão. Alto Capivari, Jaguaribe e condomínios exclusivos na Mantiqueira.",
       body: [
         {
           _type: "block",
@@ -599,11 +639,19 @@ async function runSeed() {
       slug: { _type: "slug", current: "documentacao-compra-imoveis-passo-a-passo-seguranca" },
       featured: false,
       publishedAt: new Date("2026-02-23T14:00:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T17:30:00Z").toISOString(),
       excerpt: "Certidões negativas, matrícula atualizada, escritura pública e ITBI: saiba exatamente quais documentos checar antes de assinar o contrato de compra e venda.",
-      mainImage: imgJuridico,
+      mainImage: {
+        ...imgJuridico,
+        alt: "Contrato de compra e venda de imóvel e certidões cartorárias em mesa executiva",
+        caption: "Due diligence jurídica: a checagem rigorosa de certidões e matrícula garante segurança total.",
+      },
       author: { _type: "reference", _ref: "author-carla-mendes" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [{ _type: "reference", _ref: "category-juridico-documentacao" }],
+      tags: ["Documentação", "Segurança Jurídica", "Escritura", "ITBI", "Cartório"],
+      metaTitle: "Documentos para Comprar Imóvel sem Riscos | Checklist Jurídico",
+      metaDescription: "Checklist completo de documentos e certidões obrigatórias para compra de imóveis com segurança jurídica. Evite surpresas com a consultoria da Pirâmide Imóveis.",
       body: [
         {
           _type: "block",
@@ -624,14 +672,22 @@ async function runSeed() {
       slug: { _type: "slug", current: "ilhabela-sao-sebastiao-praias-exclusivas-investir" },
       featured: false,
       publishedAt: new Date("2026-02-22T17:30:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T20:00:00Z").toISOString(),
       excerpt: "Maresias, Juquehy, Praia da Baleia e o sul de Ilhabela: por que essas praias mantêm o metro quadrado mais valorizado de todo o litoral paulista.",
-      mainImage: imgIlhabela,
+      mainImage: {
+        ...imgIlhabela,
+        alt: "Mansão pé na areia com píer privativo e vista panorâmica para o mar em Ilhabela",
+        caption: "Ilhabela é referência internacional em exclusividade náutica e propriedades de altíssimo padrão.",
+      },
       author: { _type: "reference", _ref: "author-felipe-santos" },
       city: { _type: "reference", _ref: "city-ilhabela" },
       categories: [
         { _type: "reference", _ref: "category-imoveis-de-luxo" },
         { _type: "reference", _ref: "category-investimentos-rentabilidade" },
       ],
+      tags: ["Ilhabela", "São Sebastião", "Pé na Areia", "Maresias", "Juquehy"],
+      metaTitle: "Mansões em Ilhabela e São Sebastião: Luxo Pé na Areia no Litoral",
+      metaDescription: "Explore as propriedades mais exclusivas de Ilhabela e São Sebastião. Mansões pé na areia, condomínios fechados e alto padrão náutico com a Pirâmide Imóveis.",
       body: [
         {
           _type: "block",
@@ -652,14 +708,22 @@ async function runSeed() {
       slug: { _type: "slug", current: "jacarei-expansao-condominios-fechados-qualidade-vida" },
       featured: false,
       publishedAt: new Date("2026-02-21T08:00:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T18:30:00Z").toISOString(),
       excerpt: "A poucos minutos de São José dos Campos, Jacareí oferece terrenos mais amplos, condomínios com infraestrutura de clube e excelente custo-benefício por m².",
-      mainImage: imgJacarei,
+      mainImage: {
+        ...imgJacarei,
+        alt: "Condomínio fechado com casas de alto padrão e ampla área verde em Jacareí SP",
+        caption: "Jacareí oferece terrenos generosos e infraestrutura de clube a poucos minutos de SJC.",
+      },
       author: { _type: "reference", _ref: "author-redacao-piramide" },
       city: { _type: "reference", _ref: "city-jacarei" },
       categories: [
         { _type: "reference", _ref: "category-cidades-bairros" },
         { _type: "reference", _ref: "category-mercado-imobiliario" },
       ],
+      tags: ["Jacareí", "Condomínio Fechado", "Custo-Benefício", "Qualidade de Vida", "Vale do Paraíba"],
+      metaTitle: "Condomínios Fechados em Jacareí: Alto Padrão e Custo por m²",
+      metaDescription: "Descubra as vantagens de morar em condomínios fechados em Jacareí. Excelente custo por m², lazer completo, segurança e acesso rápido à Dutra e Carvalho Pinto.",
       body: [
         {
           _type: "block",
@@ -680,14 +744,22 @@ async function runSeed() {
       slug: { _type: "slug", current: "roteiro-gastronomico-restaurantes-aquarius-esplanada" },
       featured: false,
       publishedAt: new Date("2026-02-19T19:00:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T21:30:00Z").toISOString(),
       excerpt: "Conheça as melhores opções de bistrôs, culinária italiana autêntica, alta gastronomia japonesa e cafeterias especiais em São José dos Campos.",
-      mainImage: imgGastronomia,
+      mainImage: {
+        ...imgGastronomia,
+        alt: "Mesa posta de restaurante contemporâneo na Vila Ema e Jardim Aquarius em SJC",
+        caption: "Vila Ema e Jardim Aquarius: os polos gastronômicos mais renomados de São José dos Campos.",
+      },
       author: { _type: "reference", _ref: "author-redacao-piramide" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-gastronomia-lifestyle" },
         { _type: "reference", _ref: "category-cidades-bairros" },
       ],
+      tags: ["Gastronomia", "Jardim Aquarius", "Vila Ema", "Jardim Esplanada", "Lifestyle"],
+      metaTitle: "Roteiro Gastronômico no Aquarius e Esplanada em SJC | Pirâmide",
+      metaDescription: "Conheça os melhores restaurantes, bistrôs e cafés no Jardim Aquarius, Esplanada e Vila Ema em São José dos Campos. O guia gastronômico da Pirâmide Imóveis.",
       body: [
         {
           _type: "block",
@@ -708,14 +780,22 @@ async function runSeed() {
       slug: { _type: "slug", current: "casas-sustentaveis-energia-solar-biofilia-valorizacao" },
       featured: false,
       publishedAt: new Date("2026-02-18T15:20:00Z").toISOString(),
+      updatedAt: new Date("2026-03-01T22:30:00Z").toISOString(),
       excerpt: "Imóveis com certificação verde, placas fotovoltaicas e sistemas de reúso de água vendem até 25% mais rápido e geram economia real na conta de consumo.",
-      mainImage: imgSustentabilidade,
+      mainImage: {
+        ...imgSustentabilidade,
+        alt: "Residência sustentável com painéis solares e integração paisagística com a natureza",
+        caption: "Eficiência energética e arquitetura sustentável aumentam o valor de revenda do imóvel.",
+      },
       author: { _type: "reference", _ref: "author-marcos-oliveira" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-sustentabilidade-biofilia" },
         { _type: "reference", _ref: "category-arquitetura-design" },
       ],
+      tags: ["Sustentabilidade", "Energia Solar", "Biofilia", "Casas Inteligentes", "Valorização"],
+      metaTitle: "Casas Sustentáveis e Energia Solar: Valorização Imobiliária",
+      metaDescription: "Saiba como a energia solar, reúso de água e biofilia valorizam imóveis no Vale do Paraíba. Economia real e liquidez acelerada com a Pirâmide Imóveis.",
       body: [
         {
           _type: "block",
@@ -732,7 +812,26 @@ async function runSeed() {
   ];
 
   for (const post of posts) {
-    await client.createOrReplace(post);
+    const preparedPost = {
+      ...post,
+      categories: (post.categories || []).map((cat: any, idx: number) => ({
+        ...cat,
+        _key: cat._key || `cat_${idx}_${cat._ref || Math.random().toString(36).substring(2, 7)}`,
+      })),
+      body: (post.body || []).filter(Boolean).map((block: any, idx: number) => ({
+        ...block,
+        _key: block._key || `blk_${idx}_${Math.random().toString(36).substring(2, 7)}`,
+        ...(block.children
+          ? {
+              children: block.children.filter(Boolean).map((child: any, cIdx: number) => ({
+                ...child,
+                _key: child._key || `span_${cIdx}_${Math.random().toString(36).substring(2, 7)}`,
+              })),
+            }
+          : {}),
+      })),
+    };
+    await client.createOrReplace(preparedPost);
     console.log(`  ✓ Artigo: ${post.title}`);
   }
 

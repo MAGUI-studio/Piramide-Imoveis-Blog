@@ -3,43 +3,53 @@ import {UserIcon} from '@sanity/icons'
 
 export const authorType = defineType({
   name: 'author',
-  title: 'Autor',
+  title: 'Autor / Corretor',
   type: 'document',
   icon: UserIcon,
   fields: [
     defineField({
       name: 'name',
-      title: 'Nome do Autor',
+      title: 'Nome Completo do Autor',
       type: 'string',
+      placeholder: 'Ex: Guilherme Bustamante ou Ana Silva',
+      description: 'Nome profissional do consultor ou membro da equipe editorial.',
       validation: (rule) => rule.required().error('O nome do autor é obrigatório.'),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug do Autor',
+      title: 'Slug da Página do Autor',
       type: 'slug',
+      description:
+        'O link da página de perfil do autor (ex: "/autor/guilherme-bustamante"). Clique no botão "Generate" para criar automaticamente.',
       options: {
         source: 'name',
         maxLength: 96,
       },
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.required().error('O slug do autor é obrigatório.'),
     }),
     defineField({
       name: 'role',
-      title: 'Cargo / Especialidade (E-E-A-T)',
+      title: 'Cargo / Especialidade Profissional',
       type: 'string',
-      placeholder: 'Ex: Especialista em Mercado Imobiliário & Financiamento',
-      description: 'Reforça a autoridade e especialidade do autor para o algoritmo do Google.',
+      placeholder: 'Ex: Especialista em Mercado Imobiliário & Análise de Investimentos',
+      description:
+        'Cargo ou área de atuação. Exibido logo abaixo do nome do autor no artigo e fortalece o critério E-E-A-T do Google.',
+      validation: (rule) => rule.required().error('Defina o cargo ou especialidade do autor.'),
     }),
     defineField({
       name: 'creci',
-      title: 'CRECI (Opcional)',
+      title: 'Registro Profissional CRECI (Opcional)',
       type: 'string',
-      placeholder: 'Ex: CRECI 9390-J',
+      placeholder: 'Ex: CRECI 9390-J ou CRECI 12450-F',
+      description:
+        'Número de registro no Conselho Regional de Corretores de Imóveis. Passa muita credibilidade e segurança aos leitores.',
     }),
     defineField({
       name: 'image',
-      title: 'Foto / Avatar',
+      title: 'Foto de Perfil (Avatar)',
       type: 'image',
+      description:
+        'Foto nítida em formato quadrado ou retrato (proporção 1:1, mín. 400x400px). Utilize fotos profissionais para aumentar a conversão.',
       options: {
         hotspot: true,
       },
@@ -48,13 +58,15 @@ export const authorType = defineType({
           name: 'alt',
           type: 'string',
           title: 'Texto Alternativo',
+          placeholder: 'Ex: Foto de perfil de Guilherme Bustamante, especialista imobiliário',
+          description: 'Descrição da imagem para acessibilidade e leitores de tela.',
         },
       ],
-      validation: (rule) => rule.required().error('A foto do autor é importante para a credibilidade do artigo.'),
+      validation: (rule) => rule.required().error('A foto do autor é obrigatória para a credibilidade do artigo.'),
     }),
     defineField({
       name: 'bio',
-      title: 'Biografia do Autor',
+      title: 'Biografia Resumida',
       type: 'array',
       of: [
         {
@@ -64,22 +76,29 @@ export const authorType = defineType({
           lists: [],
         },
       ],
-      description: 'Breve resumo da trajetória profissional do autor.',
+      description:
+        'Breve resumo da trajetória, anos de experiência no mercado do Vale do Paraíba e principais conquistas profissionais.',
     }),
     defineField({
       name: 'linkedinUrl',
-      title: 'Perfil no LinkedIn (URL)',
+      title: 'Link do Perfil no LinkedIn',
       type: 'url',
+      placeholder: 'Ex: https://www.linkedin.com/in/seunome',
+      description: 'Link direto para o perfil profissional no LinkedIn.',
     }),
     defineField({
       name: 'instagramUrl',
-      title: 'Perfil no Instagram (URL)',
+      title: 'Link do Perfil no Instagram',
       type: 'url',
+      placeholder: 'Ex: https://www.instagram.com/piramideimoveis',
+      description: 'Link direto para o perfil no Instagram.',
     }),
     defineField({
       name: 'email',
-      title: 'E-mail de Contato',
+      title: 'E-mail Profissional de Contato',
       type: 'string',
+      placeholder: 'Ex: corretor@piramideimoveis.com.br',
+      description: 'E-mail institucional do corretor ou da equipe editorial.',
     }),
   ],
   preview: {

@@ -15,7 +15,7 @@ interface CalloutValue {
   content?: string;
 }
 
-function CalloutComponent({ value }: { value: CalloutValue }) {
+export function CalloutComponent({ value }: { value: CalloutValue }) {
   const type = value?.type || "tip";
 
   const config = {
@@ -77,7 +77,7 @@ interface TableValue {
   rows?: TableRow[];
 }
 
-function TableComponent({ value }: { value: TableValue }) {
+export function TableComponent({ value }: { value: TableValue }) {
   const headers = value?.headers || [];
   const rows = value?.rows || [];
 
@@ -128,7 +128,7 @@ interface FaqValue {
   items?: FaqItem[];
 }
 
-function FaqComponent({ value }: { value: FaqValue }) {
+export function FaqComponent({ value }: { value: FaqValue }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
   const items = value?.items || [];
 
@@ -148,22 +148,25 @@ function FaqComponent({ value }: { value: FaqValue }) {
           return (
             <div
               key={idx}
-              className="rounded-none border border-zinc-200 dark:border-white/10 bg-card transition-all"
+              className="border border-zinc-200 dark:border-white/10 rounded-none bg-card overflow-hidden transition-all duration-200"
             >
               <button
                 type="button"
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
-                className="flex w-full items-center justify-between p-5 text-left font-semibold text-foreground hover:text-primary transition-colors cursor-pointer"
+                className="w-full flex items-center justify-between p-4 sm:p-5 text-left font-bold text-sm sm:text-base text-foreground font-heading hover:bg-zinc-500/5 transition-colors gap-4 cursor-pointer"
+                aria-expanded={isOpen}
               >
-                <span className="font-heading text-base sm:text-lg tracking-tight">{item.question}</span>
+                <span>{item.question}</span>
                 <Icon
-                  icon={isOpen ? "ph:minus-bold" : "ph:plus-bold"}
-                  className="size-4 shrink-0 text-primary transition-transform"
+                  icon="ph:caret-down-bold"
+                  className={`size-4 text-primary shrink-0 transition-transform duration-300 ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
                 />
               </button>
               {isOpen && (
-                <div className="px-5 pb-5 text-sm sm:text-base leading-relaxed text-muted-foreground border-t border-zinc-100 dark:border-white/5 pt-4 font-light">
-                  {item.answer}
+                <div className="px-4 pb-5 sm:px-5 sm:pb-6 pt-0 text-sm sm:text-base text-muted-foreground font-light leading-relaxed border-t border-zinc-200/60 dark:border-white/5">
+                  <p className="whitespace-pre-line pt-3">{item.answer}</p>
                 </div>
               )}
             </div>
@@ -180,7 +183,7 @@ interface YoutubeValue {
   caption?: string;
 }
 
-function YoutubeComponent({ value }: { value: YoutubeValue }) {
+export function YoutubeComponent({ value }: { value: YoutubeValue }) {
   if (!value?.url) return null;
 
   let embedUrl = value.url;
@@ -225,7 +228,7 @@ interface GalleryValue {
   images?: GalleryImage[];
 }
 
-function GalleryComponent({ value }: { value: GalleryValue }) {
+export function GalleryComponent({ value }: { value: GalleryValue }) {
   const images = value?.images || [];
   const columns = value?.columns || 2;
 
@@ -282,7 +285,7 @@ interface CtaValue {
   isWhatsApp?: boolean;
 }
 
-function CtaComponent({ value }: { value: CtaValue }) {
+export function CtaComponent({ value }: { value: CtaValue }) {
   if (!value?.title) return null;
 
   const isWhatsApp = value.isWhatsApp !== false;
