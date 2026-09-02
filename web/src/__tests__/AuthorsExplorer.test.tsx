@@ -6,8 +6,8 @@ import type { AuthorRef } from "@/src/types/sanity";
 const mockAuthors: AuthorRef[] = [
   {
     _id: "author-1",
-    name: "Guilherme Bustamante",
-    slug: { current: "guilherme-bustamante" },
+    name: "Ana Silva",
+    slug: { current: "ana-silva" },
     role: "Especialista em Urbanova e Alto Padrão",
     creci: "CRECI 12345-F",
     postCount: 15,
@@ -29,7 +29,7 @@ describe("AuthorsExplorer", () => {
     expect(
       screen.getByPlaceholderText(/pesquisar por nome do autor/i),
     ).toBeInTheDocument();
-    expect(screen.getByText("Guilherme Bustamante")).toBeInTheDocument();
+    expect(screen.getByText("Ana Silva")).toBeInTheDocument();
     expect(screen.getByText("Carlos Ferreira")).toBeInTheDocument();
   });
 
@@ -40,7 +40,7 @@ describe("AuthorsExplorer", () => {
     fireEvent.change(searchInput, { target: { value: "investimentos" } });
 
     expect(screen.getByText("Carlos Ferreira")).toBeInTheDocument();
-    expect(screen.queryByText("Guilherme Bustamante")).not.toBeInTheDocument();
+    expect(screen.queryByText("Ana Silva")).not.toBeInTheDocument();
   });
 
   it("should display empty state with reset button when no authors match", () => {
@@ -54,6 +54,6 @@ describe("AuthorsExplorer", () => {
     expect(resetButton).toBeInTheDocument();
 
     fireEvent.click(resetButton);
-    expect(screen.getByText("Guilherme Bustamante")).toBeInTheDocument();
+    expect(screen.getByText("Ana Silva")).toBeInTheDocument();
   });
 });

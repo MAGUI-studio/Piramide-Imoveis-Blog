@@ -1,6 +1,6 @@
 
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createClient } from "next-sanity";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "y2fjdwuo";
@@ -34,6 +34,43 @@ async function uploadImageFromUrl(url: string, filename: string) {
   }
 }
 
+interface SanityImageObject {
+  _type: string;
+  asset: {
+    _type: string;
+    _ref: string;
+  };
+}
+
+interface SanityBlockChild {
+  _type: string;
+  text: string;
+  _key?: string;
+}
+
+interface SanityBlock {
+  _type: string;
+  style?: string;
+  children?: SanityBlockChild[];
+  _key?: string;
+  asset?: {
+    _type: string;
+    _ref: string;
+  };
+}
+
+interface CategoryReference {
+  _type: string;
+  _ref: string;
+  _key?: string;
+}
+
+interface FaqItemSeed {
+  question: string;
+  answer: string;
+  _key?: string;
+}
+
 interface ArticleSection {
   title: string;
   level?: "h2" | "h3";
@@ -43,9 +80,9 @@ interface ArticleSection {
 function buildBody(
   intro: string[],
   sections: ArticleSection[],
-  inlineImage?: any
-): any[] {
-  const body: any[] = [];
+  inlineImage?: SanityImageObject
+): SanityBlock[] {
+  const body: SanityBlock[] = [];
 
   
   for (const p of intro) {
@@ -127,7 +164,7 @@ async function runSeed() {
   const imgCozinha = await uploadImageFromUrl("https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=1200&auto=format&fit=crop", "cozinha.jpg");
 
   
-  const imgAvatarGuilherme = await uploadImageFromUrl("https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop", "avatar_guilherme.jpg");
+  const imgAvatarCarlos = await uploadImageFromUrl("https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop", "avatar_carlos.jpg");
   const imgAvatarAna = await uploadImageFromUrl("https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop", "avatar_ana.jpg");
   const imgAvatarMarcos = await uploadImageFromUrl("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop", "avatar_marcos.jpg");
   const imgAvatarCarla = await uploadImageFromUrl("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop", "avatar_carla.jpg");
@@ -137,13 +174,13 @@ async function runSeed() {
   console.log("\n👤 Criando 6 Autores Especialistas...");
   const authors = [
     {
-      _id: "author-guilherme-bustamante",
+      _id: "author-carlos-eduardo",
       _type: "author",
-      name: "Guilherme Bustamante",
-      slug: { _type: "slug", current: "guilherme-bustamante" },
+      name: "Carlos Eduardo",
+      slug: { _type: "slug", current: "carlos-eduardo" },
       role: "Especialista em Mercado Imobiliário & Investimentos",
       creci: "CRECI 9390-J",
-      image: imgAvatarGuilherme,
+      image: imgAvatarCarlos,
       bio: [
         {
           _type: "block",
@@ -157,7 +194,7 @@ async function runSeed() {
       ],
       linkedinUrl: "https://www.linkedin.com/company/piramide-imoveis",
       instagramUrl: "https://www.instagram.com/piramideimoveissjc",
-      email: "guilherme@piramideimoveis.com.br",
+      email: "carlos.eduardo@piramideimoveis.com.br",
     },
     {
       _id: "author-ana-silva",
@@ -605,7 +642,7 @@ async function runSeed() {
       ctaTitle: "Procurando Imóvel no Aquarius ou Urbanova?",
       ctaDescription: "Acesse nosso portfólio exclusivo de apartamentos de alto padrão e casas em condomínio fechado.",
       ctaButtonText: "Ver Imóveis Disponíveis no WhatsApp",
-      author: { _type: "reference", _ref: "author-guilherme-bustamante" },
+      author: { _type: "reference", _ref: "author-carlos-eduardo" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-mercado-imobiliario" },
@@ -860,7 +897,7 @@ async function runSeed() {
           answer: "Regiões como Descansópolis, Jaguaribe e os condomínios na rota do Horto Florestal oferecem áreas de mata nativa preservada e muita privacidade.",
         },
       ],
-      author: { _type: "reference", _ref: "author-guilherme-bustamante" },
+      author: { _type: "reference", _ref: "author-carlos-eduardo" },
       city: { _type: "reference", _ref: "city-campos-do-jordao" },
       categories: [
         { _type: "reference", _ref: "category-imoveis-de-luxo" },
@@ -988,7 +1025,7 @@ async function runSeed() {
       ctaTitle: "Conheça os Lançamentos de Studios em SJC",
       ctaDescription: "Receba em primeira mão a tabela de preços e condições exclusivas de lançamento direto com as construtoras parceiras.",
       ctaButtonText: "Quero Conhecer os Lançamentos no WhatsApp",
-      author: { _type: "reference", _ref: "author-guilherme-bustamante" },
+      author: { _type: "reference", _ref: "author-carlos-eduardo" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-lancamentos-novidades" },
@@ -1753,7 +1790,7 @@ async function runSeed() {
       calloutStyle: "info",
       calloutTitle: "Viver Perto do Parque Vicentina Aranha",
       calloutContent: "Morar a poucos metros do Parque Vicentina Aranha proporciona qualidade de vida diária incomparável com caminhadas matinais sob árvores centenárias, cinema ao ar livre e eventos culturais semanais.",
-      author: { _type: "reference", _ref: "author-guilherme-bustamante" },
+      author: { _type: "reference", _ref: "author-carlos-eduardo" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-cidades-bairros" },
@@ -2457,24 +2494,24 @@ async function runSeed() {
   for (const post of posts) {
     const preparedPost = {
       ...post,
-      categories: (post.categories || []).map((cat: any, idx: number) => ({
+      categories: (post.categories || []).map((cat: CategoryReference, idx: number) => ({
         ...cat,
         _key: cat._key || `cat_${idx}_${cat._ref || Math.random().toString(36).substring(2, 7)}`,
       })),
-      faqItems: (post.faqItems || []).map((item: any, idx: number) => ({
+      faqItems: (post.faqItems || []).map((item: FaqItemSeed, idx: number) => ({
         ...item,
         _key: item._key || `faq_${idx}_${Math.random().toString(36).substring(2, 7)}`,
       })),
-      galleryImages: (post.galleryImages || []).map((img: any, idx: number) => ({
+      galleryImages: (post.galleryImages || []).map((img: SanityImageObject & { _key?: string }, idx: number) => ({
         ...img,
         _key: img._key || `gal_${idx}_${Math.random().toString(36).substring(2, 7)}`,
       })),
-      body: (post.body || []).filter(Boolean).map((block: any, idx: number) => ({
+      body: (post.body || []).filter(Boolean).map((block: SanityBlock, idx: number) => ({
         ...block,
         _key: block._key || `blk_${idx}_${Math.random().toString(36).substring(2, 7)}`,
         ...(block.children
           ? {
-              children: block.children.filter(Boolean).map((child: any, cIdx: number) => ({
+              children: block.children.filter(Boolean).map((child: SanityBlockChild, cIdx: number) => ({
                 ...child,
                 _key: child._key || `span_${cIdx}_${Math.random().toString(36).substring(2, 7)}`,
               })),

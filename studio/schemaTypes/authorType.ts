@@ -11,7 +11,7 @@ export const authorType = defineType({
       name: 'name',
       title: 'Nome Completo do Autor',
       type: 'string',
-      placeholder: 'Ex: Guilherme Bustamante ou Ana Silva',
+      placeholder: 'Ex: Carlos Eduardo ou Ana Silva',
       description: 'Nome profissional do consultor ou membro da equipe editorial.',
       validation: (rule) => rule.required().error('O nome do autor é obrigatório.'),
     }),
@@ -20,7 +20,7 @@ export const authorType = defineType({
       title: 'Slug da Página do Autor',
       type: 'slug',
       description:
-        'O link da página de perfil do autor (ex: "/autor/guilherme-bustamante"). Clique no botão "Generate" para criar automaticamente.',
+        'O link da página de perfil do autor (ex: "/autor/carlos-eduardo"). Clique no botão "Generate" para criar automaticamente.',
       options: {
         source: 'name',
         maxLength: 96,
@@ -58,7 +58,7 @@ export const authorType = defineType({
           name: 'alt',
           type: 'string',
           title: 'Texto Alternativo',
-          placeholder: 'Ex: Foto de perfil de Guilherme Bustamante, especialista imobiliário',
+          placeholder: 'Ex: Foto de perfil de Carlos Eduardo, especialista imobiliário',
           description: 'Descrição da imagem para acessibilidade e leitores de tela.',
         },
       ],

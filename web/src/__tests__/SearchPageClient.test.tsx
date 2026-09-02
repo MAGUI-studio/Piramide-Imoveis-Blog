@@ -11,7 +11,7 @@ const mockPosts: PostItem[] = [
     excerpt: "Guia completo de investimento no Jardim Aquarius.",
     tags: ["alto-padrao", "aquarius"],
     city: { _id: "city-1", name: "São José dos Campos", slug: { current: "sao-jose-dos-campos" } },
-    author: { _id: "author-1", name: "Guilherme Bustamante", slug: { current: "guilherme-bustamante" } },
+    author: { _id: "author-1", name: "Carlos Eduardo", slug: { current: "carlos-eduardo" } },
   },
   {
     _id: "post-2",

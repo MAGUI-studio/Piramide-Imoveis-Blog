@@ -125,7 +125,7 @@ async function runSeed() {
   const imgCozinha = await uploadImageFromUrl("https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=1200&auto=format&fit=crop", "cozinha.jpg");
 
   // Autores
-  const imgAvatarGuilherme = await uploadImageFromUrl("https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop", "avatar_guilherme.jpg");
+  const imgAvatarCarlos = await uploadImageFromUrl("https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop", "avatar_carlos.jpg");
   const imgAvatarAna = await uploadImageFromUrl("https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop", "avatar_ana.jpg");
   const imgAvatarMarcos = await uploadImageFromUrl("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop", "avatar_marcos.jpg");
   const imgAvatarCarla = await uploadImageFromUrl("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop", "avatar_carla.jpg");
@@ -135,13 +135,13 @@ async function runSeed() {
   console.log("\n👤 Criando 6 Autores Especialistas...");
   const authors = [
     {
-      _id: "author-guilherme-bustamante",
+      _id: "author-carlos-eduardo",
       _type: "author",
-      name: "Guilherme Bustamante",
-      slug: { _type: "slug", current: "guilherme-bustamante" },
+      name: "Carlos Eduardo",
+      slug: { _type: "slug", current: "carlos-eduardo" },
       role: "Especialista em Mercado Imobiliário & Investimentos",
       creci: "CRECI 9390-J",
-      image: imgAvatarGuilherme,
+      image: imgAvatarCarlos,
       bio: [
         {
           _type: "block",
@@ -155,7 +155,7 @@ async function runSeed() {
       ],
       linkedinUrl: "https://www.linkedin.com/company/piramide-imoveis",
       instagramUrl: "https://www.instagram.com/piramideimoveissjc",
-      email: "guilherme@piramideimoveis.com.br",
+      email: "carlos.eduardo@piramideimoveis.com.br",
     },
     {
       _id: "author-ana-silva",
@@ -603,7 +603,7 @@ async function runSeed() {
       ctaTitle: "Procurando Imóvel no Aquarius ou Urbanova?",
       ctaDescription: "Acesse nosso portfólio exclusivo de apartamentos de alto padrão e casas em condomínio fechado.",
       ctaButtonText: "Ver Imóveis Disponíveis no WhatsApp",
-      author: { _type: "reference", _ref: "author-guilherme-bustamante" },
+      author: { _type: "reference", _ref: "author-carlos-eduardo" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-mercado-imobiliario" },
@@ -858,7 +858,7 @@ async function runSeed() {
           answer: "Regiões como Descansópolis, Jaguaribe e os condomínios na rota do Horto Florestal oferecem áreas de mata nativa preservada e muita privacidade.",
         },
       ],
-      author: { _type: "reference", _ref: "author-guilherme-bustamante" },
+      author: { _type: "reference", _ref: "author-carlos-eduardo" },
       city: { _type: "reference", _ref: "city-campos-do-jordao" },
       categories: [
         { _type: "reference", _ref: "category-imoveis-de-luxo" },
@@ -986,7 +986,7 @@ async function runSeed() {
       ctaTitle: "Conheça os Lançamentos de Studios em SJC",
       ctaDescription: "Receba em primeira mão a tabela de preços e condições exclusivas de lançamento direto com as construtoras parceiras.",
       ctaButtonText: "Quero Conhecer os Lançamentos no WhatsApp",
-      author: { _type: "reference", _ref: "author-guilherme-bustamante" },
+      author: { _type: "reference", _ref: "author-carlos-eduardo" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-lancamentos-novidades" },
@@ -1751,7 +1751,7 @@ async function runSeed() {
       calloutStyle: "info",
       calloutTitle: "Viver Perto do Parque Vicentina Aranha",
       calloutContent: "Morar a poucos metros do Parque Vicentina Aranha proporciona qualidade de vida diária incomparável com caminhadas matinais sob árvores centenárias, cinema ao ar livre e eventos culturais semanais.",
-      author: { _type: "reference", _ref: "author-guilherme-bustamante" },
+      author: { _type: "reference", _ref: "author-carlos-eduardo" },
       city: { _type: "reference", _ref: "city-sao-jose-dos-campos" },
       categories: [
         { _type: "reference", _ref: "category-cidades-bairros" },

@@ -20,10 +20,10 @@ export const siteConfig = {
   ogImage: "/utils/SEO/og-image.jpg",
   authors: [
     {
-      name: "Guilherme Bustamante",
-      url: "https://magui.studio",
+      name: "Equipe Editorial Pirâmide Imóveis",
+      url: "https://www.piramideimoveissjc.com.br",
     },
   ],
-  creator: "Guilherme Bustamante - MAGUI.studio",
-  publisher: "MAGUI.studio",
+  creator: "Pirâmide Imóveis",
+  publisher: "Pirâmide Imóveis",
 };

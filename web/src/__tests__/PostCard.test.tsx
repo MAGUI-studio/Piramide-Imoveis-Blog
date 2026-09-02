@@ -23,8 +23,8 @@ const mockPost: PostItem = {
   },
   author: {
     _id: "author-1",
-    name: "Guilherme Bustamante",
-    slug: { current: "guilherme-bustamante" },
+    name: "Carlos Eduardo",
+    slug: { current: "carlos-eduardo" },
   },
 };
 
@@ -40,7 +40,7 @@ describe("PostCard", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Mercado Imobiliário")).toBeInTheDocument();
     expect(screen.getByText("São José dos Campos")).toBeInTheDocument();
-    expect(screen.getByText("Guilherme Bustamante")).toBeInTheDocument();
+    expect(screen.getByText("Carlos Eduardo")).toBeInTheDocument();
     expect(screen.getByText(/min de leitura/i)).toBeInTheDocument();
     expect(screen.getByText("Ler Artigo")).toBeInTheDocument();
   });

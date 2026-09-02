@@ -10,7 +10,7 @@ vi.mock("@/sanity/lib/live", () => ({
         slug: { current: "tendencias-do-mercado" },
         excerpt: "Análise 'exclusiva' com projeções de valorização & alta rentabilidade.",
         publishedAt: "2026-08-01T00:00:00Z",
-        author: { name: "Guilherme Bustamante" },
+        author: { name: "Carlos Eduardo" },
         categories: [{ title: "Mercado Imobiliário" }],
       },
     ],
@@ -33,7 +33,7 @@ describe("feed.xml route", () => {
     expect(xmlText).toContain("<title>Blog Pirâmide Imóveis</title>");
     expect(xmlText).toContain("Tendências do Mercado Imobiliário &amp; Inovações &lt;2026&gt;");
     expect(xmlText).toContain("https://example.com/artigos/tendencias-do-mercado");
-    expect(xmlText).toContain("<author>Guilherme Bustamante</author>");
+    expect(xmlText).toContain("<author>Carlos Eduardo</author>");
     expect(xmlText).toContain("<category>Mercado Imobiliário</category>");
   });
 });
