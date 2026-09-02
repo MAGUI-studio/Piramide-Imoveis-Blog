@@ -5,12 +5,10 @@ import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { PostCard } from "@/src/components/blog/PostCard";
 import { SectionHeader } from "@/src/components/blog/SectionHeader";
-import { ReelsSection } from "@/src/components/blog/ReelsSection";
-import type { PostItem, ReelItem } from "@/src/types/sanity";
+import type { PostItem } from "@/src/types/sanity";
 
 interface PostsListProps {
   posts: PostItem[];
-  reels?: ReelItem[];
   hideHeader?: boolean;
   highlightQuery?: string;
   className?: string;
@@ -18,7 +16,6 @@ interface PostsListProps {
 
 export function PostsList({
   posts,
-  reels,
   hideHeader = false,
   highlightQuery,
   className = "",
@@ -56,7 +53,6 @@ export function PostsList({
     );
   };
 
-  
   if (hideHeader) {
     return (
       <section className={`space-y-8 ${className}`}>
@@ -67,50 +63,35 @@ export function PostsList({
     );
   }
 
-  
-  const firstBatch = posts.slice(0, 6);
-  const secondBatch = posts.slice(6, 12);
+  const latestPosts = posts.slice(0, 6);
 
   return (
-    <section className={`space-y-12 sm:space-y-16 px-6 pt-8 sm:pt-10 pb-4 sm:pb-6 ${className}`}>
-      
+    <section className={`space-y-10 sm:space-y-14 px-6 pt-8 sm:pt-10 pb-4 sm:pb-6 ${className}`}>
       <SectionHeader
         eyebrow="Explorar Acervo"
         eyebrowIcon="ph:books-fill"
-        title="Últimos Artigos & Análises"
+        title="Artigos mais recentes"
       />
 
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {firstBatch.map((post, idx) => renderPostCard(post, idx))}
-      </div>
-
-      
-      {reels && reels.length > 0 && (
-        <div className="-mx-6 w-[calc(100%+3rem)] overflow-hidden">
-          <ReelsSection reels={reels} />
-        </div>
-      )}
-
-      
-      {secondBatch.length > 0 && (
+      <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {secondBatch.map((post, idx) => renderPostCard(post, idx + 6))}
+          {latestPosts.map((post, idx) => renderPostCard(post, idx))}
         </div>
-      )}
 
-      
-      <div className="flex items-center justify-end pt-2">
-        <Link
-          href="/artigos"
-          className="group/action font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-primary hover:underline inline-flex items-center gap-1.5 transition-colors cursor-pointer"
-        >
-          <span>Ver todos os artigos</span>
-          <Icon
-            icon="ph:arrow-right-bold"
-            className="size-3.5 transition-transform duration-300 ease-out group-hover/action:translate-x-1.5"
-          />
-        </Link>
+        
+        <div className="flex items-center justify-end pt-2">
+          <Link
+            href="/artigos"
+            className="group/action font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-primary hover:underline inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <span>Ver todos os artigos</span>
+            <Icon
+              icon="ph:arrow-right-bold"
+              className="size-3.5 transition-transform duration-300 ease-out group-hover/action:translate-x-1.5"
+            />
+          </Link>
+        </div>
       </div>
     </section>
   );

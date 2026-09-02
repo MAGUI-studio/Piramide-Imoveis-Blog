@@ -7,6 +7,7 @@ export const POSTS_QUERY = defineQuery(`
     title,
     slug,
     featured,
+    views,
     highlight1Title,
     highlight1Description,
     highlight2Title,
@@ -51,6 +52,7 @@ export const FEATURED_POSTS_QUERY = defineQuery(`
     title,
     slug,
     featured,
+    views,
     highlight1Title,
     highlight1Description,
     highlight2Title,
@@ -87,12 +89,44 @@ export const FEATURED_POSTS_QUERY = defineQuery(`
 `);
 
 
+export const TOP_TRENDING_POSTS_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current) && (!defined(featured) || featured != true)] | order(coalesce(views, 0) desc, publishedAt desc)[0...5] {
+    _id,
+    title,
+    slug,
+    featured,
+    views,
+    publishedAt,
+    excerpt,
+    mainImage,
+    author->{
+      _id,
+      name,
+      slug,
+      image
+    },
+    city->{
+      _id,
+      name,
+      slug,
+      state
+    },
+    categories[]->{
+      _id,
+      title,
+      slug
+    }
+  }
+`);
+
+
 export const POST_QUERY = defineQuery(`
   *[_type == "post" && slug.current == $slug][0] {
     _id,
     title,
     slug,
     featured,
+    views,
     highlight1Title,
     highlight1Description,
     highlight2Title,

@@ -55,6 +55,7 @@ export interface PostItem {
   title: string;
   slug?: { current: string };
   featured?: boolean;
+  views?: number;
   publishedAt?: string;
   updatedAt?: string;
   excerpt?: string;

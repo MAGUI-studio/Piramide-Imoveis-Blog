@@ -20,6 +20,8 @@ import { ShareButtons } from "@/src/components/blog/ShareButtons";
 import { Breadcrumbs } from "@/src/components/blog/Breadcrumbs";
 import { PostCard } from "@/src/components/blog/PostCard";
 import { SectionHeader } from "@/src/components/blog/SectionHeader";
+import { AudioPlayer } from "@/src/components/blog/AudioPlayer";
+import { ViewTracker } from "@/src/components/blog/ViewTracker";
 import { ScrollToTop } from "@/src/components/common/ScrollToTop";
 import { calculateReadingTime, extractHeadings, slugifyText } from "@/src/lib/blog-utils";
 import { getBaseUrl } from "@/src/config/site";
@@ -319,19 +321,22 @@ export default async function ArticlePage({
     <>
       <ScrollToTop />
       <script
+        id="article-ld-json"
         type="application/ld+json"
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(articleJsonLd),
         }}
       />
       <ReadingProgressBar targetId="post-article-container" />
+      <ViewTracker slug={slug} postId={postData._id} />
 
       <article className="w-full px-6 pt-6 pb-12 sm:pb-16 space-y-12 sm:space-y-16">
         
         <Breadcrumbs items={breadcrumbItems} />
 
         
-        <div id="post-article-container" className="space-y-10 w-full relative">
+        <div id="post-article-container" className="space-y-8 w-full relative">
           
           <header className="space-y-6 w-full">
             
@@ -385,7 +390,7 @@ export default async function ArticlePage({
             )}
 
             
-            <div className="pt-6 border-t border-zinc-200 dark:border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="pt-6 border-t border-zinc-200 dark:border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
               <div className="flex items-center gap-4">
                 <Link
                   href={postData.author?.slug?.current ? `/autor/${postData.author.slug.current}` : "#"}
@@ -431,7 +436,16 @@ export default async function ArticlePage({
                 </div>
               </div>
 
-              <ShareButtons title={postData.title} slug={slug} />
+              
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+                <AudioPlayer
+                  title={postData.title}
+                  excerpt={postData.excerpt}
+                  body={postData.body as unknown[]}
+                  readingTime={readingTime}
+                />
+                <ShareButtons title={postData.title} slug={slug} />
+              </div>
             </div>
           </header>
 

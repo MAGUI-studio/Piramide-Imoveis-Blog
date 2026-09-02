@@ -5,9 +5,12 @@ import {
   CATEGORIES_QUERY,
   FEATURED_POSTS_QUERY,
   REELS_QUERY,
+  TOP_TRENDING_POSTS_QUERY,
 } from "@/sanity/lib/queries";
 import { HeroCarousel } from "@/src/components/blog/HeroCarousel";
 import { CategoryShowcase } from "@/src/components/blog/CategoryShowcase";
+import { TrendingPosts } from "@/src/components/blog/TrendingPosts";
+import { ReelsSection } from "@/src/components/blog/ReelsSection";
 import { PostsList } from "@/src/components/blog/PostsList";
 import { LaunchesCarousel } from "@/src/components/blog/LaunchesCarousel";
 import type { PostItem, CategoryRef, ReelItem } from "@/src/types/sanity";
@@ -27,17 +30,20 @@ export default async function HomePage() {
     { data: categories = [] },
     { data: featured = [] },
     { data: reels = [] },
+    { data: trending = [] },
   ] = await Promise.all([
     sanityFetch({ query: POSTS_QUERY }),
     sanityFetch({ query: CATEGORIES_QUERY }),
     sanityFetch({ query: FEATURED_POSTS_QUERY }),
     sanityFetch({ query: REELS_QUERY }),
+    sanityFetch({ query: TOP_TRENDING_POSTS_QUERY }),
   ]);
 
   const allPosts = (posts as PostItem[]) || [];
   const rawCategories = (categories as CategoryRef[]) || [];
   const featuredList = (featured as PostItem[]) || [];
   const reelsList = (reels as ReelItem[]) || [];
+  const trendingList = (trending as PostItem[]) || [];
 
   const heroPosts =
     featuredList.length > 0 ? featuredList : allPosts.slice(0, 3);
@@ -70,7 +76,21 @@ export default async function HomePage() {
         )}
 
         
-        <PostsList posts={allPosts} reels={reelsList} />
+        {trendingList.length > 0 && (
+          <div className="px-6 pt-4 pb-8 sm:pt-6 sm:pb-12">
+            <TrendingPosts posts={trendingList} variant="home" />
+          </div>
+        )}
+
+        
+        {reelsList.length > 0 && (
+          <div className="w-full overflow-hidden pb-8 sm:pb-12">
+            <ReelsSection reels={reelsList} />
+          </div>
+        )}
+
+        
+        <PostsList posts={allPosts} />
 
         
         <div className="px-6 py-4 sm:py-8">

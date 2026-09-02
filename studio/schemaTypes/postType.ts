@@ -66,6 +66,14 @@ export const postType = defineType({
         'Ative esta opção para colocar este artigo no carrossel de capa principal na página inicial do blog. Ao ativar, preencha os 3 tópicos de destaque abaixo.',
       initialValue: false,
     }),
+    defineField({
+      name: 'views',
+      title: 'Visualizações do Artigo',
+      type: 'number',
+      description: 'Contador automático de acessos e visualizações deste artigo.',
+      initialValue: 0,
+      readOnly: true,
+    }),
 
     
     defineField({

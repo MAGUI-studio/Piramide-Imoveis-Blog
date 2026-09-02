@@ -489,6 +489,7 @@ async function runSeed() {
       title: "Como Funciona o Financiamento Imobiliário em 2026: Guia de Taxas e FGTS",
       slug: { _type: "slug", current: "como-funciona-o-financiamento-imobiliario-em-2026" },
       featured: true,
+      views: 2840,
       publishedAt: new Date("2026-02-28T10:00:00Z").toISOString(),
       updatedAt: new Date("2026-03-02T09:30:00Z").toISOString(),
       excerpt: "Entenda a diferença prática entre Tabela SAC e Price, como usar o FGTS na entrada e as estratégias comprovadas para conseguir a menor taxa de juros na compra do seu imóvel.",
@@ -2491,9 +2492,31 @@ async function runSeed() {
     },
   ];
 
+  const postViewsMap: Record<string, number> = {
+    "post-financiamento-2026": 2840,
+    "post-valorizacao-sjc-aquarius-urbanova": 3120,
+    "post-ubatuba-investimento-temporada": 2450,
+    "post-campos-do-jordao-casas-de-campo": 1980,
+    "post-lancamentos-studios-investimento": 2750,
+    "post-ilhabela-sao-sebastiao-alto-padrao": 1890,
+    "post-arquitetura-autoral-alto-padrao": 1420,
+    "post-documentacao-imovel-passo-a-passo": 1650,
+    "post-jacarei-expansao-condominios-fechados": 1210,
+    "post-gastronomia-vale-do-paraiba": 1540,
+    "post-sustentabilidade-energia-solar-imoveis": 980,
+    "post-vila-ema-esplanada-qualidade-vida": 1350,
+    "post-decoracao-ambientes-integrados": 1150,
+    "post-itbi-escritura-registro-custos": 1680,
+    "post-caraguatatuba-novo-polo-litoral": 920,
+    "post-locacao-lei-inquilinato-direitos": 1490,
+    "post-taubate-condominios-fechados": 860,
+    "post-reforma-valorizacao-imovel": 1280,
+  };
+
   for (const post of posts) {
     const preparedPost = {
       ...post,
+      views: post.views || postViewsMap[post._id] || 500,
       categories: (post.categories || []).map((cat: CategoryReference, idx: number) => ({
         ...cat,
         _key: cat._key || `cat_${idx}_${cat._ref || Math.random().toString(36).substring(2, 7)}`,
