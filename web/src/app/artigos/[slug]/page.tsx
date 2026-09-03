@@ -182,6 +182,15 @@ export default async function ArticlePage({
   const nextPost = (prevNextData?.next as unknown as PrevNextItem | null) || null;
   const primaryCategory = postData.categories?.[0];
 
+  const citySlug = postData.city?.slug?.current
+    ? (postData.city.slug.current.endsWith(`-${(postData.city.state || "SP").toLowerCase()}`)
+        ? postData.city.slug.current
+        : `${postData.city.slug.current}-${(postData.city.state || "SP").toLowerCase()}`)
+    : postData.city?.name
+    ? `${slugifyText(postData.city.name)}-${(postData.city.state || "SP").toLowerCase()}`
+    : "sao-jose-dos-campos-sp";
+  const citySearchUrl = `https://www.piramideimoveissjc.com.br/imoveis/a-venda/${citySlug}?order=mais_relevantes`;
+
   const baseUrl = getBaseUrl();
   const postUrl = `${baseUrl}/artigos/${slug}`;
   const ogImageUrl = postData.mainImage
@@ -757,7 +766,7 @@ export default async function ArticlePage({
                   </p>
                   <div className="flex flex-col gap-2.5 pt-1">
                     <a
-                      href="https://www.piramideimoveissjc.com.br/"
+                      href={citySearchUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full py-2.5 px-4 bg-primary hover:bg-primary/90 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer text-center"

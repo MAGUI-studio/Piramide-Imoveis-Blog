@@ -69,7 +69,50 @@ export default function NossoTimePage() {
     },
   ];
 
-  
+  const commercialManagers: TeamMember[] = [
+    {
+      name: "Rodrigo Monteiro",
+      role: "Gerente Comercial",
+      creci: "CRECI 96952",
+      image: "/utils/equipe/rodrigo-monteiro.webp",
+      email: "rodrigo@piramideimoveissjc.com.br",
+      whatsapps: [
+        { label: "(12) 98859-6335", url: "https://api.whatsapp.com/send?phone=5512988596335" },
+      ],
+    },
+    {
+      name: "Eva Figueiredo",
+      role: "Gerente Comercial",
+      creci: "CRECI 83352",
+      image: "/utils/equipe/eva-figueiredo.webp",
+      email: "eva@piramideimoveissjc.com.br",
+      whatsapps: [
+        { label: "(12) 99103-3102", url: "https://api.whatsapp.com/send?phone=5512991033102" },
+      ],
+    },
+    {
+      name: "Wandreia Maciel",
+      role: "Gerente Comercial",
+      creci: "CRECI 261919",
+      image: "/utils/equipe/wandreia-maciel.webp",
+      email: "wandreia@piramideimoveissjc.com.br",
+      whatsapps: [
+        { label: "(12) 99762-4818", url: "https://api.whatsapp.com/send?phone=5512997624818" },
+      ],
+    },
+    {
+      name: "Thaís Wagmaker",
+      role: "Gerente Comercial",
+      creci: "CRECI 301677-F",
+      image: "/utils/equipe/thais-wagmaker.webp",
+      email: "thais@piramideimoveissjc.com.br",
+      whatsapps: [
+        { label: "(12) 98810-0520", url: "https://api.whatsapp.com/send?phone=5512988100520" },
+      ],
+      instagram: "https://www.instagram.com/thaiswagmaker.corretora",
+    },
+  ];
+
   const brokers: TeamMember[] = [
     {
       name: "Amanda Souza",
@@ -265,16 +308,6 @@ export default function NossoTimePage() {
       email: "erfan@piramideimoveissjc.com.br",
       whatsapps: [
         { label: "(12) 99732-6644", url: "https://api.whatsapp.com/send?phone=5512997326644" },
-      ],
-    },
-    {
-      name: "Eva Figueiredo",
-      role: "Corretora",
-      creci: "CRECI 83352",
-      image: "/utils/equipe/eva-figueiredo.webp",
-      email: "eva@piramideimoveissjc.com.br",
-      whatsapps: [
-        { label: "(12) 99103-3102", url: "https://api.whatsapp.com/send?phone=5512991033102" },
       ],
     },
     {
@@ -505,16 +538,6 @@ export default function NossoTimePage() {
       ],
     },
     {
-      name: "Rodrigo Monteiro",
-      role: "Corretor",
-      creci: "CRECI 96952",
-      image: "/utils/equipe/rodrigo-monteiro.webp",
-      email: "rodrigo@piramideimoveissjc.com.br",
-      whatsapps: [
-        { label: "(12) 98859-6335", url: "https://api.whatsapp.com/send?phone=5512988596335" },
-      ],
-    },
-    {
       name: "Rogéria Pontes",
       role: "Corretora",
       creci: "CRECI 268375",
@@ -545,17 +568,6 @@ export default function NossoTimePage() {
       ],
     },
     {
-      name: "Thaís Wagmaker",
-      role: "Corretora",
-      creci: "CRECI 301677-F",
-      image: "/utils/equipe/thais-wagmaker.webp",
-      email: "thais@piramideimoveissjc.com.br",
-      whatsapps: [
-        { label: "(12) 98810-0520", url: "https://api.whatsapp.com/send?phone=5512988100520" },
-      ],
-      instagram: "https://www.instagram.com/thaiswagmaker.corretora",
-    },
-    {
       name: "Vilma Aparecida",
       role: "Corretora",
       creci: "CRECI 198978",
@@ -565,20 +577,10 @@ export default function NossoTimePage() {
         { label: "(12) 98109-6724", url: "https://api.whatsapp.com/send?phone=5512981096724" },
       ],
     },
-    {
-      name: "Wandreia Maciel",
-      role: "Corretora",
-      creci: "CRECI 261919",
-      image: "/utils/equipe/wandreia-maciel.webp",
-      email: "wandreia@piramideimoveissjc.com.br",
-      whatsapps: [
-        { label: "(12) 99762-4818", url: "https://api.whatsapp.com/send?phone=5512997624818" },
-      ],
-    },
   ];
 
   
-  const allTeam = [...leadership, ...brokers];
+  const allTeam = [...leadership, ...commercialManagers, ...brokers];
 
   return (
     <div className="w-full text-foreground transition-colors">

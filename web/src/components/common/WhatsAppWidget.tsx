@@ -90,7 +90,7 @@ export function WhatsAppWidget() {
     if (leaveTimerRef.current) {
       clearTimeout(leaveTimerRef.current);
     }
-    const url = `https://wa.me/5512991599801?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/5512953699554?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
     setIsOpen(false);
     setIsHovered(false);

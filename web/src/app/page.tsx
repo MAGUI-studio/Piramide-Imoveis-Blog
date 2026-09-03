@@ -10,6 +10,7 @@ import {
 import { HeroCarousel } from "@/src/components/blog/HeroCarousel";
 import { CategoryShowcase } from "@/src/components/blog/CategoryShowcase";
 import { TrendingPosts } from "@/src/components/blog/TrendingPosts";
+import { PropertySearchBanner } from "@/src/components/blog/PropertySearchBanner";
 import { ReelsSection } from "@/src/components/blog/ReelsSection";
 import { PostsList } from "@/src/components/blog/PostsList";
 import { LaunchesCarousel } from "@/src/components/blog/LaunchesCarousel";
@@ -82,12 +83,15 @@ export default async function HomePage() {
           </div>
         )}
 
-        
         {reelsList.length > 0 && (
           <div className="w-full overflow-hidden pb-8 sm:pb-12">
             <ReelsSection reels={reelsList} />
           </div>
         )}
+
+        <div className="px-6 pb-8 sm:pb-12">
+          <PropertySearchBanner />
+        </div>
 
         
         <PostsList posts={allPosts} />
