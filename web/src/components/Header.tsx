@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -32,6 +32,10 @@ export function Header({ categories = [] }: HeaderProps) {
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollY = useRef(0);
   const router = useRouter();
+
+  const sortedCategories = useMemo(() => {
+    return [...categories].sort((a, b) => (b.postCount ?? 0) - (a.postCount ?? 0));
+  }, [categories]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -250,7 +254,7 @@ export function Header({ categories = [] }: HeaderProps) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    {categories.slice(0, 4).map((cat, idx) => {
+                    {sortedCategories.slice(0, 4).map((cat, idx) => {
                       if (!cat.slug?.current) return null;
                       const imageUrl = cat.image
                         ? urlForImage(cat.image)?.width(400).height(240).fit("crop").url()
@@ -529,7 +533,7 @@ export function Header({ categories = [] }: HeaderProps) {
                       </div>
 
                       <div className="space-y-2">
-                        {categories.slice(0, 4).map((cat) => {
+                        {sortedCategories.slice(0, 4).map((cat) => {
                           if (!cat.slug?.current) return null;
                           const imageUrl = cat.image
                             ? urlForImage(cat.image)?.width(160).height(160).fit("crop").url()

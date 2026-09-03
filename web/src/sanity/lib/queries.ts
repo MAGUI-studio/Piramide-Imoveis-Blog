@@ -231,14 +231,14 @@ export const RELATED_POSTS_QUERY = defineQuery(`
 
 
 export const CATEGORIES_QUERY = defineQuery(`
-  *[_type == "category" && defined(slug.current)] | order(title asc) {
+  *[_type == "category" && defined(slug.current)] {
     _id,
     title,
     slug,
     description,
     image,
     "postCount": count(*[_type == "post" && defined(slug.current) && (^.slug.current in categories[]->slug.current || references(^._id))])
-  }
+  } | order(postCount desc, title asc)
 `);
 
 

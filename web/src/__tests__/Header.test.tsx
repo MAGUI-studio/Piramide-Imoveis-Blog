@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { Header } from "@/src/components/Header";
 import type { CategoryRef } from "@/src/types/sanity";
 
@@ -44,17 +44,24 @@ describe("Header", () => {
     expect(screen.getByText("Explorar por Temas")).toBeInTheDocument();
   });
 
-  it("should handle scroll event gracefully", () => {
-    render(<Header categories={mockCategories} />);
+  it("should display top 4 categories sorted by postCount descending in dropdown", () => {
+    const extendedCategories: CategoryRef[] = [
+      { _id: "c1", title: "Baixo Post", slug: { current: "baixo-post" }, postCount: 1 },
+      { _id: "c2", title: "Mais Alto Post", slug: { current: "mais-alto-post" }, postCount: 50 },
+      { _id: "c3", title: "Segundo Mais Alto", slug: { current: "segundo-mais-alto" }, postCount: 30 },
+      { _id: "c4", title: "Terceiro Mais Alto", slug: { current: "terceiro-mais-alto" }, postCount: 20 },
+      { _id: "c5", title: "Quarto Mais Alto", slug: { current: "quarto-mais-alto" }, postCount: 10 },
+      { _id: "c6", title: "Quase Zero Post", slug: { current: "quase-zero" }, postCount: 2 },
+    ];
 
-    act(() => {
-      window.scrollY = 150;
-      window.dispatchEvent(new Event("scroll"));
-    });
+    render(<Header categories={extendedCategories} />);
+    const categoriesButton = screen.getByRole("button", { name: /categorias/i });
+    fireEvent.click(categoriesButton);
 
-    act(() => {
-      window.scrollY = 20;
-      window.dispatchEvent(new Event("scroll"));
-    });
+    expect(screen.getByText("Mais Alto Post")).toBeInTheDocument();
+    expect(screen.getByText("Segundo Mais Alto")).toBeInTheDocument();
+    expect(screen.getByText("Terceiro Mais Alto")).toBeInTheDocument();
+    expect(screen.getByText("Quarto Mais Alto")).toBeInTheDocument();
+    expect(screen.queryByText("Baixo Post")).not.toBeInTheDocument();
   });
 });

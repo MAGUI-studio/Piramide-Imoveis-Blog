@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { useQueryState, parseAsString } from "nuqs";
 import { SectionHeader } from "@/src/components/blog/SectionHeader";
 import { VideoModalPlayer } from "@/src/components/blog/VideoModalPlayer";
 import { urlForImage } from "@/sanity/lib/image";
+import { slugifyText } from "@/src/lib/blog-utils";
 import type { ReelItem } from "@/src/types/sanity";
 
 interface ReelsSectionProps {
@@ -14,14 +16,51 @@ interface ReelsSectionProps {
 }
 
 export function ReelsSection({ reels = [] }: ReelsSectionProps) {
-  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
   const startScrollLeftRef = useRef(0);
   const totalDragDistanceRef = useRef(0);
 
-  const displayReels = reels.slice(0, 5);
+  const displayReels = useMemo(() => reels.slice(0, 5), [reels]);
+
+  const [videoParam, setVideoParam] = useQueryState(
+    "video",
+    parseAsString
+      .withDefault("")
+      .withOptions({ shallow: true, throttleMs: 50 }),
+  );
+
+  const selectedIdx = useMemo(() => {
+    if (!videoParam || displayReels.length === 0) return null;
+    const cleanParam = videoParam.toLowerCase().trim();
+    const matchIndex = displayReels.findIndex((r) => {
+      const titleSlug = slugifyText(r.title);
+      return titleSlug === cleanParam || r.title.toLowerCase().includes(cleanParam);
+    });
+    return matchIndex !== -1 ? matchIndex : null;
+  }, [videoParam, displayReels]);
+
+  const handleCardClick = (originalIndex: number) => {
+    if (totalDragDistanceRef.current > 10) {
+      return;
+    }
+    const targetReel = displayReels[originalIndex];
+    if (targetReel) {
+      setVideoParam(slugifyText(targetReel.title) || null);
+    }
+  };
+
+  const handleClose = useCallback(() => {
+    setVideoParam(null);
+  }, [setVideoParam]);
+
+  const handleSelectIdx = useCallback((idx: number) => {
+    const targetReel = displayReels[idx];
+    if (targetReel) {
+      setVideoParam(slugifyText(targetReel.title) || null);
+    }
+  }, [displayReels, setVideoParam]);
 
   
   useEffect(() => {
@@ -123,13 +162,6 @@ export function ReelsSection({ reels = [] }: ReelsSectionProps) {
     isDraggingRef.current = false;
   };
 
-  const handleCardClick = (originalIndex: number) => {
-    if (totalDragDistanceRef.current > 10) {
-      return;
-    }
-    setSelectedIdx(originalIndex);
-  };
-
   return (
     <section className="relative w-full py-12 sm:py-16 space-y-6 overflow-hidden border-y border-zinc-200 dark:border-white/10">
       
@@ -217,8 +249,8 @@ export function ReelsSection({ reels = [] }: ReelsSectionProps) {
       <VideoModalPlayer
         reels={displayReels}
         selectedIdx={selectedIdx}
-        onClose={() => setSelectedIdx(null)}
-        onSelectIdx={setSelectedIdx}
+        onClose={handleClose}
+        onSelectIdx={handleSelectIdx}
       />
     </section>
   );

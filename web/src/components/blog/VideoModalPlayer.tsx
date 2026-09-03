@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { urlForImage } from "@/sanity/lib/image";
+import { ScrollArea } from "@/src/components/ui/scrollArea/scrollArea";
 import type { ReelItem } from "@/src/types/sanity";
 
 interface VideoModalPlayerProps {
@@ -170,29 +171,26 @@ function VideoModalShell({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/90 backdrop-blur-lg"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 dark:bg-black/90 backdrop-blur-md"
       onClick={onClose}
     >
-      
       <motion.div
         initial={{ scale: 0.96, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.96, opacity: 0 }}
         transition={{ type: "spring", damping: 28, stiffness: 320 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-6xl h-[92vh] max-h-[920px] bg-zinc-950 border border-white/15 shadow-2xl flex flex-col md:flex-row overflow-hidden"
+        className="relative w-full max-w-6xl h-[92vh] max-h-[920px] bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/15 shadow-2xl flex flex-col md:flex-row overflow-hidden"
       >
-        
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3 right-3 z-40 size-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer shadow-xl hover:scale-105"
+          className="absolute top-3 right-3 z-40 size-10 rounded-full bg-white/90 hover:bg-white text-zinc-900 dark:bg-black/80 dark:hover:bg-black dark:text-white flex items-center justify-center border border-zinc-200 dark:border-white/20 transition-all cursor-pointer shadow-xl hover:scale-105"
           title="Fechar (Esc)"
         >
           <Icon icon="ph:x-bold" className="size-5" />
         </button>
 
-        
         <div className="relative shrink-0 w-full md:w-auto h-[55vh] md:h-full aspect-[9/16] bg-black flex items-center justify-center overflow-hidden mx-auto md:mx-0">
           {currentReel.videoFileUrl || currentReel.videoUrl ? (
             <video
@@ -219,7 +217,6 @@ function VideoModalShell({
             </div>
           )}
 
-          
           <div className="absolute top-3 left-3 flex items-center gap-2 z-30">
             <button
               type="button"
@@ -245,7 +242,6 @@ function VideoModalShell({
               />
             </button>
 
-            
             <button
               type="button"
               onClick={handleRestart}
@@ -256,7 +252,6 @@ function VideoModalShell({
             </button>
           </div>
 
-          
           <AnimatePresence>
             {countdownRemaining !== null && !isAutoAdvanceDisabled && reels.length > 1 && (
               <motion.div
@@ -302,7 +297,6 @@ function VideoModalShell({
             )}
           </AnimatePresence>
 
-          
           <div className="absolute bottom-3 inset-x-3 flex items-center justify-between md:hidden z-30 pointer-events-none">
             <button
               type="button"
@@ -316,7 +310,6 @@ function VideoModalShell({
               <span>{showMobileInfo ? "Ocultar Detalhes" : "Mostrar Detalhes"}</span>
             </button>
 
-            
             <div className="flex items-center gap-1.5 pointer-events-auto">
               <button
                 type="button"
@@ -338,87 +331,83 @@ function VideoModalShell({
           </div>
         </div>
 
-        
         <div
-          className={`flex-1 p-6 md:p-8 lg:p-10 flex flex-col justify-between overflow-y-auto space-y-6 bg-zinc-950 text-white border-t md:border-t-0 md:border-l border-white/10 transition-all duration-300 ${
+          className={`flex-1 flex flex-col bg-white dark:bg-zinc-950 text-foreground dark:text-white border-t md:border-t-0 md:border-l border-zinc-200 dark:border-white/10 transition-all duration-300 min-h-0 ${
             showMobileInfo ? "block max-h-[50vh] md:max-h-none" : "hidden md:flex"
           }`}
         >
-          <div key={currentReel._id} className="space-y-4 animate-in fade-in duration-200">
-            
-            {currentReel.propertyTitle && (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md text-white border border-white/15 font-mono text-xs font-bold uppercase tracking-widest">
-                <Icon icon="ph:buildings-fill" className="size-3.5 text-white" />
-                <span>{currentReel.propertyTitle}</span>
+          <ScrollArea className="size-full">
+            <div className="p-6 md:p-8 lg:p-10 flex flex-col justify-between min-h-full space-y-6">
+              <div key={currentReel._id} className="space-y-4 animate-in fade-in duration-200">
+                {currentReel.propertyTitle && (
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-zinc-100 dark:bg-white/10 backdrop-blur-md text-foreground dark:text-white border border-zinc-200 dark:border-white/15 font-mono text-xs font-bold uppercase tracking-widest">
+                    <Icon icon="ph:buildings-fill" className="size-3.5 text-primary" />
+                    <span>{currentReel.propertyTitle}</span>
+                  </div>
+                )}
+
+                <h3 className="font-heading font-black text-xl sm:text-2xl lg:text-3xl uppercase tracking-tight text-foreground dark:text-white leading-snug">
+                  {currentReel.title}
+                </h3>
+
+                {currentReel.description && (
+                  <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 font-light leading-relaxed whitespace-pre-line">
+                    {currentReel.description}
+                  </p>
+                )}
               </div>
-            )}
 
-            
-            <h3 className="font-heading font-black text-xl sm:text-2xl lg:text-3xl uppercase tracking-tight text-white leading-snug">
-              {currentReel.title}
-            </h3>
+              <div className="space-y-3 pt-6 border-t border-zinc-200 dark:border-white/10 mt-auto">
+                {currentReel.propertyUrl && (
+                  <a
+                    href={currentReel.propertyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all shadow-lg cursor-pointer"
+                  >
+                    <Icon icon="ph:house-line-bold" className="size-4 sm:size-5" />
+                    <span>Ver Imóvel no Site</span>
+                    <Icon icon="ph:arrow-up-right-bold" className="size-4 ml-auto" />
+                  </a>
+                )}
 
-            
-            {currentReel.description && (
-              <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed whitespace-pre-line">
-                {currentReel.description}
-              </p>
-            )}
-          </div>
+                {currentReel.instagramUrl && (
+                  <a
+                    href={currentReel.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 px-6 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 dark:bg-white/10 dark:hover:bg-white/15 dark:text-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all border border-zinc-200 dark:border-white/15 cursor-pointer"
+                  >
+                    <Icon icon="ph:instagram-logo-bold" className="size-4 sm:size-5 text-pink-500 dark:text-pink-400" />
+                    <span>Ver Post no Instagram</span>
+                    <Icon icon="ph:arrow-up-right-bold" className="size-4 ml-auto" />
+                  </a>
+                )}
 
-          
-          <div className="space-y-3 pt-6 border-t border-white/10">
-            
-            {currentReel.propertyUrl && (
-              <a
-                href={currentReel.propertyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all shadow-lg cursor-pointer"
-              >
-                <Icon icon="ph:house-line-bold" className="size-4 sm:size-5" />
-                <span>Ver Imóvel no Site</span>
-                <Icon icon="ph:arrow-up-right-bold" className="size-4 ml-auto" />
-              </a>
-            )}
-
-            
-            {currentReel.instagramUrl && (
-              <a
-                href={currentReel.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 px-6 bg-white/10 hover:bg-white/15 text-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all border border-white/15 cursor-pointer"
-              >
-                <Icon icon="ph:instagram-logo-bold" className="size-4 sm:size-5 text-pink-400" />
-                <span>Ver Post no Instagram</span>
-                <Icon icon="ph:arrow-up-right-bold" className="size-4 ml-auto" />
-              </a>
-            )}
-
-            
-            <div className="hidden md:flex items-center justify-between pt-4 text-xs font-mono text-zinc-400">
-              <button
-                type="button"
-                onClick={handlePrev}
-                className="inline-flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer"
-              >
-                <Icon icon="ph:arrow-left-bold" className="size-3.5" />
-                <span>Vídeo Anterior</span>
-              </button>
-              <span className="font-bold">
-                {selectedIdx + 1} de {reels.length}
-              </span>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="inline-flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer"
-              >
-                <span>Próximo Vídeo</span>
-                <Icon icon="ph:arrow-right-bold" className="size-3.5" />
-              </button>
+                <div className="hidden md:flex items-center justify-between pt-4 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="inline-flex items-center gap-1.5 hover:text-foreground dark:hover:text-white transition-colors cursor-pointer"
+                  >
+                    <Icon icon="ph:arrow-left-bold" className="size-3.5" />
+                    <span>Vídeo Anterior</span>
+                  </button>
+                  <span className="font-bold text-foreground dark:text-white">
+                    {selectedIdx + 1} de {reels.length}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="inline-flex items-center gap-1.5 hover:text-foreground dark:hover:text-white transition-colors cursor-pointer"
+                  >
+                    <span>Próximo Vídeo</span>
+                    <Icon icon="ph:arrow-right-bold" className="size-3.5" />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          </ScrollArea>
         </div>
       </motion.div>
     </motion.div>

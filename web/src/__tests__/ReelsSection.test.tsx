@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { ReelsSection } from "@/src/components/blog/ReelsSection";
 import type { ReelItem } from "@/src/types/sanity";
 
@@ -31,5 +31,15 @@ describe("ReelsSection", () => {
   it("should return null when reels list is empty", () => {
     const { container } = render(<ReelsSection reels={[]} />);
     expect(container).toBeEmptyDOMElement();
+  });
+
+  it("should open video modal when a reel card is clicked", () => {
+    render(<ReelsSection reels={mockReels} />);
+
+    const firstCard = screen.getAllByText("Tour em Mansão Exclusiva no Urbanova")[0];
+    fireEvent.click(firstCard.closest(".group\\/card") || firstCard);
+
+    expect(screen.getByTitle("Fechar (Esc)")).toBeInTheDocument();
+    expect(screen.getAllByText("Mansão Alphaville").length).toBeGreaterThan(1);
   });
 });

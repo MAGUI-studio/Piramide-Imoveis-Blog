@@ -31,7 +31,7 @@ export const reelType = defineType({
       title: 'Arquivo de Vídeo (.mp4 ou .webm)',
       type: 'file',
       description:
-        'Faça upload do vídeo em formato vertical (máximo 30 MB). Dica: Utilize ferramentas como Handbrake para comprimir o arquivo mantendo ótima qualidade visual.',
+        'Faça upload do vídeo em formato vertical (máximo 40 MB). Dica: Utilize ferramentas como MediaMorph (https://github.com/gui-bus/MediaMorph/releases) para comprimir o arquivo mantendo ótima qualidade visual.',
       options: {
         accept: 'video/mp4,video/webm,video/quicktime',
       },
@@ -40,9 +40,9 @@ export const reelType = defineType({
           if (!value?.asset?._ref) return true
           const client = context.getClient({apiVersion: '2026-02-01'})
           const asset = await client.fetch(`*[_id == $id][0]`, {id: value.asset._ref})
-          if (asset && typeof asset.size === 'number' && asset.size > 30 * 1024 * 1024) {
+          if (asset && typeof asset.size === 'number' && asset.size > 40 * 1024 * 1024) {
             const sizeInMb = (asset.size / (1024 * 1024)).toFixed(1)
-            return `O vídeo selecionado tem ${sizeInMb} MB. O tamanho máximo permitido é de 30 MB. Por favor, comprima o arquivo antes de enviar.`
+            return `O vídeo selecionado tem ${sizeInMb} MB. O tamanho máximo permitido é de 40 MB. Por favor, comprima o arquivo antes de enviar.`
           }
           return true
         }),

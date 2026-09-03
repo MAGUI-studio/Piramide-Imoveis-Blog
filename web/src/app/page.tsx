@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
@@ -89,7 +90,9 @@ export default async function HomePage() {
 
         {reelsList.length > 0 && (
           <div className="w-full overflow-hidden pb-8 sm:pb-12">
-            <ReelsSection reels={reelsList} />
+            <Suspense fallback={null}>
+              <ReelsSection reels={reelsList} />
+            </Suspense>
           </div>
         )}
 

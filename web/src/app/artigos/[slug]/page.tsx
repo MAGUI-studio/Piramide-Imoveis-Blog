@@ -500,16 +500,6 @@ export default async function ArticlePage({
                 />
               )}
 
-              
-              <div className="prose prose-zinc dark:prose-invert max-w-none">
-                {postData.body ? (
-                  <PortableText value={postData.body} />
-                ) : (
-                  <p className="text-muted-foreground italic">Sem conteúdo adicional para este artigo.</p>
-                )}
-              </div>
-
-              
               {postData.videoUrl && (
                 <YoutubeComponent
                   value={{
@@ -519,6 +509,14 @@ export default async function ArticlePage({
                   }}
                 />
               )}
+
+              <div className="prose prose-zinc dark:prose-invert max-w-none">
+                {postData.body ? (
+                  <PortableText value={postData.body} />
+                ) : (
+                  <p className="text-muted-foreground italic">Sem conteúdo adicional para este artigo.</p>
+                )}
+              </div>
 
               
               {postData.galleryImages && postData.galleryImages.length > 0 && (
