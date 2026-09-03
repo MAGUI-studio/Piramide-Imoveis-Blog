@@ -16,6 +16,14 @@ describe("CategoryShowcase", () => {
     expect(titles.length).toBeGreaterThanOrEqual(1);
   });
 
+  it("should sort categories in descending order by postCount", () => {
+    render(<CategoryShowcase categories={mockCategories} />);
+
+    const titles = screen.getAllByRole("heading", { level: 3 });
+    
+    expect(titles[0]).toHaveTextContent("Lançamentos");
+  });
+
   it("should return null when categories list is empty", () => {
     const { container } = render(<CategoryShowcase categories={[]} />);
     expect(container).toBeEmptyDOMElement();

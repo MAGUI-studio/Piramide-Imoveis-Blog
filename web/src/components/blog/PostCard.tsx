@@ -69,7 +69,7 @@ export function PostCard({
     <Link
       href={postHref}
       scroll={scroll}
-      className={`group relative w-full min-h-[460px] sm:min-h-[520px] aspect-[3/4] overflow-hidden rounded-none border border-zinc-200 dark:border-white/10 bg-zinc-900 flex flex-col justify-between p-6 sm:p-7 transition-all duration-300 shadow-none cursor-pointer select-none ${className}`}
+      className={`group relative w-full min-h-[380px] sm:min-h-[420px] aspect-[4/5] overflow-hidden rounded-none border border-zinc-200 dark:border-white/10 bg-zinc-900 flex flex-col justify-between p-5 sm:p-6 transition-all duration-300 shadow-none cursor-pointer select-none ${className}`}
     >
       
       {imageUrl ? (

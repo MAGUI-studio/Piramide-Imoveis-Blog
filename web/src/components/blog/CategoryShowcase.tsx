@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { CategoryCard } from "@/src/components/blog/CategoryCard";
 import type { CategoryRef } from "@/src/types/sanity";
 
@@ -15,14 +15,19 @@ export function CategoryShowcase({ categories }: CategoryShowcaseProps) {
   const [scrollLeft, setScrollLeft] = useState(0);
   const [draggedDistance, setDraggedDistance] = useState(0);
 
+  const sortedCategories = useMemo(() => {
+    if (!categories) return [];
+    return [...categories].sort((a, b) => (b.postCount ?? 0) - (a.postCount ?? 0));
+  }, [categories]);
+
   useEffect(() => {
     const el = containerRef.current;
-    if (!el || !categories || categories.length === 0) return;
+    if (!el || !sortedCategories || sortedCategories.length === 0) return;
     const singleSetWidth = el.scrollWidth / 4;
     if (singleSetWidth > 0 && el.scrollLeft === 0) {
       el.scrollLeft = singleSetWidth;
     }
-  }, [categories]);
+  }, [sortedCategories]);
 
   const handleScroll = useCallback(() => {
     const el = containerRef.current;
@@ -37,9 +42,14 @@ export function CategoryShowcase({ categories }: CategoryShowcaseProps) {
     }
   }, []);
 
-  if (!categories || categories.length === 0) return null;
+  if (!sortedCategories || sortedCategories.length === 0) return null;
 
-  const infiniteCategories = [...categories, ...categories, ...categories, ...categories];
+  const infiniteCategories = [
+    ...sortedCategories,
+    ...sortedCategories,
+    ...sortedCategories,
+    ...sortedCategories,
+  ];
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
