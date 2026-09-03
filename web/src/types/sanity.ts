@@ -103,3 +103,13 @@ export interface ReelItem {
   publishedAt?: string;
 }
 
+export interface LaunchItem {
+  _id: string;
+  title: string;
+  image?: SanityImageObject;
+  alt?: string;
+  href?: string;
+  order?: number;
+}
+
+

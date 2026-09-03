@@ -4,6 +4,7 @@ import {cityType} from './cityType'
 import {postType} from './postType'
 import {authorType} from './authorType'
 import {reelType} from './reelType'
+import {launchType} from './launchType'
 import {calloutType} from './calloutType'
 import {youtubeType} from './youtubeType'
 import {ctaType} from './ctaType'
@@ -17,6 +18,7 @@ export const schemaTypes = [
   categoryType,
   cityType,
   reelType,
+  launchType,
   blockContentType,
   calloutType,
   youtubeType,

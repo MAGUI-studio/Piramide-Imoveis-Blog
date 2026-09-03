@@ -493,3 +493,15 @@ export const REELS_QUERY = defineQuery(`
   }
 `);
 
+export const LAUNCHES_QUERY = defineQuery(`
+  *[_type == "launch"] | order(coalesce(order, 999) asc, _createdAt asc) {
+    _id,
+    title,
+    image,
+    alt,
+    href,
+    order
+  }
+`);
+
+
