@@ -1,5 +1,6 @@
 import {defineField, defineType, defineArrayMember} from 'sanity'
 import {ImagesIcon} from '@sanity/icons'
+import {validateImageSize} from './imageValidation'
 
 export const galleryType = defineType({
   name: 'gallery',
@@ -24,7 +25,8 @@ export const galleryType = defineType({
       name: 'images',
       type: 'array',
       title: 'Fotos da Galeria',
-      description: 'Adicione as fotos que comporão a galeria.',
+      description:
+        'Adicione as fotos que comporão a galeria. Formato recomendado: .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB por foto.',
       options: {
         modal: {
           type: 'dialog',
@@ -34,6 +36,7 @@ export const galleryType = defineType({
       of: [
         defineArrayMember({
           type: 'image',
+          validation: (rule) => rule.custom(validateImageSize(2)),
           options: {
             hotspot: true,
             modal: {

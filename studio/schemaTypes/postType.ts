@@ -1,5 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {DocumentTextIcon, BulbOutlineIcon, HelpCircleIcon, EnvelopeIcon, PlayIcon, ImagesIcon} from '@sanity/icons'
+import {validateImageSize} from './imageValidation'
 
 export const postType = defineType({
   name: 'post',
@@ -176,7 +177,7 @@ export const postType = defineType({
       title: 'Imagem de Capa (Principal)',
       type: 'image',
       description:
-        'Foto de alta resolução para o topo do artigo e para os cards de listagem. Formato recomendado: Horizontal (16:9 ou 1200x800px). Use a ferramenta de "Hotspot" para definir o ponto focal da imagem.',
+        'Foto de alta resolução para o topo do artigo e para os cards de listagem (proporção 16:9 ou 1920x1080px). Utilize imagens em formato .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
       options: {
         hotspot: true,
       },
@@ -199,7 +200,8 @@ export const postType = defineType({
             'Texto curto exibido logo abaixo da foto principal no artigo para dar contexto aos leitores.',
         },
       ],
-      validation: (rule) => rule.required().error('Adicione uma imagem de capa para o post.'),
+      validation: (rule) =>
+        rule.required().error('Adicione uma imagem de capa para o post.').custom(validateImageSize(2)),
     }),
     defineField({
       name: 'categories',
@@ -422,10 +424,13 @@ export const postType = defineType({
       title: 'Fotos da Galeria',
       type: 'array',
       fieldset: 'gallerySection',
+      description:
+        'Fotos em alta resolução para a galeria. Formato recomendado: .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB por foto.',
       of: [
         defineArrayMember({
           type: 'image',
           options: {hotspot: true},
+          validation: (rule) => rule.custom(validateImageSize(2)),
           fields: [
             defineField({
               name: 'alt',
@@ -474,7 +479,8 @@ export const postType = defineType({
       type: 'image',
       fieldset: 'seo',
       description:
-        'Imagem opcional personalizada para compartilhamento no WhatsApp, Facebook e LinkedIn (1200x630px). Se deixar em branco, o sistema usará a foto de capa do artigo.',
+        'Imagem opcional personalizada para compartilhamento no WhatsApp, Facebook e LinkedIn (1200x630px). Formato recomendado: .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
+      validation: (rule) => rule.custom(validateImageSize(2)),
     }),
     defineField({
       name: 'canonicalUrl',

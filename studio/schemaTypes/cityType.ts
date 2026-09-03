@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {PinIcon} from '@sanity/icons'
+import {validateImageSize} from './imageValidation'
 
 export const cityType = defineType({
   name: 'city',
@@ -41,7 +42,7 @@ export const cityType = defineType({
       title: 'Imagem Representativa da Cidade',
       type: 'image',
       description:
-        'Foto marcante da cidade (praia, skyline urbano, serra, praças) em proporção 16:9 ou 1200x800px.',
+        'Foto marcante da cidade (praia, skyline urbano, serra, praças) em proporção 16:9 ou 1920x1080px. Utilize imagens em formato .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
       options: {
         hotspot: true,
       },
@@ -54,7 +55,8 @@ export const cityType = defineType({
           description: 'Texto acessível para leitores de tela e Google Imagens.',
         },
       ],
-      validation: (rule) => rule.required().error('Adicione uma foto da cidade para ilustrar os cards.'),
+      validation: (rule) =>
+        rule.warning('Recomendado adicionar uma foto da cidade para ilustrar os cards.').custom(validateImageSize(2)),
     }),
     defineField({
       name: 'description',

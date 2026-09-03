@@ -1,5 +1,6 @@
 import {defineType, defineArrayMember} from 'sanity'
 import {ImageIcon, LinkIcon, PlayIcon} from '@sanity/icons'
+import {validateImageSize} from './imageValidation'
 
 export const blockContentType = defineType({
   title: 'Conteúdo do Artigo',
@@ -85,9 +86,27 @@ export const blockContentType = defineType({
       title: 'Imagem no Artigo',
       type: 'image',
       icon: ImageIcon,
+      description:
+        'Imagem inserida no corpo do artigo. Formato recomendado: .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
       options: {
         hotspot: true,
       },
+      validation: (rule) => rule.custom(validateImageSize(2)),
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Texto Alternativo (Alt)',
+          placeholder: 'Ex: Planta baixa do apartamento decorado',
+          description: 'Descrição da imagem para acessibilidade e leitores de tela.',
+        },
+        {
+          name: 'caption',
+          type: 'string',
+          title: 'Legenda da Imagem',
+          placeholder: 'Ex: Living integrado com varanda gourmet',
+        },
+      ],
     }),
 
     

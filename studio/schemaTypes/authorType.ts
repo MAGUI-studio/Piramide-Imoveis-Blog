@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {UserIcon} from '@sanity/icons'
+import {validateImageSize} from './imageValidation'
 
 export const authorType = defineType({
   name: 'author',
@@ -49,7 +50,7 @@ export const authorType = defineType({
       title: 'Foto de Perfil (Avatar)',
       type: 'image',
       description:
-        'Foto nítida em formato quadrado ou retrato (proporção 1:1, mín. 400x400px). Utilize fotos profissionais para aumentar a conversão.',
+        'Foto nítida em formato quadrado (proporção 1:1, mín. 400x400px). Utilize imagens em formato .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
       options: {
         hotspot: true,
       },
@@ -62,7 +63,8 @@ export const authorType = defineType({
           description: 'Descrição da imagem para acessibilidade e leitores de tela.',
         },
       ],
-      validation: (rule) => rule.required().error('A foto do autor é obrigatória para a credibilidade do artigo.'),
+      validation: (rule) =>
+        rule.required().error('A foto do autor é obrigatória para a credibilidade do artigo.').custom(validateImageSize(2)),
     }),
     defineField({
       name: 'bio',

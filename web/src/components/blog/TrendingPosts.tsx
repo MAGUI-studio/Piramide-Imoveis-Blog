@@ -12,11 +12,12 @@ interface TrendingPostsProps {
 }
 
 function formatViews(views?: number): string {
-  if (!views || views <= 0) return "100+ views";
-  if (views >= 1000) {
-    return `${(views / 1000).toFixed(1)}k views`;
+  const count = views && views > 0 ? views : 0;
+  if (count === 1) return "1 view";
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(1)}k views`;
   }
-  return `${views} views`;
+  return `${count} views`;
 }
 
 export function TrendingPosts({

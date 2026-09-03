@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {RocketIcon} from '@sanity/icons'
+import {validateImageSize} from './imageValidation'
 
 export const launchType = defineType({
   name: 'launch',
@@ -18,9 +19,11 @@ export const launchType = defineType({
       name: 'image',
       title: 'Imagem / Banner do Lançamento',
       type: 'image',
-      description: 'Banner do empreendimento para exibição no carrossel.',
+      description:
+        'Banner do empreendimento para exibição no carrossel. Dimensão recomendada: 1080x1080px (formato quadrado 1:1). Utilize imagens em formato .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
       options: {hotspot: true},
-      validation: (rule) => rule.required().error('A imagem do lançamento é obrigatória.'),
+      validation: (rule) =>
+        rule.required().error('A imagem do lançamento é obrigatória.').custom(validateImageSize(2)),
     }),
     defineField({
       name: 'alt',

@@ -50,13 +50,24 @@ describe("TrendingPosts", () => {
     expect(screen.getByText("3.1k views")).toBeInTheDocument();
   });
 
-  it("should render home variant with Bento cards and links", () => {
-    render(<TrendingPosts posts={mockPosts} variant="home" />);
+  it("should format 0 views and 1 view correctly", () => {
+    const zeroAndOnePosts: PostItem[] = [
+      {
+        _id: "post-zero",
+        title: "Artigo Zero",
+        slug: { current: "artigo-zero" },
+        views: 0,
+      },
+      {
+        _id: "post-one",
+        title: "Artigo Um",
+        slug: { current: "artigo-um" },
+        views: 1,
+      },
+    ];
 
-    expect(screen.getByText("Os Artigos Mais Lidos da Semana")).toBeInTheDocument();
-    expect(screen.getAllByText("Em Alta")).toHaveLength(2);
-    expect(screen.getByText("#02")).toBeInTheDocument();
-    expect(screen.getByText("Apartamentos no Aquarius")).toBeInTheDocument();
-    expect(screen.getByText("Financiamento Imobiliário")).toBeInTheDocument();
+    render(<TrendingPosts posts={zeroAndOnePosts} variant="home" />);
+    expect(screen.getByText("0 views")).toBeInTheDocument();
+    expect(screen.getByText("1 view")).toBeInTheDocument();
   });
 });

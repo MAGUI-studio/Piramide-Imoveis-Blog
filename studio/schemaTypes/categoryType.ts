@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {TagIcon} from '@sanity/icons'
+import {validateImageSize} from './imageValidation'
 
 export const categoryType = defineType({
   name: 'category',
@@ -32,7 +33,7 @@ export const categoryType = defineType({
       title: 'Imagem de Capa da Categoria',
       type: 'image',
       description:
-        'Foto representativa de alta resolução (1200x800px) exibida nos carrosséis e cards do hub de categorias.',
+        'Foto representativa de alta resolução (proporção 16:9 ou 1920x1080px) exibida nos carrosséis e cards do hub de categorias. Utilize imagens em formato .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
       options: {
         hotspot: true,
       },
@@ -45,7 +46,8 @@ export const categoryType = defineType({
           description: 'Descrição da imagem para acessibilidade e SEO.',
         },
       ],
-      validation: (rule) => rule.required().error('Adicione uma imagem de capa para a categoria.'),
+      validation: (rule) =>
+        rule.warning('Recomendado adicionar uma imagem de capa para a categoria.').custom(validateImageSize(2)),
     }),
     defineField({
       name: 'description',

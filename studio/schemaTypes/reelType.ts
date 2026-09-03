@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {PlayIcon} from '@sanity/icons'
+import {validateImageSize} from './imageValidation'
 
 export const reelType = defineType({
   name: 'reel',
@@ -20,9 +21,10 @@ export const reelType = defineType({
       title: 'Capa / Thumbnail (Formato Vertical 9:16)',
       type: 'image',
       description:
-        'Foto de capa no formato vertical (tipo Story / Reel, 1080x1920px) para carregamento instantâneo no carrossel.',
+        'Foto de capa no formato vertical (tipo Story / Reel, 1080x1920px, 9:16). Utilize imagens em formato .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
       options: {hotspot: true},
-      validation: (rule) => rule.required().error('A capa do vídeo é obrigatória.'),
+      validation: (rule) =>
+        rule.required().error('A capa do vídeo é obrigatória.').custom(validateImageSize(2)),
     }),
     defineField({
       name: 'videoFile',
