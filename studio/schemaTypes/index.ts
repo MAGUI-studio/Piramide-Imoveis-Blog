@@ -11,10 +11,12 @@ import {ctaType} from './ctaType'
 import {tableType} from './tableType'
 import {faqType} from './faqType'
 import {galleryType} from './galleryType'
+import {teamMemberType} from './teamMemberType'
 
 export const schemaTypes = [
   postType,
   authorType,
+  teamMemberType,
   categoryType,
   cityType,
   reelType,

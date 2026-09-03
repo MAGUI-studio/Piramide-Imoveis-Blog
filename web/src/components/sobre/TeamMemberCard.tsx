@@ -3,12 +3,16 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { urlForImage } from "@/sanity/lib/image";
+import type { SanityImage } from "@/src/types/sanity";
 
 export interface TeamMember {
   name: string;
   role: string;
+  tier?: string;
+  order?: number;
   creci?: string;
-  image: string;
+  image?: SanityImage;
   email?: string;
   whatsapps?: { label: string; url: string }[];
   instagram?: string;
@@ -27,7 +31,14 @@ export function TeamMemberCard({
 }: TeamMemberCardProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  const isPlaceholder = member.image.includes("placeholder");
+  let imageUrl: string | null = null;
+  if (typeof member.image === "string") {
+    imageUrl = member.image;
+  } else if (member.image) {
+    imageUrl = urlForImage(member.image)?.width(800).height(800).url() || null;
+  }
+
+  const isPlaceholder = !imageUrl || imageUrl.includes("placeholder");
   const hasContacts = Boolean(
     member.email ||
       (member.whatsapps && member.whatsapps.length > 0) ||
@@ -50,7 +61,7 @@ export function TeamMemberCard({
         isSquare ? "aspect-square" : ""
       }`}
     >
-      {isPlaceholder ? (
+      {isPlaceholder || !imageUrl ? (
         <div className="w-full h-full min-h-[280px] flex flex-col items-center justify-center bg-zinc-800/90 text-zinc-500 p-6 text-center">
           <Icon
             icon="ph:user-circle-thin"
@@ -62,7 +73,7 @@ export function TeamMemberCard({
         </div>
       ) : isSquare ? (
         <Image
-          src={member.image}
+          src={imageUrl}
           alt={member.name}
           fill
           priority={priority}
@@ -71,7 +82,7 @@ export function TeamMemberCard({
         />
       ) : (
         <Image
-          src={member.image}
+          src={imageUrl}
           alt={member.name}
           width={480}
           height={600}

@@ -112,4 +112,19 @@ export interface LaunchItem {
   order?: number;
 }
 
+export interface TeamMemberItem {
+  _id: string;
+  name: string;
+  slug?: { current: string };
+  role: string;
+  tier: "leadership_founders" | "leadership_directors" | "management" | "broker" | string;
+  order?: number;
+  creci?: string;
+  image?: SanityImage;
+  email?: string;
+  whatsapps?: { label: string; url: string }[];
+  instagram?: string;
+  active?: boolean;
+}
+
 

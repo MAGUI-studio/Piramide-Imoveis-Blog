@@ -50,7 +50,7 @@ export const authorType = defineType({
       title: 'Foto de Perfil (Avatar)',
       type: 'image',
       description:
-        'Foto nítida em formato quadrado (proporção 1:1, mín. 400x400px). Utilize imagens em formato .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
+        'Foto nítida em formato quadrado (proporção 1:1, mín. 1080x1080px). Utilize imagens em formato .webp ou .png (preferencialmente .webp para máxima qualidade e performance). Limite máximo: 2 MB.',
       options: {
         hotspot: true,
       },

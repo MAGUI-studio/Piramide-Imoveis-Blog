@@ -504,4 +504,54 @@ export const LAUNCHES_QUERY = defineQuery(`
   }
 `);
 
+export const TEAM_MEMBERS_QUERY = defineQuery(`
+  *[_type == "teamMember" && (!defined(active) || active == true)] | order(
+    select(
+      tier == "leadership_founders" => 1,
+      tier == "leadership_directors" => 2,
+      tier == "management" => 3,
+      tier == "broker" => 4,
+      5
+    ) asc,
+    coalesce(order, 999) asc,
+    name asc
+  ) {
+    _id,
+    name,
+    slug,
+    role,
+    tier,
+    order,
+    creci,
+    image,
+    email,
+    whatsapps[]{ label, url },
+    instagram
+  }
+`);
+
+export const LEADERSHIP_QUERY = defineQuery(`
+  *[_type == "teamMember" && (!defined(active) || active == true) && tier in ["leadership_founders", "leadership_directors"]] | order(
+    select(
+      tier == "leadership_founders" => 1,
+      tier == "leadership_directors" => 2,
+      3
+    ) asc,
+    coalesce(order, 999) asc,
+    name asc
+  ) {
+    _id,
+    name,
+    slug,
+    role,
+    tier,
+    order,
+    creci,
+    image,
+    email,
+    whatsapps[]{ label, url },
+    instagram
+  }
+`);
+
 

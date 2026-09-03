@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { sanityFetch } from "@/sanity/lib/live";
+import { TEAM_MEMBERS_QUERY } from "@/sanity/lib/queries";
 import {
   InfiniteMarquee,
   TeamHeroSection,
@@ -21,11 +23,7 @@ export const metadata: Metadata = {
   },
 };
 
-
-export default function NossoTimePage() {
-
-  
-  const leadership: TeamMember[] = [
+const fallbackLeadership: TeamMember[] = [
     {
       name: "Rafael Marques",
       role: "Sócio-Proprietário",
@@ -69,7 +67,7 @@ export default function NossoTimePage() {
     },
   ];
 
-  const commercialManagers: TeamMember[] = [
+  const fallbackCommercialManagers: TeamMember[] = [
     {
       name: "Rodrigo Monteiro",
       role: "Gerente Comercial",
@@ -113,7 +111,7 @@ export default function NossoTimePage() {
     },
   ];
 
-  const brokers: TeamMember[] = [
+  const fallbackBrokers: TeamMember[] = [
     {
       name: "Amanda Souza",
       role: "Corretora",
@@ -580,17 +578,28 @@ export default function NossoTimePage() {
   ];
 
   
-  const allTeam = [...leadership, ...commercialManagers, ...brokers];
+export default async function NossoTimePage() {
+  const [{ data: sanityTeam = [] }] = await Promise.all([
+    sanityFetch({ query: TEAM_MEMBERS_QUERY }),
+  ]);
+
+  const fallbackTeam = [
+    ...fallbackLeadership,
+    ...fallbackCommercialManagers,
+    ...fallbackBrokers,
+  ];
+
+  const allTeam =
+    sanityTeam && sanityTeam.length > 0
+      ? (sanityTeam as TeamMember[])
+      : fallbackTeam;
 
   return (
     <div className="w-full text-foreground transition-colors">
-      
       <TeamHeroSection />
 
-      
       <section id="equipe" className="relative w-full pb-16 sm:pb-24 lg:pb-28">
         <div className="w-full max-w-440 mx-auto px-6 md:px-12 space-y-8 sm:space-y-12">
-          
           <div className="flex flex-col items-center text-center justify-center space-y-3">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase font-heading tracking-tight text-foreground">
               Nossos Corretores & Consultores
@@ -600,12 +609,10 @@ export default function NossoTimePage() {
             </p>
           </div>
 
-          
           <TeamGridFilter members={allTeam} />
         </div>
       </section>
 
-      
       <InfiniteMarquee />
     </div>
   );

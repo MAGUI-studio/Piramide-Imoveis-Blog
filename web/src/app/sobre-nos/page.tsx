@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getBaseUrl } from "@/src/config/site";
+import { sanityFetch } from "@/sanity/lib/live";
+import { LEADERSHIP_QUERY } from "@/sanity/lib/queries";
 import {
   HeroSection,
   AboutSection,
@@ -34,8 +36,61 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SobreNosPage() {
+const fallbackLeadership: LeadershipMember[] = [
+  {
+    name: "Rafael Marques",
+    role: "Sócio-Proprietário",
+    creci: "CRECI 83891F",
+    image: "/utils/equipe/rafael-marques.webp",
+    email: "rafael@piramideimoveissjc.com.br",
+    whatsapps: [
+      { label: "(12) 98158-4103", url: "https://api.whatsapp.com/send?phone=5512981584103" },
+      { label: "(12) 98100-5673", url: "https://api.whatsapp.com/send?phone=5512981005673" },
+    ],
+  },
+  {
+    name: "Sueli Marques",
+    role: "Sócia-Proprietária",
+    creci: "CRECI 31082",
+    image: "/utils/equipe/sueli-marques.webp",
+    email: "sueliadv@uol.com.br",
+    whatsapps: [
+      { label: "(12) 98158-4105", url: "https://api.whatsapp.com/send?phone=5512981584105" },
+    ],
+  },
+  {
+    name: "Priscila Marques",
+    role: "Diretora Comercial",
+    creci: "CRECI 208415",
+    image: "/utils/equipe/priscila-marques.webp",
+    email: "priscila@piramideimoveissjc.com.br",
+    whatsapps: [
+      { label: "(12) 98147-6169", url: "https://api.whatsapp.com/send?phone=5512981476169" },
+    ],
+  },
+  {
+    name: "Fernando César",
+    role: "Diretor Comercial",
+    creci: "CRECI 82550",
+    image: "/utils/equipe/fernando-cesar.webp",
+    email: "fernando@piramideimoveissjc.com.br",
+    whatsapps: [
+      { label: "(12) 99722-1641", url: "https://api.whatsapp.com/send?phone=5512997221641" },
+    ],
+  },
+];
+
+export default async function SobreNosPage() {
   const baseUrl = getBaseUrl();
+
+  const [{ data: sanityLeadership = [] }] = await Promise.all([
+    sanityFetch({ query: LEADERSHIP_QUERY }),
+  ]);
+
+  const leadership =
+    sanityLeadership && sanityLeadership.length > 0
+      ? (sanityLeadership as LeadershipMember[])
+      : fallbackLeadership;
 
   const aboutJsonLd = {
     "@context": "https://schema.org",
@@ -116,50 +171,6 @@ export default function SobreNosPage() {
       number: "08",
       title: "Credibilidade",
       icon: "ph:certificate-bold",
-    },
-  ];
-
-  const leadership: LeadershipMember[] = [
-    {
-      name: "Rafael Marques",
-      role: "Sócio-Proprietário",
-      creci: "CRECI 83891F",
-      image: "/utils/equipe/rafael-marques.webp",
-      email: "rafael@piramideimoveissjc.com.br",
-      whatsapps: [
-        { label: "(12) 98158-4103", url: "https://api.whatsapp.com/send?phone=5512981584103" },
-        { label: "(12) 98100-5673", url: "https://api.whatsapp.com/send?phone=5512981005673" },
-      ],
-    },
-    {
-      name: "Sueli Marques",
-      role: "Sócia-Proprietária",
-      creci: "CRECI 31082",
-      image: "/utils/equipe/sueli-marques.webp",
-      email: "sueliadv@uol.com.br",
-      whatsapps: [
-        { label: "(12) 98158-4105", url: "https://api.whatsapp.com/send?phone=5512981584105" },
-      ],
-    },
-    {
-      name: "Priscila Marques",
-      role: "Diretora Comercial",
-      creci: "CRECI 208415",
-      image: "/utils/equipe/priscila-marques.webp",
-      email: "priscila@piramideimoveissjc.com.br",
-      whatsapps: [
-        { label: "(12) 98147-6169", url: "https://api.whatsapp.com/send?phone=5512981476169" },
-      ],
-    },
-    {
-      name: "Fernando César",
-      role: "Diretor Comercial",
-      creci: "CRECI 82550",
-      image: "/utils/equipe/fernando-cesar.webp",
-      email: "fernando@piramideimoveissjc.com.br",
-      whatsapps: [
-        { label: "(12) 99722-1641", url: "https://api.whatsapp.com/send?phone=5512997221641" },
-      ],
     },
   ];
 
