@@ -123,7 +123,17 @@ export async function generateMetadata({
       modifiedTime: postData.updatedAt || postData.publishedAt,
       authors: postData.author?.name ? [postData.author.name] : ["Pirâmide Imóveis"],
       tags: postData.tags || [],
-      images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630, alt: title }] : [],
+      images: ogImageUrl
+        ? [
+            {
+              url: ogImageUrl,
+              width: 1200,
+              height: 630,
+              alt: title,
+              type: "image/jpeg",
+            },
+          ]
+        : [],
     },
     twitter: {
       card: "summary_large_image",

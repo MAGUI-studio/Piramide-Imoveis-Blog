@@ -8,7 +8,7 @@ export function getBaseUrl(): string {
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`.replace(/\/$/, "");
   }
-  return "https://blogpiramide.magui.studio";
+  return "https://blog.piramideimoveissjc.com.br";
 }
 
 export const siteConfig = {
@@ -17,7 +17,7 @@ export const siteConfig = {
   description:
     "Análises de mercado, dicas para compra e locação, lançamentos e tendências imobiliárias em São José dos Campos e Vale do Paraíba com a Pirâmide Imóveis.",
   url: getBaseUrl(),
-  ogImage: "/utils/SEO/og-image.jpg",
+  ogImage: "https://blog.piramideimoveissjc.com.br/utils/SEO/og-image.jpg",
   authors: [
     {
       name: "Equipe Editorial Pirâmide Imóveis",
