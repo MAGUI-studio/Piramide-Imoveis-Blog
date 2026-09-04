@@ -2,10 +2,10 @@ import {defineCliConfig} from 'sanity/cli'
 
 export default defineCliConfig({
   api: {
-    projectId: 'y2fjdwuo',
+    projectId: 'ntccz1q5',
     dataset: 'production',
   },
-  studioHost: 'magui-piramide-blog',
+  studioHost: 'piramide-blog',
   typegen: {
     enabled: true,
     path: '../web/src/**/*.{ts,tsx,js,jsx}',

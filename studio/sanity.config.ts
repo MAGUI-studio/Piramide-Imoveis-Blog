@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'Blog Pirâmide Imóveis',
 
-  projectId: 'y2fjdwuo',
+  projectId: 'ntccz1q5',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

@@ -14,7 +14,9 @@ dist/
 # Environment Variables
 .env
 .env*.local
+.env.prod
 !.env.example
+*.tar.gz
 
 # Logs
 npm-debug.log*
